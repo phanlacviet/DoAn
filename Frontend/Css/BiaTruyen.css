@@ -1,0 +1,184 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.book-container {
+  width: 70%;
+  margin: 30px auto;
+}
+
+/* --- Bìa + Thông tin --- */
+.book-info {
+  display: flex;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.book-cover {
+  flex: 0 0 30%; /* bìa chiếm 30% chiều rộng khối book-info */
+}
+
+.book-cover img {
+  width: 100%;
+  border-radius: 10px;
+  display: block;
+}
+
+.book-details {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.book-details p {
+  margin: 6px 0;
+}
+
+.book-title {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+/* --- Sao đánh giá --- */
+.stars {
+  margin: 8px 0;
+}
+.star {
+  font-size: 1.5em;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.star.selected {
+  color: gold;
+}
+
+/* --- Nút theo dõi --- */
+.follow-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.follow-btn:hover {
+  background-color: #0056b3;
+}
+
+/* --- Mô tả --- */
+.book-desc {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* --- Danh sách chương --- */
+.chapter-section {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+.chapter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#chapterList {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+.chapter {
+  background: #f3f3f3;
+  padding: 8px;
+  border-radius: 5px;
+}
+.hidden {
+  display: none;
+}
+
+/* --- Bình luận + Reply --- */
+.comment-list {
+  margin-top: 15px;
+}
+
+.comment-item {
+  background: #f3f3f3;
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.comment-item .author {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.comment-item .content {
+  margin: 0;
+}
+
+/* Reply lùi vào bên phải */
+.reply-comment {
+  margin-left: 30px; /* lùi vào */
+  background: #e8e8e8;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.95em;
+}
+
+/* Nút trả lời */
+.reply-btn {
+  margin-top: 6px;
+  font-size: 0.85em;
+  color: #007bff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.reply-btn:hover {
+  text-decoration: underline;
+}
+
+/* Input reply */
+.reply-input {
+  margin-top: 6px;
+  display: flex;
+  gap: 6px;
+}
+
+.reply-input textarea {
+  flex: 1;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 6px;
+  resize: vertical;
+}
+
+.reply-input button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.reply-input button:hover {
+  background-color: #0056b3;
+}

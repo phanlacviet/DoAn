@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chương truyện</title>
+    <link rel="stylesheet" href="../Css/ChuongTruyen.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div id="header"></div>
+
+    <!-- Nội dung chương -->
+    <div class="chapter-container">
+        <h2 class="chapter-title">Chương 1: </h2>
+        <p class="chapter-author">Tác giả: </p>
+        <p class="chapter-date">Ngày đăng: 20/10/2025</p>
+
+        <div class="chapter-content">
+            <p>
+                Nội dung <br>
+                Nội dung <br>
+                Nội dung <br>
+                Nội dung <br>
+                Nội dung <br>
+                Nội dung <br>
+                Nội dung <br>
+                Nội dung <br>
+                Nội dung <br>
+            </p>
+        </div>
+
+        <!-- Điều hướng chương -->
+        <div class="chapter-navigation">
+            <button class="nav-btn prev-btn">← Chương trước</button>
+            <button class="nav-btn toc-btn">☰ Mục lục</button>
+            <button class="nav-btn next-btn">Chương tiếp →</button>
+        </div>
+    </div>
+    <script>
+        fetch("header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header").innerHTML = data;
+            });
+    </script>
+</body>
+
+</html>

@@ -1,5 +1,8 @@
-from flask import Flask
+import os
+from pathlib import Path
+from flask import Flask, jsonify
 from flask_cors import CORS
+
 
 from Backend.routes.thanhvien_api import thanhvien_bp
 from Backend.routes.theloai_api import theloai_bp
@@ -12,8 +15,15 @@ from Backend.routes.theodoi_api import theodoi_bp
 from Backend.routes.danhgia_api import danhgia_bp
 from Backend.routes.luutruyen_api import luutruyen_bp
 
-app = Flask(__name__)
-CORS(app)
+BASE_DIR = Path(__file__).resolve().parent
+FRONTEND_DIR = BASE_DIR.parent / 'Frontend'
+
+app = Flask(__name__,
+            static_folder=str(FRONTEND_DIR),
+            static_url_path='')
+CORS(app, supports_credentials=True)
+
+app.secret_key = 'viet_secret_key_123456'
 
 # Đăng ký tất cả blueprint
 app.register_blueprint(thanhvien_bp, url_prefix='/api/thanhvien')

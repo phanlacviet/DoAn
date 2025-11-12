@@ -28,7 +28,7 @@ def get_chuongtruyen(idct):
         return jsonify({"message": "Không tìm thấy"}), 404
     return jsonify({
         "MaChuongTruyen": row[0], "MaTruyen": row[1],
-        "ThuTuChuong": row[2], "TieuDe": row[3], "NgayDang": row[4]
+        "ThuTuChuong": row[2], "NoiDung": row[3], "TieuDe": row[4], "NgayDang": row[5]
     })
 
 #Thêm chương truyện

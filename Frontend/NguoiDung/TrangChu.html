@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trang chủ</title>
+  <link rel="stylesheet" href="../Css/TrangChu.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <div id="header"></div>
+
+  <!-- Bố cục trang -->
+  <div class="page-container">
+    <!-- Cột trái -->
+    <aside class="left-col">
+      <div class="box-read">
+        <h3>Truyện đã đọc</h3>
+        <p>Vui lòng đăng nhập để lưu lại truyện đã đọc</p>
+      </div>
+    </aside>
+
+    <!-- Cột phải -->
+    <main class="right-col">
+      <!-- Truyện dịch -->
+      <section id="section-truyen-dich" class="book-section">
+        <div class="section-header">
+          <h2>Truyện dịch mới cập nhật</h2>
+          <a class="view-all" href="#">Xem đầy đủ ➜</a>
+        </div>
+        <div class="books-grid" id="grid-truyen-dich"></div>
+      </section>
+
+      <!-- Truyện sáng tác -->
+      <section id="section-sang-tac" class="book-section">
+        <div class="section-header">
+          <h2>Truyện sáng tác mới cập nhật</h2>
+          <a class="view-all" href="#">Xem đầy đủ ➜</a>
+        </div>
+        <div class="books-grid" id="grid-sang-tac"></div>
+      </section>
+
+      <!-- Truyện AI dịch -->
+      <section id="section-ai-dich" class="book-section">
+        <div class="section-header">
+          <h2>Truyện AI dịch mới cập nhật</h2>
+          <a class="view-all" href="#">Xem đầy đủ ➜</a>
+        </div>
+        <div class="books-grid" id="grid-ai-dich"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- File JS -->
+  <script src="../js/TrangChu.js"></script>
+</body>
+
+</html>
