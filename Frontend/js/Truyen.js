@@ -1,10 +1,35 @@
 
 // Load header.html
 
-fetch('/NguoiDung/header.html')
-  .then(res => res.text())
-  .then(data => document.getElementById('header').innerHTML = data)
-  .catch(() => console.warn("Không thể tải header.html"));
+fetch('../NguoiDung/header.html')
+  .then(response => {
+    if (!response.ok) throw new Error('Không load được header');
+    return response.text();
+  })
+  .then(data => {
+    document.getElementById("header").innerHTML = data;
+
+    // Load header.js nếu chưa có
+    if (!document.getElementById('header-js')) {
+
+      const script = document.createElement('script');
+      script.src = '../js/header.js';   // ⭐ SỬA ĐÚNG Ở ĐÂY
+      script.id = 'header-js';
+
+      script.onload = () => {
+        if (window.initHeader) window.initHeader();
+      };
+
+      document.body.appendChild(script);
+
+    } else {
+      // Script đã load từ trước → chỉ cần chạy lại initHeader
+      if (window.initHeader) window.initHeader();
+    }
+  })
+  .catch(() => {
+    console.warn("Không thể tải header.html");
+  });
 
 
 // Đánh giá sao

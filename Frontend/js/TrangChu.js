@@ -1,17 +1,36 @@
 // Frontend/Js/TrangChu.js
 
-// Load header (header.html nằm cùng folder NguoiDung => dùng đường tuyệt đối)
-fetch('/NguoiDung/header.html')
+// Frontend/Js/TrangChu.js (phần load header)
+fetch('../NguoiDung/header.html')
   .then(response => {
     if (!response.ok) throw new Error('Không load được header');
     return response.text();
   })
   .then(data => {
     document.getElementById("header").innerHTML = data;
+
+    // Load header.js nếu chưa có
+    if (!document.getElementById('header-js')) {
+
+      const script = document.createElement('script');
+      script.src = '../js/header.js';   // ⭐ SỬA ĐÚNG Ở ĐÂY
+      script.id = 'header-js';
+
+      script.onload = () => {
+        if (window.initHeader) window.initHeader();
+      };
+
+      document.body.appendChild(script);
+
+    } else {
+      // Script đã load từ trước → chỉ cần chạy lại initHeader
+      if (window.initHeader) window.initHeader();
+    }
   })
   .catch(() => {
     console.warn("Không thể tải header.html");
   });
+
 
 // Hàm tạo thẻ truyện
 function createBookCard(truyen) {
@@ -61,7 +80,6 @@ function renderGrid(gridId, list, limit = 8) {
   });
 }
 
-// Nếu frontend được serve bởi Flask cùng origin, dùng relative API để tránh CORS
 const API_URL = '/api/truyen';
 
 fetch(API_URL)

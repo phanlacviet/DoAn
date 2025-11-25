@@ -1,30 +1,51 @@
-// Khi load trang, kiểm tra xem user đã đăng nhập chưa
-document.addEventListener("DOMContentLoaded", () => {
-  const user = localStorage.getItem("user");
-  const container = document.getElementById("user-menu-container");
+// Hàm khởi tạo header
+window.initHeader = function () {
+  try {
+    const user = localStorage.getItem("user");
+    const container = document.getElementById("user-menu-container");
 
-  if (user) {
-    container.innerHTML = `
-      <div class="user-menu">
-        <img src="../Images/user.png" class="user-icon" alt="User" />
-        <div class="dropdown">
-          <p>${user}</p>
-          <a href="#">Thông báo</a>
-          <a href="#">Trang cá nhân</a>
-          <a href="#">Cài đặt</a>
-          <a id="logout">Đăng xuất</a>
+    // Nếu header chưa load xong → dừng
+    if (!container) {
+      console.warn("Header chưa có trong DOM → initHeader dừng");
+      return;
+    }
+
+    // Nếu có user → thay giao diện
+    if (user) {
+      container.innerHTML = `
+        <div class="user-menu">
+          <img src="../Images/user.png" class="user-icon" alt="User" />
+          <div class="dropdown">
+            <p>${user}</p>
+            <a href="#">Thông báo</a>
+            <a href="#">Trang cá nhân</a>
+            <a href="#">Cài đặt</a>
+            <a id="logout">Đăng xuất</a>
+          </div>
         </div>
-      </div>
-    `;
+      `;
 
-    // Đăng xuất
-    document.getElementById("logout").onclick = async () => {
-      await fetch("http://127.0.0.1:5000/api/thanhvien/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-      localStorage.removeItem("user");
-      location.reload();
-    };
+      // Xử lý đăng xuất
+      const logoutBtn = document.getElementById("logout");
+      if (logoutBtn) {
+        logoutBtn.onclick = async () => {
+          try {
+            await fetch("http://127.0.0.1:5000/api/thanhvien/logout", {
+              method: "POST",
+              credentials: "include",
+            });
+          } catch (err) {
+            console.warn("Lỗi khi logout:", err);
+          }
+
+          // Xóa user
+          localStorage.removeItem("user");
+          location.reload();
+        };
+      }
+    }
+
+  } catch (error) {
+    console.error("Lỗi initHeader:", error);
   }
-});
+};
