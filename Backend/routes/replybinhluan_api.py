@@ -8,11 +8,11 @@ reply_binhluan_bp = Blueprint('reply_binhluan_bp', __name__)
 def get_all_reply():
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT MaRepBinhLuan, TaiKhoan, NoiDung, NgayGui FROM RepBinhLuan")
+    cursor.execute("SELECT MaRepBinhLuan, TaiKhoan, NoiDung, NgayGui, MaBinhLuan FROM RepBinhLuan")
     rows = cursor.fetchall()
     conn.close()
     return jsonify([
-        {"MaRepBinhLuan": r[0], "TaiKhoan": r[1], "NoiDung": r[2], "NgayGui": r[3]} for r in rows
+        {"MaRepBinhLuan": r[0], "TaiKhoan": r[1], "NoiDung": r[2], "NgayGui": r[3], "MaBinhLuan": r[4]} for r in rows
     ])
 
 #Lấy bình luận rep theo mã
@@ -26,7 +26,7 @@ def get_reply(idrbl):
     if not row:
         return jsonify({"message": "Không tìm thấy"}), 404
     return jsonify({
-        "MaRepBinhLuan": row[0], "TaiKhoan": row[1], "NoiDung": row[2], "NgayGui": row[3]
+        "MaRepBinhLuan": row[0], "TaiKhoan": row[1], "NoiDung": row[2], "NgayGui": row[3], "MaBinhLuan": row[4]
     })
 
 #Thêm bình luận rep
@@ -35,7 +35,7 @@ def add_reply():
     data = request.json
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO RepBinhLuan (TaiKhoan, NoiDung) VALUES (?, ?)", (data['TaiKhoan'], data['NoiDung']))
+    cursor.execute("INSERT INTO RepBinhLuan (TaiKhoan, NoiDung, MaBinhLuan) VALUES (?, ?, ?)", (data['TaiKhoan'], data['NoiDung'], data['MaBinhLuan']))
     conn.commit()
     conn.close()
     return jsonify({"message": "Thêm phản hồi bình luận thành công"}), 201
@@ -46,13 +46,13 @@ def update_reply(idrbl):
     data = request.json
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("UPDATE RepBinhLuan SET TaiKhoan=?, NoiDung=? WHERE MaRepBinhLuan=?", (data['TaiKhoan'], data['NoiDung'], idrbl))
+    cursor.execute("UPDATE RepBinhLuan SET NoiDung=? WHERE MaRepBinhLuan=?", (data['NoiDung'], idrbl))
     conn.commit()
     conn.close()
     return jsonify({"message": "Cập nhật thành công"})
 
 #Xóa bình luận rep
-@reply_binhluan_bp.route('/<int:id>', methods=['DELETE'])
+@reply_binhluan_bp.route('/<int:idrbl>', methods=['DELETE'])
 def delete_reply(idrbl):
     conn = get_connection()
     cursor = conn.cursor()

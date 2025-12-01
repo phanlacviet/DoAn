@@ -21,13 +21,12 @@ body {
 }
 
 .book-cover {
-  flex: 0 0 30%; /* bìa chiếm 30% chiều rộng khối book-info */
+  flex: 0 0 30%;
 }
 
 .book-cover img {
   width: 100%;
   border-radius: 10px;
-  display: block;
 }
 
 .book-details {
@@ -109,76 +108,59 @@ body {
   display: none;
 }
 
-/* --- Bình luận + Reply --- */
-.comment-list {
-  margin-top: 15px;
-}
-
+/* --- Bình luận (chỉ đọc, không gửi) --- */
 .comment-item {
   background: #f3f3f3;
-  padding: 10px 12px;
+  padding: 12px;
   border-radius: 6px;
-  margin-bottom: 10px;
-  position: relative;
+  margin-bottom: 12px;
 }
 
-.comment-item .author {
+.cmt-user {
   font-weight: bold;
-  margin-bottom: 4px;
-}
-
-.comment-item .content {
   margin: 0;
 }
 
-/* Reply lùi vào bên phải */
+.cmt-date {
+  color: #666;
+  font-size: 13px;
+  margin: 0 0 5px 0;
+}
+
+.cmt-text {
+  margin: 0;
+}
+
 .reply-comment {
-  margin-left: 30px; /* lùi vào */
-  background: #e8e8e8;
-  padding: 8px 12px;
+  margin-left: 30px;
+  background: #e9e9e9;
+  padding: 10px 12px;
   border-radius: 6px;
-  font-size: 0.95em;
+  margin-top: 8px;
 }
-
-/* Nút trả lời */
-.reply-btn {
-  margin-top: 6px;
-  font-size: 0.85em;
-  color: #007bff;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-}
-
-.reply-btn:hover {
-  text-decoration: underline;
-}
-
-/* Input reply */
-.reply-input {
-  margin-top: 6px;
+.rating-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
   display: flex;
-  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
-
-.reply-input textarea {
-  flex: 1;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  padding: 6px;
-  resize: vertical;
+.rating-modal__content {
+  background: #fff;
+  padding: 18px;
+  border-radius: 8px;
+  width: 420px;
+  max-width: 92%;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
 }
-
-.reply-input button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
+.modal-stars .mstar {
+  font-size: 1.6em;
+  color: #ccc;
   cursor: pointer;
+  margin-right: 6px;
 }
-
-.reply-input button:hover {
-  background-color: #0056b3;
+.modal-stars .mstar.selected {
+  color: gold;
 }

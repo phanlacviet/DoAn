@@ -17,15 +17,31 @@ def get_all_danhgia():
 
 #thêm mã đánh giá
 @danhgia_bp.route('/', methods=['POST'])
-def add_danhgia():
+def add_or_update_danhgia():
     data = request.json
+    tai_khoan = data.get('TaiKhoan')
+    ma_truyen = data.get('MaTruyen')
+    diem = data.get('Diem')
+    noi_dung = data.get('NoiDung', '')
+
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO DanhGia (NoiDung, Diem, TaiKhoan, MaTruyen) VALUES (?, ?, ?, ?)",
-                   (data['NoiDung'], data['Diem'], data['TaiKhoan'], data['MaTruyen']))
-    conn.commit()
-    conn.close()
-    return jsonify({"message": "Đánh giá thành công"}), 201
+    # Kiểm tra đã tồn tại đánh giá của user cho truyện chưa
+    cursor.execute("SELECT MaDanhGia FROM DanhGia WHERE TaiKhoan=? AND MaTruyen=?", (tai_khoan, ma_truyen))
+    row = cursor.fetchone()
+    if row:
+        # Cập nhật đánh giá hiện có
+        cursor.execute("UPDATE DanhGia SET NoiDung=?, Diem=?, NgayDanhGia=GETDATE() WHERE MaDanhGia=?", (noi_dung, diem, row[0]))
+        conn.commit()
+        conn.close()
+        return jsonify({"message": "Cập nhật đánh giá thành công"}), 200
+    else:
+        # Thêm mới
+        cursor.execute("INSERT INTO DanhGia (NoiDung, Diem, TaiKhoan, MaTruyen) VALUES (?, ?, ?, ?)",
+                       (noi_dung, diem, tai_khoan, ma_truyen))
+        conn.commit()
+        conn.close()
+        return jsonify({"message": "Đánh giá thành công"}), 201
 
 #Xóa mã đánh giá
 @danhgia_bp.route('/<int:iddg>', methods=['DELETE'])
@@ -36,3 +52,14 @@ def delete_danhgia(iddg):
     conn.commit()
     conn.close()
     return jsonify({"message": "Đã xóa đánh giá"})
+@danhgia_bp.route('/avg/<int:idtruyen>', methods=['GET'])
+def get_danhgia_avg(idtruyen):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT AVG(Diem), COUNT(*) FROM DanhGia WHERE MaTruyen=?", (idtruyen,))
+    row = cursor.fetchone()
+    conn.close()
+    avg = row[0] if row and row[0] is not None else 0
+    count = int(row[1]) if row and row[1] is not None else 0
+    avg = round(float(avg), 1) if count > 0 else 0
+    return jsonify({"avg": avg, "count": count})

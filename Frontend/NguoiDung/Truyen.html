@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bìa Truyện</title>
   <link rel="stylesheet" href="/Css/BiaTruyen.css">
 </head>
+
 <body>
   <!-- Header -->
   <div id="header"></div>
 
   <div class="book-container">
+
     <!-- Phần 1: bìa và thông tin -->
     <div class="book-info">
       <div class="book-cover">
@@ -20,19 +23,43 @@
       <div class="book-details">
         <h1 class="book-title" id="bookTitle">Tên truyện</h1>
 
-        <p><strong>Tác giả:</strong> <span id="bookAuthor">Tên tác giả</span></p>
-        <p><strong>Tình trạng:</strong> <span id="bookStatus">Đang ra</span></p>
-        <p><strong>Thể loại:</strong> <span id="bookCategory">Phiêu lưu, Hành động</span></p>
-        <p><strong>Điểm:</strong> <span id="ratingScore">4</span>/5 - <span id="ratingCount">128</span> lượt đánh giá</p>
+        <p><strong>Tác giả:</strong> <span id="bookAuthor"></span></p>
+        <p><strong>Tình trạng:</strong> <span id="bookStatus"></span></p>
+        <p><strong>Thể loại:</strong> <span id="bookCategory"></span></p>
 
-        <div class="stars" id="stars">
-          <span class="star" data-value="1">★</span>
-          <span class="star" data-value="2">★</span>
-          <span class="star" data-value="3">★</span>
-          <span class="star" data-value="4">★</span>
-          <span class="star" data-value="5">★</span>
+        <p><strong>Điểm:</strong>
+          <span id="ratingScore">0</span>/5 —
+          <span id="ratingCount">0</span> lượt đánh giá
+        </p>
+        <div id="ratingContainer" class="stars">
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+        </div>
+        <p id="ratingStatus" style="margin-top: 5px; font-size: 14px; color: gray;"></p>
+        <!-- Rating Modal -->
+        <div id="ratingModal" class="rating-modal" style="display:none;">
+          <div class="rating-modal__content">
+            <h3>Đánh giá truyện</h3>
+            <div id="modalStars" class="stars modal-stars">
+              <span data-value="1" class="mstar">★</span>
+              <span data-value="2" class="mstar">★</span>
+              <span data-value="3" class="mstar">★</span>
+              <span data-value="4" class="mstar">★</span>
+              <span data-value="5" class="mstar">★</span>
+            </div>
+            <textarea id="ratingText" placeholder="Viết nhận xét (không bắt buộc)" rows="4"
+              style="width:100%; margin-top:10px;"></textarea>
+            <div style="margin-top:10px; text-align:right;">
+              <button id="ratingCancelBtn">Hủy</button>
+              <button id="ratingSubmitBtn">Gửi</button>
+            </div>
+          </div>
         </div>
 
+        <!-- Theo dõi -->
         <button id="followBtn" class="follow-btn">Theo dõi</button>
       </div>
     </div>
@@ -52,15 +79,15 @@
       <ul id="chapterList"></ul>
     </div>
 
-    <!-- Phần 4: bình luận -->
+    <!-- Phần 4: bình luận (chỉ hiển thị, không gửi, không reply) -->
     <div class="comment-section">
       <h2>Bình luận</h2>
-      <textarea id="commentText" placeholder="Viết bình luận..." rows="3"></textarea>
-      <button id="sendComment">Gửi bình luận</button>
-
       <div id="commentList"></div>
     </div>
+
   </div>
+
   <script src="/Js/Truyen.js"></script>
 </body>
+
 </html>
