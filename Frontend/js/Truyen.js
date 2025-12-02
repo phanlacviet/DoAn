@@ -299,3 +299,8 @@ function saveStory() {
     })
   }).then(() => location.reload());
 }
+// nút xem tất cả đánh giá
+const viewReviewsBtn = document.getElementById("viewReviewsBtn");
+viewReviewsBtn.onclick = () => {
+  window.location.href = `danhgia.html?id=${truyenId}`;
+}

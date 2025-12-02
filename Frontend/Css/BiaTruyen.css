@@ -164,3 +164,13 @@ body {
 .modal-stars .mstar.selected {
   color: gold;
 }
+
+.view-reviews-btn {
+  background-color: #dec316;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 10px;
+}
