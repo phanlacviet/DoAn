@@ -62,3 +62,14 @@ body {
 .nav-btn:hover {
     background-color: #0056b3;
 }
+/* Bình luận */
+.chapter-comments h3 { margin: 0 0 10px 0; color: #222; }
+.comment-item {
+  background: #f7f9fb;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.comment-meta { font-size: 0.9rem; color: #555; margin-bottom: 6px; }
+.comment-text { margin: 0 0 6px 0; color: #222; }
+.reply-comment { margin-left: 22px; background: #eef3f7; padding: 8px; border-radius: 6px; margin-top: 6px; }

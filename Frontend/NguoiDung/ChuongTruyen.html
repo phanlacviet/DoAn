@@ -39,14 +39,22 @@
             <button class="nav-btn toc-btn">☰ Mục lục</button>
             <button class="nav-btn next-btn">Chương tiếp →</button>
         </div>
+        <!-- Bình luận -->
+        <div class="chapter-comments" style="margin-top:24px;">
+            <h3>Bình luận</h3>
+
+            <div class="comment-form" style="margin-bottom:12px;">
+                <textarea id="commentInput" placeholder="Viết bình luận..." rows="4"
+                    style="width:100%;padding:8px;border-radius:6px;border:1px solid #ccc;"></textarea>
+                <div style="text-align:right;margin-top:8px;">
+                    <button id="commentSubmit" class="nav-btn">Gửi bình luận</button>
+                </div>
+            </div>
+
+            <div id="commentList"></div>
+        </div>
     </div>
-    <script>
-        fetch("header.html")
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("header").innerHTML = data;
-            });
-    </script>
+    <script src="../js/chuongtruyen.js"></script>
 </body>
 
 </html>

@@ -42,9 +42,13 @@ fetch(`/api/chuongtruyen`)
 
     danhSach.forEach((c, i) => {
       const li = document.createElement('li');
-      li.textContent = `Chương ${c.ThuTuChuong}: ${c.TieuDe}`;
       li.classList.add("chapter");
       if (i >= 10) li.classList.add("hidden");
+      const a = document.createElement('a');
+      a.classList.add('chapter-link');
+      a.href = `ChuongTruyen.html?truyenId=${encodeURIComponent(truyenId)}&chuongId=${encodeURIComponent(c.MaChuongTruyen)}&thuTu=${encodeURIComponent(c.ThuTuChuong)}`;
+      a.textContent = `${c.TieuDe}`;
+      li.appendChild(a);
       list.appendChild(li);
     });
   });
@@ -193,7 +197,7 @@ function submitRatingFromModal() {
   })
     .then(resp => {
       if (!resp.ok) throw new Error("Lỗi khi gửi đánh giá");
-      return resp.json().catch(() => ({})); // response body không cần
+      return resp.json().catch(() => ({})); 
     })
     .then(() => {
       // đóng bảng đánh giá, cập nhật trạng thái
@@ -239,7 +243,7 @@ function checkUserRated() {
         document.getElementById("ratingStatus").textContent = "Bạn đã đánh giá";
         document.getElementById("ratingStatus").style.color = "orange";
 
-        // không cho hủy/đánh lại: loại bỏ hành vi onclick (nếu có)
+        // không cho hủy/đánh lại: loại bỏ hành vi onclick
         const rc = document.getElementById("ratingContainer");
         if (rc) rc.onclick = null;
       } else {
