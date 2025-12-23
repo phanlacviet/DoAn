@@ -1,0 +1,109 @@
+﻿.header-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 14px 24px;
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky; 
+    top: 0;
+    z-index: 9999; 
+}
+
+.header-logo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #111;
+    text-decoration: none;
+}
+
+.header-search {
+    flex: 1;
+    max-width: 45%;
+}
+
+    .header-search input {
+        width: 100%;
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+
+.header-auth {
+    display: flex;
+    gap: 10px;
+    position: relative;
+    z-index: 10000;
+}
+.header-auth a {
+        margin-left: 12px;
+        text-decoration: none;
+        color: #111;
+        display: inline-block; /* Thêm dòng này để thẻ a có diện tích click tốt hơn */
+        padding: 5px 10px; /* Thêm khoảng đệm để dễ bấm */
+        cursor: pointer !important;
+    }
+
+.header-user {
+    position: relative;
+}
+
+.header-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.user-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    min-width: 200px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    z-index: 1000;
+}
+
+    .user-dropdown strong {
+        display: block;
+        padding: 10px 14px;
+    }
+
+    .user-dropdown a {
+        display: block;
+        padding: 8px 14px;
+        text-decoration: none;
+        color: #111;
+    }
+
+        .user-dropdown a:hover {
+            background: #f3f4f6;
+        }
+
+    .user-dropdown hr {
+        margin: 6px 0;
+    }
+
+.logout {
+    color: #dc2626;
+}
+
+.header-user:hover .user-dropdown {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .header-search {
+        width: 100%;
+    }
+}

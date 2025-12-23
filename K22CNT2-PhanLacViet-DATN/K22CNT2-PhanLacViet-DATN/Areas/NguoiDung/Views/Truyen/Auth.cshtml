@@ -1,0 +1,43 @@
+﻿@model List<K22CNT2_PhanLacViet_DATN.Models.Truyen>
+@{
+    Layout = "~/Areas/NguoiDung/Views/Shared/_Layout.cshtml";
+    var mode = ViewBag.Mode as string ?? "login";
+    ViewData["Title"] = (mode == "login" ? "Đăng nhập" : "Đăng ký");
+}
+<link href="~/NguoiDung/css/Auth.css" rel="stylesheet" />
+
+<div class="auth-box">
+    <div class="auth-tabs">
+        <a asp-action="Auth" asp-route-mode="login"
+           class="@(mode == "login" ? "active" : "")">Đăng nhập</a>
+        <a asp-action="Auth" asp-route-mode="register"
+           class="@(mode == "register" ? "active" : "")">Đăng ký</a>
+    </div>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    @if (mode == "login")
+    {
+        <form asp-action="Login" method="post">
+            <input name="taiKhoan" placeholder="Tài khoản hoặc Email" required autofocus />
+            <input name="matKhau" type="password" placeholder="Mật khẩu" required />
+            <button type="submit">Đăng nhập</button>
+        </form>
+    }
+    else
+    {
+        <form asp-action="Register" method="post">
+            <input name="taiKhoan" placeholder="Tên tài khoản mới" required autofocus />
+            <input name="matKhau" type="password" placeholder="Mật khẩu (ít nhất 6 ký tự)" required />
+            <button type="submit">Tạo tài khoản</button>
+        </form>
+    }
+</div>
+
+@* Nhúng JS *@
+@section Scripts {
+    <script src="~/NguoiDung/js/Auth.js"></script>
+}

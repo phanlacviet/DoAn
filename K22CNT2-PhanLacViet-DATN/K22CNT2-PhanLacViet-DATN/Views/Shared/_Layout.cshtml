@@ -1,0 +1,29 @@
+﻿@{
+    var userLogin = Context.Session.GetString("USER_LOGIN");
+}
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <header class="header-main">
+    </header>
+    <main class="container mt-4">
+        @RenderBody()
+    </main>
+    <footer class="border-top text-muted mt-5">
+        <div class="container py-3">
+            &copy; 2025 - Đồ án tốt nghiệp | Phan Lạc Việt
+        </div>
+    </footer>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

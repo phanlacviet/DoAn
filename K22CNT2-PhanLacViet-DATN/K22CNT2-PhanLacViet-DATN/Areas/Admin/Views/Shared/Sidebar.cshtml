@@ -1,0 +1,107 @@
+﻿@* Simplified admin sidebar - chỉ chứa các menu cần cho 11 bảng dữ liệu của site đọc truyện chữ *@
+<aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+    <div class="sidebar-brand">
+        <a asp-area="Admin" asp-controller="HomeAdmin" asp-action="Index" class="brand-link">
+            <img src="@Url.Content("~/Admin/assets/img/AdminLTELogo.png")"
+                 alt="AdminLTE Logo"
+                 class="brand-image opacity-75 shadow" />
+            <span class="brand-text fw-light">Quản lý</span>
+        </a>
+    </div>
+
+    <div class="sidebar-wrapper">
+        <nav class="mt-2">
+            <ul class="nav sidebar-menu flex-column" role="navigation" aria-label="Main navigation" id="navigation">
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="HomeAdmin" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-speedometer"></i>
+                        <p>Bảng dữ liệu</p>
+                    </a>
+                </li>
+
+                <li class="nav-header">Nội dung</li>
+
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="Stories" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-book"></i>
+                        <p>Truyện (Stories)</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="Chapters" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-journal-text"></i>
+                        <p>Chương (Chapters)</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="Authors" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-person-badge"></i>
+                        <p>Tác giả (Authors)</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-tags"></i>
+                        <p>Thể loại (Categories)</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="Tags" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-tag"></i>
+                        <p>Thẻ (Tags)</p>
+                    </a>
+                </li>
+
+                <li class="nav-header">Người dùng & Tương tác</li>
+
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="Users" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-people"></i>
+                        <p>Người dùng (Users)</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="Comments" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-chat-dots"></i>
+                        <p>Bình luận (Comments)</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="Ratings" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-star-fill"></i>
+                        <p>Đánh giá (Ratings)</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="Favorites" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-heart"></i>
+                        <p>Yêu thích (Favorites)</p>
+                    </a>
+                </li>
+
+                <li class="nav-header">Hệ thống</li>
+
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="Reports" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-flag"></i>
+                        <p>Báo cáo (Reports)</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="Settings" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-gear"></i>
+                        <p>Cài đặt (Settings)</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</aside>

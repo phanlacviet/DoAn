@@ -1,0 +1,81 @@
+﻿@{
+    var userLogin = Context.Session.GetString("USER_LOGIN");
+}
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Đọc Truyện Chữ</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/NguoiDung/css/header.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header class="header-main">
+        <a asp-area="NguoiDung"
+           asp-controller="Home"
+           asp-action="Index"
+           class="header-logo">
+            TRUYỆN CHỮ
+        </a>
+        <div class="header-search">
+            <form asp-area="NguoiDung"
+                  asp-controller="Truyen"
+                  asp-action="Search"
+                  method="get">
+                <input type="text"
+                       name="keyword"
+                       placeholder="Tìm truyện, tác giả..."
+                       autocomplete="off" />
+            </form>
+        </div>
+        @if (string.IsNullOrEmpty(userLogin))
+        {
+            <div class="header-auth">
+                <a asp-area="NguoiDung"
+                   asp-controller="Truyen"
+                   asp-action="Auth"
+                   asp-route-mode="login">
+                    Đăng nhập
+                </a>
+
+                <a asp-area="NguoiDung"
+                   asp-controller="Truyen"
+                   asp-action="Auth"
+                   asp-route-mode="register">
+                    Đăng ký
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="header-user">
+                <div class="header-avatar">
+                    @userLogin.Substring(0, 1).ToUpper()
+                </div>
+                <div class="user-dropdown">
+                    <strong>@userLogin</strong>
+                    <hr />
+                    <a asp-action="Logout">Đăng xuất</a>
+                </div>
+            </div>
+        }
+    </header>
+    <main class="container mt-4">
+        @RenderBody()
+    </main>
+    <footer class="border-top text-muted mt-5">
+        <div class="container py-3">
+            &copy; 2025 - Đồ án tốt nghiệp | Phan Lạc Việt
+        </div>
+    </footer>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
