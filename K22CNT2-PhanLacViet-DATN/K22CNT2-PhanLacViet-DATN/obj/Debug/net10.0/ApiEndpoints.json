@@ -1,1 +1,65 @@
-[]
+[
+  {
+    "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.TruyenApiController",
+    "Method": "GetAllTruyen",
+    "RelativePath": "api/Truyen",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.TruyenApiController",
+    "Method": "GetChiTietTruyen",
+    "RelativePath": "api/Truyen/ChiTiet/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "taiKhoan",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.TruyenApiController",
+    "Method": "GetDaLuu",
+    "RelativePath": "api/Truyen/DaLuu/{taiKhoan}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "taiKhoan",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.TruyenApiController",
+    "Method": "GetLichSu",
+    "RelativePath": "api/Truyen/LichSu/{taiKhoan}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "taiKhoan",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

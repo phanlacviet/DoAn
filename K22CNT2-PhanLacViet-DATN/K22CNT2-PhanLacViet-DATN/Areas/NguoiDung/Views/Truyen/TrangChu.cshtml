@@ -1,4 +1,4 @@
-﻿@model List<K22CNT2_PhanLacViet_DATN.Models.Truyen>
+﻿@model K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Models.TrangChuViewModel
 
 @{
     Layout = "~/Areas/NguoiDung/Views/Shared/_Layout.cshtml";
@@ -8,22 +8,27 @@
 
 <div class="wrap">
     <main>
-
-        <!-- TRUYỆN NỔI BẬT -->
         <section class="panel">
             <div class="section-title">
                 <h3 style="margin:0">Truyện mới cập nhật</h3>
                 <div class="mini">Từ hệ thống</div>
             </div>
 
-            @foreach (var t in Model.Take(5))
+            @foreach (var t in Model.DanhSachTruyen.Take(5))
             {
                 <div class="list-item">
-                    <div class="thumb"></div>
+                    @* Click vào ảnh cũng ra chi tiết *@
+                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" class="thumb"></a>
+
                     <div style="flex:1">
                         <div style="display:flex; justify-content:space-between; align-items:start">
                             <div>
-                                <div class="title">@t.TenTruyen</div>
+                                <div class="title">
+                                    @* Link tên truyện *@
+                                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" style="text-decoration:none; color:inherit; font-weight:bold">
+                                        @t.TenTruyen
+                                    </a>
+                                </div>
                                 <div class="desc">@t.MoTa</div>
                             </div>
                             <div>
@@ -32,8 +37,9 @@
                         </div>
 
                         <div style="margin-top:8px; display:flex; gap:8px">
-                            <a class="btn" href="#">Đọc ngay</a>
-                            <button style="padding:8px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer">
+                            @* Nút đọc ngay dẫn đến trang chi tiết *@
+                            <a class="btn" href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })">Đọc ngay</a>
+                            <button class="btn-save" data-id="@t.MaTruyen" style="padding:8px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer">
                                 Lưu
                             </button>
                         </div>
@@ -42,108 +48,102 @@
             }
         </section>
 
-        <!--DỊCH -->
         <section class="panel" style="margin-top:16px">
             <div class="section-title">
                 <h3 style="margin:0">Truyện dịch</h3>
                 <div class="mini">Tự động</div>
             </div>
 
-            @foreach (var t in Model.Where(x => x.LoaiTruyen == "Dịch").Take(5))
+            @foreach (var t in Model.DanhSachTruyen.Where(x => x.LoaiTruyen == "Dịch").Take(5))
             {
                 <div class="list-item">
-                    <div class="thumb"></div>
+                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" class="thumb"></a>
                     <div style="flex:1">
                         <div style="display:flex; justify-content:space-between; align-items:start">
                             <div>
-                                <div class="title">@t.TenTruyen</div>
+                                <div class="title">
+                                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" style="text-decoration:none; color:inherit; font-weight:bold">
+                                        @t.TenTruyen
+                                    </a>
+                                </div>
                                 <div class="desc">@t.MoTa</div>
                             </div>
                             <div>
                                 <span class="badge">@t.LoaiTruyen</span>
                             </div>
                         </div>
-
                         <div style="margin-top:8px; display:flex; gap:8px">
-                            <a class="btn" href="#">Đọc ngay</a>
-                            <button style="padding:8px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer">
-                                Lưu
-                            </button>
+                            <a class="btn" href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })">Đọc ngay</a>
+                            <button style="padding:8px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer">Lưu</button>
                         </div>
                     </div>
                 </div>
             }
         </section>
 
-        <!-- AI DỊCH -->
         <section class="panel" style="margin-top:16px">
             <div class="section-title">
                 <h3 style="margin:0">AI dịch — đề cử</h3>
                 <div class="mini">Tự động</div>
             </div>
 
-            @foreach (var t in Model.Where(x => x.LoaiTruyen == "AI dịch").Take(5))
+            @foreach (var t in Model.DanhSachTruyen.Where(x => x.LoaiTruyen == "AI dịch").Take(5))
             {
                 <div class="list-item">
-                    <div class="thumb"></div>
+                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" class="thumb"></a>
                     <div style="flex:1">
                         <div style="display:flex; justify-content:space-between; align-items:start">
                             <div>
-                                <div class="title">@t.TenTruyen</div>
+                                <div class="title">
+                                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" style="text-decoration:none; color:inherit; font-weight:bold">@t.TenTruyen</a>
+                                </div>
                                 <div class="desc">@t.MoTa</div>
                             </div>
                             <div>
                                 <span class="badge">@t.LoaiTruyen</span>
                             </div>
                         </div>
-
                         <div style="margin-top:8px; display:flex; gap:8px">
-                            <a class="btn" href="#">Đọc ngay</a>
-                            <button style="padding:8px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer">
-                                Lưu
-                            </button>
+                            <a class="btn" href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })">Đọc ngay</a>
+                            <button style="padding:8px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer">Lưu</button>
                         </div>
                     </div>
                 </div>
             }
         </section>
 
-        <!-- SÁNG TÁC -->
         <section class="panel" style="margin-top:16px">
             <div class="section-title">
                 <h3 style="margin:0">Sáng tác mới</h3>
                 <div class="mini">Tác giả người dùng</div>
             </div>
 
-            @foreach (var t in Model.Where(x => x.LoaiTruyen == "Sáng tác").Take(5))
+            @foreach (var t in Model.DanhSachTruyen.Where(x => x.LoaiTruyen == "Sáng tác").Take(5))
             {
                 <div class="list-item">
-                    <div class="thumb"></div>
+                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" class="thumb"></a>
                     <div style="flex:1">
                         <div style="display:flex; justify-content:space-between; align-items:start">
                             <div>
-                                <div class="title">@t.TenTruyen</div>
+                                <div class="title">
+                                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" style="text-decoration:none; color:inherit; font-weight:bold">@t.TenTruyen</a>
+                                </div>
                                 <div class="desc">@t.MoTa</div>
                             </div>
                             <div>
                                 <span class="badge">@t.LoaiTruyen</span>
                             </div>
                         </div>
-
                         <div style="margin-top:8px; display:flex; gap:8px">
-                            <a class="btn" href="#">Đọc ngay</a>
-                            <button style="padding:8px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer">
-                                Lưu
-                            </button>
+                            <a class="btn" href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })">Đọc ngay</a>
+                            <button style="padding:8px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer">Lưu</button>
                         </div>
                     </div>
                 </div>
             }
         </section>
-
     </main>
 
-    <!-- CỘT PHẢI -->
     <aside class="right-col">
         <div class="panel side-tabs-container">
             <div class="side-tabs-header">
@@ -153,32 +153,51 @@
 
             <div class="tab-content active" id="history">
                 <div class="mini-list">
-                    <div class="mini-item">
-                        <div class="mini-thumb"></div>
-                        <div class="mini-info">
-                            <div class="mini-title">Võ Luyện Điên Phong</div>
-                            <div class="mini-chapter">Đã đọc: Chương 100</div>
-                        </div>
-                    </div>
-                    <p class="empty-msg" style="display:none">Chưa có lịch sử đọc</p>
+                    @if (Model.LichSu != null && Model.LichSu.Any())
+                    {
+                        foreach (var item in Model.LichSu)
+                        {
+                            <div class="mini-item">
+                                <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" class="mini-thumb"></a>
+                                <div class="mini-info">
+                                    <div class="mini-title">
+                                        <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" style="text-decoration:none; color:inherit;">@item.TenTruyen</a>
+                                    </div>
+                                    <div class="mini-chapter">Đã đọc: Chương @item.ThuTuChuong</div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="empty-msg">Chưa có lịch sử đọc</p>
+                    }
                 </div>
             </div>
 
             <div class="tab-content" id="saved">
                 <div class="mini-list">
-                    <div class="mini-item">
-                        <div class="mini-thumb" style="background: #fbcfe8"></div>
-                        <div class="mini-info">
-                            <div class="mini-title">Toàn Chức Pháp Sư</div>
-                            <div class="mini-chapter">Linh dị, Huyền ảo</div>
-                        </div>
-                    </div>
-                    <p class="empty-msg" style="display:none">Chưa có truyện đã lưu</p>
+                    @if (Model.DaLuu != null && Model.DaLuu.Any())
+                    {
+                        foreach (var item in Model.DaLuu)
+                        {
+                            <div class="mini-item">
+                                <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" class="mini-thumb"></a>
+                                <div class="mini-info">
+                                    <div class="mini-title">
+                                        <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" style="text-decoration:none; color:inherit;">@item.TenTruyen</a>
+                                    </div>
+                                    <div class="mini-chapter">@item.TacGia</div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="empty-msg">Chưa có truyện đã lưu</p>
+                    }
                 </div>
             </div>
         </div>
     </aside>
 </div>
-@section Scripts {
-    <script src="~/NguoiDung/js/trangchu.js"></script>
-}

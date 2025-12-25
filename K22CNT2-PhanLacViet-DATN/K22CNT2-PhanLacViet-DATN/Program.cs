@@ -5,7 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpClient();
+builder.Services.AddHttpClient("TruyenApi", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7257/api/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
 builder.Services.AddDbContext<WebTruyenChuContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("WebTruyenChuDB")!

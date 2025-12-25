@@ -108,9 +108,11 @@ wwwroot\lib\jquery\dist\jquery.slim.min.js
 wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
 wwwroot\NguoiDung\css\Auth.css
+wwwroot\NguoiDung\css\ChiTiet.css
 wwwroot\NguoiDung\css\header.css
 wwwroot\NguoiDung\css\TrangChu.css
 wwwroot\NguoiDung\js\Auth.js
+wwwroot\NguoiDung\js\ChiTiet.js
 wwwroot\NguoiDung\js\trangchu.js
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\Admin\css\adminlte.css
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\Admin\css\adminlte.css.map
@@ -191,3 +193,5 @@ D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\Ng
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\NguoiDung\css\TrangChu.css
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\NguoiDung\js\Auth.js
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\NguoiDung\js\trangchu.js
+D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\NguoiDung\css\ChiTiet.css
+D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\NguoiDung\js\ChiTiet.js

@@ -1,0 +1,74 @@
+﻿@model K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Models.TrangTruyenViewModel
+
+<link href="~/NguoiDung/css/ChiTiet.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="story-header">
+        <div class="cover-image">
+            @* DB không có AnhBia nên dùng ảnh mặc định *@
+            <img src="https://via.placeholder.com/220x330?text=No+Cover" alt="@Model.ThongTinTruyen.TenTruyen">
+        </div>
+        <div class="story-info">
+            <h1 class="story-title">@Model.ThongTinTruyen.TenTruyen</h1>
+            <div class="meta-data"><span>Tác giả:</span> @(Model.ThongTinTruyen.TacGia ?? "Đang cập nhật")</div>
+            <div class="meta-data"><span>Thể loại:</span> @(Model.ThongTinTruyen.TenTheLoai ?? "Khác")</div>
+            <div class="meta-data"><span>Lượt xem:</span> @Model.ThongTinTruyen.TongLuotXem.ToString("N0")</div>
+            <div class="meta-data"><span>Đánh giá:</span> <strong style="color:#f1c40f">@Model.DiemDanhGiaTrungBinh <i class="fa-solid fa-star"></i></strong></div>
+
+            <div class="actions">
+                <button class="btn-action @(Model.DaTheoDoi ? "active" : "")">
+                    <i class="fa-solid fa-heart"></i> @(Model.DaTheoDoi ? "Đang theo dõi" : "Theo dõi")
+                </button>
+                <button class="btn-action @(Model.DaDanhGia ? "rated" : "")">
+                    <i class="fa-solid fa-star"></i> Đánh giá
+                </button>
+            </div>
+
+            <div class="description">
+                <h3>Mô tả</h3>
+                <p>@Model.ThongTinTruyen.MoTa</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="chapter-list">
+        <h3>Danh sách chương (@Model.DanhSachChuong.Count)</h3>
+        <div class="chapter-grid">
+            @for (int i = 0; i < Model.DanhSachChuong.Count; i++)
+            {
+                var chuong = Model.DanhSachChuong[i];
+                <a href="#" class="chapter-item @(i >= 10 ? "hidden-chapter" : "")">
+                    Chương @chuong.ThuTuChuong: @chuong.TieuDe
+                </a>
+            }
+        </div>
+        @if (Model.DanhSachChuong.Count > 10)
+        {
+            <div style="text-align:center; margin-top:15px">
+                <button id="btnLoadMore" class="btn-action">Xem thêm chương</button>
+            </div>
+        }
+    </div>
+
+    <div class="comment-section">
+        <h3>Bình luận</h3>
+        @foreach (var bl in Model.DanhSachBinhLuan)
+        {
+            <div class="comment">
+                <div class="user-name">@bl.TaiKhoan <small>- @bl.NgayGui?.ToString("dd/MM/yyyy")</small></div>
+                <p class="comment-content">@bl.NoiDung</p>
+            </div>
+            @foreach (var rep in bl.RepBinhLuans)
+            {
+                <div class="comment reply-comment">
+                    <div class="user-name">@rep.TaiKhoan <small>- @rep.NgayGui?.ToString("dd/MM/yyyy")</small></div>
+                    <p class="comment-content">@rep.NoiDung</p>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/NguoiDung/js/ChiTiet.js"></script>
+}
