@@ -135,5 +135,145 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
 
             return Ok(result);
         }
+        // API: POST /api/Truyen/TheoDoi
+        [HttpPost("TheoDoi")]
+        public async Task<IActionResult> ToggleTheoDoi([FromBody] TuongTacDto input)
+        {
+            if (string.IsNullOrEmpty(input.TaiKhoan)) return BadRequest("Chưa đăng nhập");
+
+            var theoDoi = await _context.TheoDois
+                .FirstOrDefaultAsync(x => x.TaiKhoan == input.TaiKhoan && x.MaTruyen == input.MaTruyen);
+
+            bool isFollowed;
+
+            if (theoDoi != null)
+            {
+                _context.TheoDois.Remove(theoDoi);
+                isFollowed = false;
+            }
+            else
+            {
+                var newTheoDoi = new TheoDoi
+                {
+                    TaiKhoan = input.TaiKhoan,
+                    MaTruyen = input.MaTruyen,
+                    NgayTheoDoi = DateTime.Now
+                };
+                _context.TheoDois.Add(newTheoDoi);
+                isFollowed = true;
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok(new { daTheoDoi = isFollowed });
+        }
+
+        // API: POST /api/Truyen/DanhGia
+        [HttpPost("DanhGia")]
+        public async Task<IActionResult> PostDanhGia([FromBody] DanhGiaInputDto input)
+        {
+            if (string.IsNullOrEmpty(input.TaiKhoan)) return BadRequest("Chưa đăng nhập");
+            var danhGiaCu = await _context.DanhGia
+                .FirstOrDefaultAsync(x => x.TaiKhoan == input.TaiKhoan && x.MaTruyen == input.MaTruyen);
+
+            if (danhGiaCu != null)
+            {
+                danhGiaCu.Diem = input.Diem;
+                danhGiaCu.NoiDung = input.NoiDung;
+                danhGiaCu.NgayDanhGia = DateTime.Now;
+            }
+            else
+            {
+                var moi = new DanhGium
+                {
+                    TaiKhoan = input.TaiKhoan,
+                    MaTruyen = input.MaTruyen,
+                    Diem = input.Diem,
+                    NoiDung = input.NoiDung,
+                    NgayDanhGia = DateTime.Now
+                };
+                _context.DanhGia.Add(moi);
+            }
+            await _context.SaveChangesAsync();
+            return Ok(new { success = true, message = "Đánh giá thành công" });
+        }
+        // GET: api/Truyen/Chuong/5
+        [HttpGet("Chuong/{id}")]
+        public async Task<IActionResult> GetChiTietChuong(int id)
+        {
+            // 1. Lấy chương hiện tại
+            var chuong = await _context.ChuongTruyens
+                .FirstOrDefaultAsync(x => x.MaChuongTruyen == id);
+
+            if (chuong == null) return NotFound();
+
+            var chuongDto = new ChuongTruyenDto
+            {
+                MaChuongTruyen = chuong.MaChuongTruyen,
+                MaTruyen = chuong.MaTruyen,
+                ThuTuChuong = chuong.ThuTuChuong,
+                TieuDe = chuong.TieuDe,
+                NoiDung = chuong.NoiDung, // Nội dung truyện nằm ở đây
+                NgayDang = chuong.NgayDang
+            };
+
+            // 2. Tìm ID chương trước và chương sau dựa trên Thứ tự chương
+            var chuongTruoc = await _context.ChuongTruyens
+                .Where(x => x.MaTruyen == chuong.MaTruyen && x.ThuTuChuong < chuong.ThuTuChuong)
+                .OrderByDescending(x => x.ThuTuChuong)
+                .Select(x => x.MaChuongTruyen)
+                .FirstOrDefaultAsync();
+
+            var chuongSau = await _context.ChuongTruyens
+                .Where(x => x.MaTruyen == chuong.MaTruyen && x.ThuTuChuong > chuong.ThuTuChuong)
+                .OrderBy(x => x.ThuTuChuong)
+                .Select(x => x.MaChuongTruyen)
+                .FirstOrDefaultAsync();
+
+            // 3. Lấy bình luận của riêng chương này
+            var dsBinhLuan = await _context.BinhLuans
+                .Where(bl => bl.MaChuongTruyen == id) // Chỉ lấy của chương này
+                .Select(bl => new BinhLuanDto
+                {
+                    MaBinhLuan = bl.MaBinhLuan,
+                    NoiDung = bl.NoiDung,
+                    TaiKhoan = bl.TaiKhoan,
+                    NgayGui = bl.NgayGui,
+                    RepBinhLuans = bl.RepBinhLuans.Select(r => new RepBinhLuanDto
+                    {
+                        MaRep = r.MaRep,
+                        TaiKhoan = r.TaiKhoan,
+                        NoiDung = r.NoiDung,
+                        NgayGui = r.NgayGui
+                    }).ToList()
+                })
+                .OrderByDescending(x => x.NgayGui)
+                .ToListAsync();
+
+            var result = new ChiTietChuongViewModel
+            {
+                ChuongHienTai = chuongDto,
+                MaChuongTruoc = chuongTruoc == 0 ? (int?)null : chuongTruoc,
+                MaChuongSau = chuongSau == 0 ? (int?)null : chuongSau,
+                MaTruyen = chuong.MaTruyen,
+                DanhSachBinhLuan = dsBinhLuan
+            };
+
+            return Ok(result);
+        }
+        [HttpPost("BinhLuan/Them")]
+        public async Task<IActionResult> ThemBinhLuan([FromBody] ThemBinhLuanInput input)
+        {
+            var bl = new BinhLuan
+            {
+                TaiKhoan = input.TaiKhoan,
+                MaChuongTruyen = input.MaChuongId,
+                NoiDung = input.NoiDung,
+                NgayGui = DateTime.Now
+            };
+            _context.BinhLuans.Add(bl);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+        // Tương tự cho Rep Comment
     }
 }

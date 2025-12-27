@@ -134,7 +134,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers
                 }
                 else
                 {
-                    return NotFound(); // Hoặc redirect về trang lỗi
+                    return NotFound();
                 }
             }
             catch (Exception ex)
@@ -142,6 +142,31 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers
                 ViewBag.Error = "Lỗi: " + ex.Message;
             }
             return View("ChiTiet", viewModel);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ChiTietChuong(int id)
+        {
+            var client = _httpClientFactory.CreateClient("TruyenApi");
+            var viewModel = new ChiTietChuongViewModel();
+
+            try
+            {
+                var response = await client.GetAsync($"Truyen/Chuong/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    viewModel = await response.Content.ReadFromJsonAsync<ChiTietChuongViewModel>();
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(viewModel);
         }
     }
 }

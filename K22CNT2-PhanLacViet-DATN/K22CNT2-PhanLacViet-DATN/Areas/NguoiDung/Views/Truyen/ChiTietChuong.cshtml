@@ -1,0 +1,97 @@
+﻿@model K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Models.ChiTietChuongViewModel
+@using Microsoft.AspNetCore.Http
+@{
+    Layout = "~/Areas/NguoiDung/Views/Shared/_Layout.cshtml";
+    var currentUser = Context.Session.GetString("USER_LOGIN");
+}
+
+<link href="~/NguoiDung/css/ChiTietChuong.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="chapter-title">
+        Chương @Model.ChuongHienTai.ThuTuChuong: @Model.ChuongHienTai.TieuDe
+    </div>
+    <div class="chapter-date">
+        Ngày đăng: @(Model.ChuongHienTai.NgayDang?.ToString("dd/MM/yyyy HH:mm") ?? "N/A")
+    </div>
+
+    <div class="chapter-content">
+        @Html.Raw(Model.ChuongHienTai.NoiDung)
+    </div>
+
+    <div class="nav">
+        @if (Model.MaChuongTruoc != null)
+        {
+            <a href="@Url.Action("ChiTietChuong", new { id = Model.MaChuongTruoc })" class="btn-nav">
+                ⬅ Chương trước
+            </a>
+        }
+        else
+        {
+            <button class="btn-nav disabled" disabled>⬅ Chương trước</button>
+        }
+
+        <a href="@Url.Action("ChiTiet", new { id = Model.MaTruyen })" class="btn-nav">
+            📖 Mục lục
+        </a>
+
+        @if (Model.MaChuongSau != null)
+        {
+            <a href="@Url.Action("ChiTietChuong", new { id = Model.MaChuongSau })" class="btn-nav">
+                Chương sau ➡
+            </a>
+        }
+        else
+        {
+            <button class="btn-nav disabled" disabled>Chương sau ➡</button>
+        }
+    </div>
+
+    <h3>Bình luận (@Model.DanhSachBinhLuan.Count)</h3>
+
+    <div class="comment-box">
+        <textarea id="txtMainComment" placeholder="Nhập bình luận của bạn..."></textarea><br>
+        <button onclick="postComment(@Model.ChuongHienTai.MaChuongTruyen)">Đăng bình luận</button>
+    </div>
+
+    <div id="commentList">
+        @foreach (var bl in Model.DanhSachBinhLuan)
+        {
+            <div class="comment">
+                <div class="comment-header">
+                    <b>@bl.TaiKhoan</b>
+                    <span class="comment-date">- @(bl.NgayGui?.ToString("dd/MM/yyyy"))</span>
+                </div>
+                <div class="comment-body">@bl.NoiDung</div>
+
+                <button class="btn-reply-toggle" onclick="toggleReply(@bl.MaBinhLuan)">Trả lời</button>
+
+                <div class="reply-form" id="replyForm-@bl.MaBinhLuan">
+                    <textarea id="txtReply-@bl.MaBinhLuan" placeholder="Nhập câu trả lời..."></textarea><br>
+                    <button onclick="postReply(@bl.MaBinhLuan)">Gửi</button>
+                </div>
+
+                @if (bl.RepBinhLuans != null && bl.RepBinhLuans.Any())
+                {
+                    <div class="reply-list">
+                        @foreach (var rep in bl.RepBinhLuans)
+                        {
+                            <div class="reply">
+                                <b>@rep.TaiKhoan</b>: @rep.NoiDung
+                                <br />
+                                <small style="color:#999">@rep.NgayGui?.ToString("dd/MM/yyyy")</small>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var currentUser = '@currentUser';
+    </script>
+    <script src="~/NguoiDung/js/ChiTietChuong.js"></script>
+}

@@ -1,5 +1,7 @@
 ﻿@model K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Models.TrangTruyenViewModel
-
+@{
+    Layout = "~/Areas/NguoiDung/Views/Shared/_Layout.cshtml";
+}
 <link href="~/NguoiDung/css/ChiTiet.css" rel="stylesheet" />
 
 <div class="container">
@@ -16,14 +18,36 @@
             <div class="meta-data"><span>Đánh giá:</span> <strong style="color:#f1c40f">@Model.DiemDanhGiaTrungBinh <i class="fa-solid fa-star"></i></strong></div>
 
             <div class="actions">
-                <button class="btn-action @(Model.DaTheoDoi ? "active" : "")">
-                    <i class="fa-solid fa-heart"></i> @(Model.DaTheoDoi ? "Đang theo dõi" : "Theo dõi")
+                <button id="btnFollow" class="btn-action @(Model.DaTheoDoi ? "active" : "")"
+                        onclick="toggleFollow(@Model.ThongTinTruyen.MaTruyen)">
+                    <i class="@(Model.DaTheoDoi ? "fa-solid" : "fa-regular") fa-heart"></i>
+                    <span id="txtFollow">@(Model.DaTheoDoi ? "Đang theo dõi" : "Theo dõi")</span>
                 </button>
-                <button class="btn-action @(Model.DaDanhGia ? "rated" : "")">
+
+                <button class="btn-action @(Model.DaDanhGia ? "rated" : "")" onclick="openRatingModal()">
                     <i class="fa-solid fa-star"></i> Đánh giá
                 </button>
             </div>
+            <div id="ratingModal" class="modal-overlay" style="display:none;">
+                <div class="rating-box">
+                    <h3>Đánh giá truyện: @Model.ThongTinTruyen.TenTruyen</h3>
 
+                    <div class="stars">
+                        <input type="radio" name="rating" id="star5" value="5"> <label for="star5">★</label>
+                        <input type="radio" name="rating" id="star4" value="4"> <label for="star4">★</label>
+                        <input type="radio" name="rating" id="star3" value="3"> <label for="star3">★</label>
+                        <input type="radio" name="rating" id="star2" value="2"> <label for="star2">★</label>
+                        <input type="radio" name="rating" id="star1" value="1"> <label for="star1">★</label>
+                    </div>
+
+                    <textarea id="reviewContent" placeholder="Nhập nội dung đánh giá..."></textarea>
+
+                    <div class="btn-group">
+                        <button class="btn-submit" onclick="submitReview(@Model.ThongTinTruyen.MaTruyen)">Gửi đánh giá</button>
+                        <button class="btn-cancel" onclick="closeRatingModal()">Hủy</button>
+                    </div>
+                </div>
+            </div>
             <div class="description">
                 <h3>Mô tả</h3>
                 <p>@Model.ThongTinTruyen.MoTa</p>
@@ -37,7 +61,8 @@
             @for (int i = 0; i < Model.DanhSachChuong.Count; i++)
             {
                 var chuong = Model.DanhSachChuong[i];
-                <a href="#" class="chapter-item @(i >= 10 ? "hidden-chapter" : "")">
+                <a href="@Url.Action("ChiTietChuong", "Truyen", new { id = chuong.MaChuongTruyen })"
+                   class="chapter-item @(i >= 10 ? "hidden-chapter" : "")">
                     Chương @chuong.ThuTuChuong: @chuong.TieuDe
                 </a>
             }
@@ -70,5 +95,8 @@
 </div>
 
 @section Scripts {
+    <script>
+        var currentUser = '@Context.Session.GetString("USER_LOGIN")';
+    </script>
     <script src="~/NguoiDung/js/ChiTiet.js"></script>
 }

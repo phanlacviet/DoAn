@@ -139,3 +139,106 @@
     border-left: 3px solid #ddd;
     border-bottom: none;
 }
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+}
+
+.rating-box {
+    width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+    .rating-box h3 {
+        margin-bottom: 15px;
+        font-size: 18px;
+        color: #333;
+    }
+
+.stars {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+    .stars input {
+        display: none;
+    }
+
+    .stars label {
+        font-size: 35px;
+        color: #ddd; 
+        cursor: pointer;
+        padding: 0 5px;
+        transition: color 0.2s;
+    }
+        .stars input:checked ~ label,
+        .stars label:hover,
+        .stars label:hover ~ label {
+            color: #f1c40f;
+        }
+
+textarea {
+    width: 100%;
+    height: 100px;
+    resize: none;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-submit, .btn-cancel {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-submit {
+    background: #27ae60;
+    color: white;
+}
+
+    .btn-submit:hover {
+        background: #219150;
+    }
+
+.btn-cancel {
+    background: #e74c3c;
+    color: white;
+}
+
+    .btn-cancel:hover {
+        background: #c0392b;
+    }
+
+.btn-action i.fa-solid {
+    color: #e74c3c;
+}
+
+.btn-action i.fa-regular {
+    color: inherit;
+}
