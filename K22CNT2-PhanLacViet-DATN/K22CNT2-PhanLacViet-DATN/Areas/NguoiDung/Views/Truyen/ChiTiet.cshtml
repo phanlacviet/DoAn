@@ -62,8 +62,9 @@
             {
                 var chuong = Model.DanhSachChuong[i];
                 <a href="@Url.Action("ChiTietChuong", "Truyen", new { id = chuong.MaChuongTruyen })"
-                   class="chapter-item @(i >= 10 ? "hidden-chapter" : "")">
-                    Chương @chuong.ThuTuChuong: @chuong.TieuDe
+                   class="chapter-item @(i >= 10 ? "hidden-chapter" : "")"
+                   data-thutu="@chuong.ThuTuChuong">
+                    @chuong.TieuDe
                 </a>
             }
         </div>
@@ -96,6 +97,7 @@
 
 @section Scripts {
     <script>
+        var maxReadOrder = @(Model.ThuTuChuongDaDoc ?? 0);
         var currentUser = '@Context.Session.GetString("USER_LOGIN")';
     </script>
     <script src="~/NguoiDung/js/ChiTiet.js"></script>

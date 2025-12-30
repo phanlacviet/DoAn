@@ -4,6 +4,10 @@
     {
         public int MaTruyen { get; set; }
         public string? TenTruyen { get; set; }
+        public string? AnhBia { get; set; }
+        public int MaChuongHienTai { get; set; }
+        public string? TieuDeChuong { get; set; }
         public int ThuTuChuong { get; set; }
+        public DateTime? NgayDoc { get; set; }
     }
 }

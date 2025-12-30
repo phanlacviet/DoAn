@@ -146,12 +146,13 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers
         [HttpGet]
         public async Task<IActionResult> ChiTietChuong(int id)
         {
+            var taiKhoan = HttpContext.Session.GetString("USER_LOGIN") ?? "";
             var client = _httpClientFactory.CreateClient("TruyenApi");
             var viewModel = new ChiTietChuongViewModel();
 
             try
             {
-                var response = await client.GetAsync($"Truyen/Chuong/{id}");
+                var response = await client.GetAsync($"Truyen/Chuong/{id}/{taiKhoan}");
                 if (response.IsSuccessStatusCode)
                 {
                     viewModel = await response.Content.ReadFromJsonAsync<ChiTietChuongViewModel>();

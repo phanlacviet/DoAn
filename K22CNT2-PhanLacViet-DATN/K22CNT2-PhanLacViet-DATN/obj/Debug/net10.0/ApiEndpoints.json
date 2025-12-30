@@ -27,6 +27,22 @@
   },
   {
     "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.TruyenApiController",
+    "Method": "ThemRepBinhLuan",
+    "RelativePath": "api/Truyen/BinhLuan/TraLoi",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "input",
+        "Type": "K22CNT2_PhanLacViet_DATN.Models.Dtos.ThemBinhLuanInput",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.TruyenApiController",
     "Method": "GetChiTietTruyen",
     "RelativePath": "api/Truyen/ChiTiet/{id}",
     "HttpMethod": "GET",
@@ -49,7 +65,7 @@
   {
     "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.TruyenApiController",
     "Method": "GetChiTietChuong",
-    "RelativePath": "api/Truyen/Chuong/{id}",
+    "RelativePath": "api/Truyen/Chuong/{id}/{taiKhoan}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -57,6 +73,11 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "taiKhoan",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],

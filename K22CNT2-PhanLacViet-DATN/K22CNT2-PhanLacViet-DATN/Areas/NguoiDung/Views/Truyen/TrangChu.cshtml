@@ -158,12 +158,23 @@
                         foreach (var item in Model.LichSu)
                         {
                             <div class="mini-item">
-                                <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" class="mini-thumb"></a>
+                                <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" class="mini-thumb">
+                                </a>
                                 <div class="mini-info">
                                     <div class="mini-title">
-                                        <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" style="text-decoration:none; color:inherit;">@item.TenTruyen</a>
+                                        <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" style="text-decoration:none; color:inherit; font-weight:bold;">
+                                            @item.TenTruyen
+                                        </a>
                                     </div>
-                                    <div class="mini-chapter">Đã đọc: Chương @item.ThuTuChuong</div>
+                                    <div class="mini-chapter" style="color: #555; font-size: 0.9em;">
+                                        Đã đọc: Chương @item.ThuTuChuong
+                                    </div>
+                                    @if (item.NgayDoc.HasValue)
+                                    {
+                                        <div class="mini-time" style="font-size: 0.8em; color: #999;">
+                                            <i class="far fa-clock"></i> @item.NgayDoc.Value.ToString("dd/MM/yyyy HH:mm")
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         }

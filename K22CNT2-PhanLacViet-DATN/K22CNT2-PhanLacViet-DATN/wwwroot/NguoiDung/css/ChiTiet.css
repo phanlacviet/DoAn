@@ -242,3 +242,8 @@ textarea {
 .btn-action i.fa-regular {
     color: inherit;
 }
+.chapter-item.read {
+    color: #999 !important;
+    border-color: #eee !important;
+    background-color: #fcfcfc !important;
+}

@@ -1,4 +1,27 @@
-﻿// Toggle hiển thị form trả lời
+﻿
+document.addEventListener("DOMContentLoaded", function () {
+    highlightReadChapters();
+});
+
+function highlightReadChapters() {
+    // maxReadOrder được lấy từ biến toàn cục định nghĩa ở View
+    if (typeof maxReadOrder === 'undefined') return;
+
+    const chapters = document.querySelectorAll('.chapter-item');
+    chapters.forEach(chap => {
+        const orderAttr = chap.getAttribute('data-thutu');
+        if (orderAttr) {
+            const order = parseInt(orderAttr);
+            if (order <= maxReadOrder && maxReadOrder > 0) {
+                chap.classList.add('read');
+            } else {
+                chap.classList.remove('read');
+            }
+        }
+    });
+}
+
+// Toggle hiển thị form trả lời
 function toggleReply(id) {
     const form = document.getElementById("replyForm-" + id);
     if (form.style.display === "block") {
@@ -25,7 +48,7 @@ async function postComment(maChuong) {
     }
 
     try {
-        const response = await fetch('/api/Truyen/BinhLuan/Them', { // Đảm bảo API này tồn tại
+        const response = await fetch('/api/Truyen/BinhLuan/Them', { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -61,7 +84,7 @@ async function postReply(maBinhLuanGoc) {
     }
 
     try {
-        const response = await fetch('/api/Truyen/BinhLuan/TraLoi', { // API Rep
+        const response = await fetch('/api/Truyen/BinhLuan/TraLoi', { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

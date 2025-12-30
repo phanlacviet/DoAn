@@ -14,5 +14,6 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Models
         public double DiemDanhGiaTrungBinh { get; set; } = 0;
         public bool DaTheoDoi { get; set; } = false; // Check nếu user đã login
         public bool DaDanhGia { get; set; } = false;
+        public int? ThuTuChuongDaDoc { get; set; }
     }
 }

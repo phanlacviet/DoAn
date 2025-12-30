@@ -1,17 +1,12 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
     const btnLoadMore = document.getElementById("btnLoadMore");
-
+    highlightReadChapters();
     if (btnLoadMore) {
         btnLoadMore.addEventListener("click", function () {
-            // Chọn tất cả các chương đang bị ẩn
             const hiddenChapters = document.querySelectorAll(".hidden-chapter");
-
-            // Hiển thị chúng
             hiddenChapters.forEach(function (el) {
                 el.classList.remove("hidden-chapter");
             });
-
-            // Ẩn nút xem thêm sau khi đã show hết
             btnLoadMore.style.display = "none";
         });
     }
@@ -45,7 +40,24 @@ async function toggleFollow(maTruyen) {
         console.error("Lỗi:", error);
     }
 }
+function highlightReadChapters() {
+    // maxReadOrder được lấy từ biến toàn cục định nghĩa ở View
+    if (typeof maxReadOrder === 'undefined') return;
 
+    const chapters = document.querySelectorAll('.chapter-item');
+    chapters.forEach(chap => {
+        const orderAttr = chap.getAttribute('data-thutu');
+        if (orderAttr) {
+            const order = parseInt(orderAttr);
+            if (order <= maxReadOrder && maxReadOrder > 0) {
+                chap.classList.add('read');
+            } else {
+                chap.classList.remove('read');
+            }
+        }
+
+    });
+};
 function updateFollowButton(isFollowed) {
     const btn = document.getElementById("btnFollow");
     const icon = btn.querySelector("i");
