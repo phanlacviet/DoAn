@@ -37,7 +37,7 @@ function toggleReply(id) {
 async function postComment(maChuong) {
     if (!currentUser) {
         alert("Vui lòng đăng nhập để bình luận!");
-        window.location.href = "/NguoiDung/Auth";
+        window.location.href = "/NguoiDung/Truyen/Auth";
         return;
     }
 
@@ -73,7 +73,7 @@ async function postComment(maChuong) {
 async function postReply(maBinhLuanGoc) {
     if (!currentUser) {
         alert("Vui lòng đăng nhập!");
-        window.location.href = "/NguoiDung/Auth";
+        window.location.href = "/NguoiDung/Truyen/Auth";
         return;
     }
 

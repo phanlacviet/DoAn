@@ -152,7 +152,8 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers
 
             try
             {
-                var response = await client.GetAsync($"Truyen/Chuong/{id}/{taiKhoan}");
+                string accountParam = string.IsNullOrEmpty(taiKhoan) ? "guest" : taiKhoan;
+                var response = await client.GetAsync($"Truyen/Chuong/{id}/{accountParam}");
                 if (response.IsSuccessStatusCode)
                 {
                     viewModel = await response.Content.ReadFromJsonAsync<ChiTietChuongViewModel>();
@@ -165,6 +166,59 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers
             catch
             {
                 return RedirectToAction("Index");
+            }
+
+            return View(viewModel);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Search(
+            string keyword,
+            string tacGia,
+            string moTa,
+            string sort,
+            List<int> genres)
+            {
+            var client = _httpClientFactory.CreateClient("TruyenApi");
+            var viewModel = new TimKiemViewModel
+            {
+                Keyword = keyword,
+                TacGia = tacGia,
+                MoTa = moTa,
+                Sort = sort,
+                SelectedGenreIds = genres ?? new List<int>()
+            };
+
+            try
+            {
+                var resTheLoai = await client.GetAsync("Truyen/TheLoai");
+                if (resTheLoai.IsSuccessStatusCode)
+                {
+                    viewModel.AllTheLoais = await resTheLoai.Content.ReadFromJsonAsync<List<TheLoaiItem>>() ?? new List<TheLoaiItem>();
+                }
+                var queryParams = new List<string>();
+                if (!string.IsNullOrEmpty(keyword)) queryParams.Add($"keyword={keyword}");
+                if (!string.IsNullOrEmpty(tacGia)) queryParams.Add($"tacGia={tacGia}");
+                if (!string.IsNullOrEmpty(moTa)) queryParams.Add($"moTa={moTa}");
+                if (!string.IsNullOrEmpty(sort)) queryParams.Add($"sort={sort}");
+                if (genres != null)
+                {
+                    foreach (var g in genres)
+                    {
+                        queryParams.Add($"theLoais={g}");
+                    }
+                }
+
+                string queryString = string.Join("&", queryParams);
+                var resSearch = await client.GetAsync($"Truyen/TimKiem?{queryString}");
+
+                if (resSearch.IsSuccessStatusCode)
+                {
+                    viewModel.KetQua = await resSearch.Content.ReadFromJsonAsync<List<TruyenDto>>() ?? new List<TruyenDto>();
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Lỗi tìm kiếm: " + ex.Message;
             }
 
             return View(viewModel);

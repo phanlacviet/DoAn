@@ -229,7 +229,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
             };
 
             // 2. LOGIC LƯU LỊCH SỬ ĐỌC
-            if (!string.IsNullOrEmpty(taiKhoan))
+            if (!string.IsNullOrEmpty(taiKhoan) && taiKhoan.ToLower() != "guest")
             {
                 try
                 {
@@ -332,6 +332,71 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
             _context.RepBinhLuans.Add(bl);
             await _context.SaveChangesAsync();
             return Ok();
+        }
+        [HttpGet("TimKiem")]
+        public async Task<IActionResult> TimKiem(
+            string? keyword = null,
+            string? tacGia = null,
+            string? moTa = null,
+            string? sort = "NgayDang_Desc",
+            [FromQuery] List<int>? theLoais = null
+        )
+        {
+            var query = _context.Truyens
+                .Include(t => t.MaTheLoais)
+                .Where(t => t.IsDeleted == false)
+                .AsQueryable();
+
+            // 1. Lọc theo từ khóa (Tên truyện)
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(t => t.TenTruyen.Contains(keyword));
+            }
+            // 2. Lọc theo tác giả
+            if (!string.IsNullOrEmpty(tacGia))
+            {
+                query = query.Where(t => t.TacGia.Contains(tacGia));
+            }
+            // 3. Lọc theo mô tả
+            if (!string.IsNullOrEmpty(moTa))
+            {
+                query = query.Where(t => t.MoTa.Contains(moTa));
+            }
+            // 4. Lọc theo thể loại (Nếu có chọn)
+            if (theLoais != null && theLoais.Any())
+            {
+                query = query.Where(t => t.MaTheLoais.Any(tl => theLoais.Contains(tl.MaTheLoai)));
+            }
+
+            // 5. Sắp xếp
+            switch (sort)
+            {
+                case "NgayDang_Asc": query = query.OrderBy(t => t.NgayDang); break;
+                case "LuotXem_Desc": query = query.OrderByDescending(t => t.TongLuotXem); break;
+                case "LuotXem_Asc": query = query.OrderBy(t => t.TongLuotXem); break;
+                default: query = query.OrderByDescending(t => t.NgayDang); break; // Mặc định
+            }
+
+            var dsTruyen = await query.Select(t => new TruyenDto
+            {
+                MaTruyen = t.MaTruyen,
+                TenTruyen = t.TenTruyen,
+                TacGia = t.TacGia,
+                MoTa = t.MoTa, // Có thể cắt ngắn nếu cần
+                TongLuotXem = t.TongLuotXem ?? 0,
+                NgayDang = t.NgayDang,
+                TenTheLoai = string.Join(", ", t.MaTheLoais.Select(tl => tl.TenTheLoai))
+            }).ToListAsync();
+
+            return Ok(dsTruyen);
+        }
+        [HttpGet("TheLoai")]
+        public async Task<IActionResult> GetTheLoais()
+        {
+            var list = await _context.TheLoais
+                .Select(tl => new { Id = tl.MaTheLoai, Ten = tl.TenTheLoai })
+                .ToListAsync();
+            return Ok(list);
         }
     }
 }

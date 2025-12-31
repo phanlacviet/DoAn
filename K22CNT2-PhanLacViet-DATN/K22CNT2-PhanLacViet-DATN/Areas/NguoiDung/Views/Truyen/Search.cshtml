@@ -1,0 +1,77 @@
+﻿@model K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Models.TimKiemViewModel
+@{
+    ViewData["Title"] = "Tìm kiếm truyện";
+    Layout = "~/Areas/NguoiDung/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/NguoiDung/css/TimKiem.css">
+<div class="s2-wrap">
+    <aside class="s2-filter">
+        <form asp-action="Search" method="get">
+            <h4>Bộ lọc</h4>
+
+            <input type="text" asp-for="Keyword" placeholder="Tên truyện..." name="keyword">
+            <input type="text" asp-for="TacGia" placeholder="Tác giả..." name="tacGia">
+            <textarea asp-for="MoTa" placeholder="Mô tả..." name="moTa" rows="3"></textarea>
+
+            <div style="margin:8px 0;font-weight:700">Thể loại</div>
+            <div class="s2-genres">
+                @if (Model.AllTheLoais != null)
+                {
+                    foreach (var tl in Model.AllTheLoais)
+                    {
+                        bool isChecked = Model.SelectedGenreIds.Contains(tl.Id);
+                        <input id="tl_@tl.Id" type="checkbox" name="genres" value="@tl.Id" @(isChecked ? "checked" : "")>
+                        <label for="tl_@tl.Id">@tl.Ten</label>
+                    }
+                }
+            </div>
+
+            <div style="margin-top:10px">
+                <select asp-for="Sort" name="sort">
+                    <option value="NgayDang_Desc">Mới cập nhật</option>
+                    <option value="NgayDang_Asc">Cũ nhất</option>
+                    <option value="LuotXem_Desc">Xem nhiều nhất</option>
+                    <option value="LuotXem_Asc">Xem ít nhất</option>
+                </select>
+            </div>
+
+            <div style="margin-top:12px">
+                <button type="submit" style="width:100%;padding:10px;border-radius:8px;background:#0ea5e9;color:#fff;border:0;cursor:pointer;font-weight:bold;">
+                    Áp dụng bộ lọc
+                </button>
+                <a href="@Url.Action("Search", "Truyen")" style="display:block;text-align:center;margin-top:10px;color:#666;font-size:13px;text-decoration:none">
+                    Xóa bộ lọc
+                </a>
+            </div>
+        </form>
+    </aside>
+
+    <section class="s2-content">
+        @if (Model.KetQua != null && Model.KetQua.Count > 0)
+        {
+            foreach (var truyen in Model.KetQua)
+            {
+                <a href="@Url.Action("ChiTiet", "Truyen", new { id = truyen.MaTruyen })" class="s2-card">
+                    <div class="s2-thumb">
+                        <img src="https://via.placeholder.com/220x330?text=No+Cover" alt="@truyen.TenTruyen">
+                        <div class="views">@truyen.TongLuotXem.ToString("N0")</div>
+                    </div>
+                    <div class="s2-body">
+                        <div class="title" title="@truyen.TenTruyen">@truyen.TenTruyen</div>
+                        <div class="meta">TG: @(truyen.TacGia ?? "Đang cập nhật")</div>
+                        <div class="meta" style="font-size:11px; margin-top:4px; color:#0ea5e9">
+                            @truyen.TenTheLoai
+                        </div>
+                    </div>
+                </a>
+            }
+        }
+        else
+        {
+            <div style="grid-column: 1 / -1; text-align:center; padding: 40px; color: #666;">
+                <h3>Không tìm thấy truyện nào!</h3>
+                <p>Hãy thử thay đổi từ khóa hoặc bộ lọc.</p>
+            </div>
+        }
+    </section>
+</div>

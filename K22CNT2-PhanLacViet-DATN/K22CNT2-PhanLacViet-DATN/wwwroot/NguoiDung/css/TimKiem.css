@@ -1,0 +1,136 @@
+﻿.s2-wrap {
+    display: flex;
+    gap: 18px;
+    max-width: 1100px;
+    margin: 24px auto;
+    align-items: flex-start;
+}
+
+.s2-filter {
+    width: 300px;
+    padding: 18px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+    position: sticky;
+    top: 100px;
+}
+
+    .s2-filter h4 {
+        margin: 0 0 12px 0;
+    }
+
+    .s2-filter input[type="text"], .s2-filter textarea {
+        width: 100%;
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #e6e6e6;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    .s2-filter select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #e6e6e6;
+        margin-bottom: 10px;
+    }
+
+.s2-genres {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+    .s2-genres input {
+        display: none;
+    }
+
+    .s2-genres label {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        background: #fafafa;
+        cursor: pointer;
+        font-weight: 600;
+        color: #374151;
+        font-size: 12px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .s2-genres input:checked + label {
+        background: #2563eb;
+        color: #fff;
+        border-color: #2563eb;
+        box-shadow: 0 8px 24px rgba(37,99,235,.12);
+    }
+
+.s2-content {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.s2-card {
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,.04);
+    transition: transform 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+    .s2-card:hover {
+        transform: translateY(-5px);
+    }
+
+.s2-thumb {
+    position: relative;
+    height: 280px;
+}
+
+    .s2-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .s2-thumb .views {
+        position: absolute;
+        right: 8px;
+        top: 8px;
+        background: rgba(0,0,0,.6);
+        color: #fff;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 12px;
+    }
+
+.s2-body {
+    padding: 10px;
+}
+
+    .s2-body .title {
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .s2-body .meta {
+        color: #6b7280;
+        font-size: 13px;
+    }

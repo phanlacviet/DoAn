@@ -23,14 +23,14 @@
             TRUYỆN CHỮ
         </a>
         <div class="header-search">
-            <form asp-area="NguoiDung"
-                  asp-controller="Truyen"
-                  asp-action="Search"
-                  method="get">
+            <form asp-area="NguoiDung" asp-controller="Truyen" asp-action="Search" method="get" class="search-container">
                 <input type="text"
+                       id="searchInput"
                        name="keyword"
-                       placeholder="Tìm truyện, tác giả..."
+                       placeholder="Tìm truyện..."
                        autocomplete="off" />
+
+                <div id="searchResults" class="search-results-dropdown"></div>
             </form>
         </div>
         @if (string.IsNullOrEmpty(userLogin))
@@ -74,7 +74,7 @@
         </div>
     </footer>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/NguoiDung/js/header.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
 </body>
