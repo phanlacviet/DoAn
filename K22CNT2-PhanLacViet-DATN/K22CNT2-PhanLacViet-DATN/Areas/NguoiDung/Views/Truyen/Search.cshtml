@@ -54,7 +54,15 @@
                 <a href="@Url.Action("ChiTiet", "Truyen", new { id = truyen.MaTruyen })" class="s2-card">
                     <div class="s2-thumb">
                         <img src="https://via.placeholder.com/220x330?text=No+Cover" alt="@truyen.TenTruyen">
-                        <div class="views">@truyen.TongLuotXem.ToString("N0")</div>
+
+                        <div class="views">
+                            <i class="fa-solid fa-eye" style="font-size: 10px; margin-right: 2px;"></i>
+                            @truyen.TongLuotXem.ToString("N0")
+                        </div>
+
+                        <div class="updated-time">
+                            @TimeHelper.GetTimeAgo(truyen.NgayCapNhat)
+                        </div>
                     </div>
                     <div class="s2-body">
                         <div class="title" title="@truyen.TenTruyen">@truyen.TenTruyen</div>

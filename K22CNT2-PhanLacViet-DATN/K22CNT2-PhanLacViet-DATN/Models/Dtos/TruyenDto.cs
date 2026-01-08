@@ -13,5 +13,6 @@ namespace K22CNT2_PhanLacViet_DATN.Models.Dtos
         public int SoChuong { get; set; }
         public long TongLuotXem { get; set; }
         public DateTime? NgayDang { get; set; }
+        public DateTime? NgayCapNhat{ get; set; }
     }
 }

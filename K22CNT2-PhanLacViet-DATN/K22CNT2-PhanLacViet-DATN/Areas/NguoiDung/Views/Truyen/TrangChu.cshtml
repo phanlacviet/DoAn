@@ -11,7 +11,6 @@
         <section class="panel">
             <div class="section-title">
                 <h3 style="margin:0">Truyện mới cập nhật</h3>
-                <div class="mini">Từ hệ thống</div>
             </div>
 
             @foreach (var t in Model.DanhSachTruyen.Take(5))
@@ -31,8 +30,9 @@
                                 </div>
                                 <div class="desc">@t.MoTa</div>
                             </div>
-                            <div>
-                                <span class="badge">@t.LoaiTruyen</span>
+                            <div class="story-time">
+                                <i class="fa-regular fa-clock"></i>
+                                <span>@TimeHelper.GetTimeAgo(t.NgayCapNhat)</span>
                             </div>
                         </div>
 
@@ -51,7 +51,6 @@
         <section class="panel" style="margin-top:16px">
             <div class="section-title">
                 <h3 style="margin:0">Truyện dịch</h3>
-                <div class="mini">Tự động</div>
             </div>
 
             @foreach (var t in Model.DanhSachTruyen.Where(x => x.LoaiTruyen == "Dịch").Take(5))
@@ -68,8 +67,9 @@
                                 </div>
                                 <div class="desc">@t.MoTa</div>
                             </div>
-                            <div>
-                                <span class="badge">@t.LoaiTruyen</span>
+                            <div class="story-time">
+                                <i class="fa-regular fa-clock"></i>
+                                <span>@TimeHelper.GetTimeAgo(t.NgayCapNhat)</span>
                             </div>
                         </div>
                         <div style="margin-top:8px; display:flex; gap:8px">
@@ -84,7 +84,6 @@
         <section class="panel" style="margin-top:16px">
             <div class="section-title">
                 <h3 style="margin:0">AI dịch — đề cử</h3>
-                <div class="mini">Tự động</div>
             </div>
 
             @foreach (var t in Model.DanhSachTruyen.Where(x => x.LoaiTruyen == "AI dịch").Take(5))
@@ -99,8 +98,9 @@
                                 </div>
                                 <div class="desc">@t.MoTa</div>
                             </div>
-                            <div>
-                                <span class="badge">@t.LoaiTruyen</span>
+                            <div class="story-time">
+                                <i class="fa-regular fa-clock"></i>
+                                <span>@TimeHelper.GetTimeAgo(t.NgayCapNhat)</span>
                             </div>
                         </div>
                         <div style="margin-top:8px; display:flex; gap:8px">
@@ -115,7 +115,6 @@
         <section class="panel" style="margin-top:16px">
             <div class="section-title">
                 <h3 style="margin:0">Sáng tác mới</h3>
-                <div class="mini">Tác giả người dùng</div>
             </div>
 
             @foreach (var t in Model.DanhSachTruyen.Where(x => x.LoaiTruyen == "Sáng tác").Take(5))
@@ -130,8 +129,9 @@
                                 </div>
                                 <div class="desc">@t.MoTa</div>
                             </div>
-                            <div>
-                                <span class="badge">@t.LoaiTruyen</span>
+                            <div class="story-time">
+                                <i class="fa-regular fa-clock"></i>
+                                <span style="text-decoration-color:grey">@TimeHelper.GetTimeAgo(t.NgayCapNhat)</span>
                             </div>
                         </div>
                         <div style="margin-top:8px; display:flex; gap:8px">

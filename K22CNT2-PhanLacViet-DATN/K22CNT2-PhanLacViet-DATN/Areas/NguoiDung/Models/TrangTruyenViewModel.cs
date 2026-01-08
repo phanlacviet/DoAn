@@ -11,6 +11,9 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Models
         public List<BinhLuanDto> DanhSachBinhLuan { get; set; } = new List<BinhLuanDto>();
 
         // Các thông tin tính toán thêm
+        public int MaChuongDau { get; set; }
+        public int MaChuongDocTiep { get; set; }
+        public string? TrangThaiDoc { get; set; }
         public double DiemDanhGiaTrungBinh { get; set; } = 0;
         public bool DaTheoDoi { get; set; } = false; // Check nếu user đã login
         public bool DaDanhGia { get; set; } = false;

@@ -187,3 +187,16 @@ body {
     text-align: center;
     padding: 20px 0;
 }
+.story-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #888;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+    .story-time i {
+        font-size: 0.8rem;
+        color: #bbb;
+    }

@@ -97,10 +97,10 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
             {
                 thuTuDaDoc = await _context.LichSuDocs
                     .Where(ls => ls.TaiKhoan == taiKhoan && ls.MaTruyen == id)
-                    .Select(ls => (int?)ls.MaChuongTruyenNavigation.ThuTuChuong)
+                    .Select(ls => ls.MaChuongTruyenNavigation != null ? (int?)ls.MaChuongTruyenNavigation.ThuTuChuong : 0)
                     .FirstOrDefaultAsync() ?? 0;
             }
-
+            
             // 4. Lấy bình luận thông qua các chương của truyện này
             var maChuongIds = dsChuong.Select(c => c.MaChuongTruyen).ToList();
             var dsBinhLuan = await _context.BinhLuans
@@ -121,11 +121,10 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 }).OrderByDescending(x => x.NgayGui).ToListAsync();
 
             // 5. Tính điểm đánh giá (Sử dụng DanhGia - EF Scaffold thành DanhGia)
-            // Lưu ý: Trong Model của bạn là truyenDb.DanhGia (ICollection<DanhGium>)
             var danhGias = await _context.DanhGia.Where(dg => dg.MaTruyen == id).ToListAsync();
             double diemTB = danhGias.Any() ? (double)danhGias.Average(dg => dg.Diem ?? 0) : 0;
 
-            // 5. Kiểm tra trạng thái User
+            // 6. Kiểm tra trạng thái User
             bool daTheoDoi = false;
             bool daDanhGia = false;
             if (!string.IsNullOrEmpty(taiKhoan))
@@ -355,12 +354,12 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
             // 2. Lọc theo tác giả
             if (!string.IsNullOrEmpty(tacGia))
             {
-                query = query.Where(t => t.TacGia.Contains(tacGia));
+                query = query.Where(t => t.TacGia!.Contains(tacGia));
             }
             // 3. Lọc theo mô tả
             if (!string.IsNullOrEmpty(moTa))
             {
-                query = query.Where(t => t.MoTa.Contains(moTa));
+                query = query.Where(t => t.MoTa!.Contains(moTa));
             }
             // 4. Lọc theo thể loại (Nếu có chọn)
             if (theLoais != null && theLoais.Any())
@@ -385,6 +384,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 MoTa = t.MoTa, // Có thể cắt ngắn nếu cần
                 TongLuotXem = t.TongLuotXem ?? 0,
                 NgayDang = t.NgayDang,
+                NgayCapNhat = t.NgayCapNhat ?? t.NgayDang,
                 TenTheLoai = string.Join(", ", t.MaTheLoais.Select(tl => tl.TenTheLoai))
             }).ToListAsync();
 

@@ -21,7 +21,7 @@
                 <button id="btnFollow" class="btn-action @(Model.DaTheoDoi ? "active" : "")"
                         onclick="toggleFollow(@Model.ThongTinTruyen.MaTruyen)">
                     <i class="@(Model.DaTheoDoi ? "fa-solid" : "fa-regular") fa-heart"></i>
-                    <span id="txtFollow">@(Model.DaTheoDoi ? "Đang theo dõi" : "Theo dõi")</span>
+                    <span id="txtFollow">@(Model.DaTheoDoi ? "" : "")</span>
                 </button>
 
                 <button class="btn-action @(Model.DaDanhGia ? "rated" : "")" onclick="openRatingModal()">
@@ -97,8 +97,8 @@
 
 @section Scripts {
     <script>
-        var maxReadOrder = @(Model.ThuTuChuongDaDoc ?? 0);
+        var maxReadOrder = @(Model.ThuTuChuongDaDoc ?? 0)
         var currentUser = '@Context.Session.GetString("USER_LOGIN")';
     </script>
     <script src="~/NguoiDung/js/ChiTiet.js"></script>
-}
+};
