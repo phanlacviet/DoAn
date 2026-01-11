@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("K22CNT2-PhanLacViet-DATN")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+32b80a16e1629dafb11859b1b375781174f22be6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0cab4a8749bab3426ee46905cef8d3a959d548d5")]
 [assembly: System.Reflection.AssemblyProductAttribute("K22CNT2-PhanLacViet-DATN")]
 [assembly: System.Reflection.AssemblyTitleAttribute("K22CNT2-PhanLacViet-DATN")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Hồ sơ người dùng";
+    Layout = "~/Areas/NguoiDung/Views/Shared/_Layout.cshtml";
+    string currentUser = ViewBag.CurrentUser as string;
+}
+
+<link rel="stylesheet" href="~/NguoiDung/css/user_info.css" />
+
+<div class="m2-wrap">
+    <aside class="m2-side">
+        <div class="m2-avatar"><img id="m2Avatar" src="" onerror="this.src='https://via.placeholder.com/400x300?text=User'"></div>
+        <div class="m2-name" id="m2Name">Đang tải...</div>
+        <div class="m2-join" id="m2Join">...</div>
+
+        <div class="small">
+            <i class="fa fa-book"></i> Đã đọc: <strong id="m2Books">0</strong> truyện
+        </div>
+        <div class="small">
+            <i class="fa fa-list"></i> Tổng chương: <strong id="m2Chaps">0</strong>
+        </div>
+        <hr style="margin:12px 0; border-top:1px solid #eee">
+        <div class="small">Đã đánh giá: <strong id="m2Rate">0</strong></div>
+        <div class="small">Bình luận: <strong id="m2Comm">0</strong></div>
+    </aside>
+
+    <main class="m2-main">
+        <div class="tabs">
+            <button class="active" data-tab="follow" onclick="m2Tab('follow')">Tủ truyện</button>
+            <button data-tab="history" onclick="m2Tab('history')">Lịch sử</button>
+            <button data-tab="bookmark" onclick="m2Tab('bookmark')">Đánh dấu</button>
+        </div>
+
+        <div id="m2Follow" class="card">
+            <h4>Đang theo dõi</h4>
+            <div id="m2FollowList">Đang tải...</div>
+        </div>
+
+        <div id="m2History" class="card" style="display:none">
+            <h4>Lịch sử đọc gần đây</h4>
+            <div id="m2HistoryList"></div>
+        </div>
+
+        <div id="m2Bookmark" class="card" style="display:none">
+            <h4>Truyện đã đánh dấu</h4>
+            <div id="m2BookmarkList"></div>
+        </div>
+    </main>
+</div>
+
+@section Scripts {
+    <script>
+        window.USER_ACCOUNT = '@currentUser';
+    </script>
+    <script src="~/NguoiDung/js/user_info.js"></script>
+}
+;

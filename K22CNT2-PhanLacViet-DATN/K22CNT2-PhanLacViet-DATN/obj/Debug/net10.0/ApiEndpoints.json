@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.NguoiDungApiController",
+    "Method": "GetProfile",
+    "RelativePath": "api/nguoidung/get-profile/{taiKhoan}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "taiKhoan",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.TruyenApiController",
     "Method": "GetAllTruyen",
     "RelativePath": "api/Truyen",

@@ -56,7 +56,7 @@
         {
             <div class="header-user">
                 <div class="header-avatar">
-                    @userLogin.Substring(0, 1).ToUpper()
+                    <a asp-area="NguoiDung" asp-controller="NguoiDung" asp-action="ThongTinNguoiDung">@userLogin.Substring(0, 1).ToUpper()</a>
                 </div>
                 <div class="user-dropdown">
                     <strong>@userLogin</strong>
