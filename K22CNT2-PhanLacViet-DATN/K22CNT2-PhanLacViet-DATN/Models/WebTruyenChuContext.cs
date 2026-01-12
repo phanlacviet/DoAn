@@ -41,9 +41,7 @@ public partial class WebTruyenChuContext : DbContext
 
     public virtual DbSet<Truyen> Truyens { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Server=DESKTOP-Q6N4J46\\SQLEXPRESS;Database=WebTruyenChu;Trusted_Connection=True;TrustServerCertificate=True;");
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -51,11 +49,20 @@ public partial class WebTruyenChuContext : DbContext
         {
             entity.HasKey(e => e.MaBinhLuan).HasName("PK__BinhLuan__87CB66A0396CF967");
 
-            entity.Property(e => e.NgayGui).HasDefaultValueSql("(getdate())");
+            entity.ToTable("BinhLuan");
 
-            entity.HasOne(d => d.MaChuongTruyenNavigation).WithMany(p => p.BinhLuans).HasConstraintName("FK_BL_Chuong");
+            entity.Property(e => e.NgayGui)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.TaiKhoan).HasMaxLength(50);
 
-            entity.HasOne(d => d.TaiKhoanNavigation).WithMany(p => p.BinhLuans).HasConstraintName("FK_BL_TV");
+            entity.HasOne(d => d.MaChuongTruyenNavigation).WithMany(p => p.BinhLuans)
+                .HasForeignKey(d => d.MaChuongTruyen)
+                .HasConstraintName("FK_BL_Chuong");
+
+            entity.HasOne(d => d.TaiKhoanNavigation).WithMany(p => p.BinhLuans)
+                .HasForeignKey(d => d.TaiKhoan)
+                .HasConstraintName("FK_BL_TV");
         });
 
         modelBuilder.Entity<ChuongTruyen>(entity =>
@@ -64,9 +71,15 @@ public partial class WebTruyenChuContext : DbContext
 
             entity.ToTable("ChuongTruyen", tb => tb.HasTrigger("trg_UpdateTruyen"));
 
-            entity.Property(e => e.NgayDang).HasDefaultValueSql("(getdate())");
+            entity.HasIndex(e => new { e.MaTruyen, e.ThuTuChuong }, "UQ_Truyen_Chuong").IsUnique();
+
+            entity.Property(e => e.NgayDang)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.TieuDe).HasMaxLength(255);
 
             entity.HasOne(d => d.MaTruyenNavigation).WithMany(p => p.ChuongTruyens)
+                .HasForeignKey(d => d.MaTruyen)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Chuong_Truyen");
         });
@@ -75,13 +88,18 @@ public partial class WebTruyenChuContext : DbContext
         {
             entity.HasKey(e => new { e.TaiKhoan, e.MaTruyen }).HasName("PK__DanhGia__7315E755B77132C8");
 
-            entity.Property(e => e.NgayDanhGia).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.TaiKhoan).HasMaxLength(50);
+            entity.Property(e => e.NgayDanhGia)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
 
             entity.HasOne(d => d.MaTruyenNavigation).WithMany(p => p.DanhGia)
+                .HasForeignKey(d => d.MaTruyen)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_DG_Truyen");
 
             entity.HasOne(d => d.TaiKhoanNavigation).WithMany(p => p.DanhGia)
+                .HasForeignKey(d => d.TaiKhoan)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_DG_TV");
         });
@@ -90,15 +108,24 @@ public partial class WebTruyenChuContext : DbContext
         {
             entity.HasKey(e => new { e.TaiKhoan, e.MaTruyen }).HasName("PK__LichSuDo__7315E75548528530");
 
-            entity.Property(e => e.NgayDoc).HasDefaultValueSql("(getdate())");
+            entity.ToTable("LichSuDoc");
 
-            entity.HasOne(d => d.MaChuongTruyenNavigation).WithMany(p => p.LichSuDocs).HasConstraintName("FK_LSD_Chuong");
+            entity.Property(e => e.TaiKhoan).HasMaxLength(50);
+            entity.Property(e => e.NgayDoc)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+
+            entity.HasOne(d => d.MaChuongTruyenNavigation).WithMany(p => p.LichSuDocs)
+                .HasForeignKey(d => d.MaChuongTruyen)
+                .HasConstraintName("FK_LSD_Chuong");
 
             entity.HasOne(d => d.MaTruyenNavigation).WithMany(p => p.LichSuDocs)
+                .HasForeignKey(d => d.MaTruyen)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_LSD_Truyen");
 
             entity.HasOne(d => d.TaiKhoanNavigation).WithMany(p => p.LichSuDocs)
+                .HasForeignKey(d => d.TaiKhoan)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_LSD_TV");
         });
@@ -107,22 +134,36 @@ public partial class WebTruyenChuContext : DbContext
         {
             entity.HasKey(e => e.MaLuotXem).HasName("PK__LuotXemT__C7725C781E43788B");
 
+            entity.ToTable("LuotXemTruyen");
+
+            entity.HasIndex(e => new { e.MaTruyen, e.Ngay }, "UQ_LuotXem").IsUnique();
+
+            entity.Property(e => e.Ngay).HasColumnType("datetime");
             entity.Property(e => e.SoLuotXem).HasDefaultValue(0);
 
-            entity.HasOne(d => d.MaTruyenNavigation).WithMany(p => p.LuotXemTruyens).HasConstraintName("FK_LuotXem_Truyen");
+            entity.HasOne(d => d.MaTruyenNavigation).WithMany(p => p.LuotXemTruyens)
+                .HasForeignKey(d => d.MaTruyen)
+                .HasConstraintName("FK_LuotXem_Truyen");
         });
 
         modelBuilder.Entity<LuuTruyen>(entity =>
         {
             entity.HasKey(e => new { e.TaiKhoan, e.MaTruyen }).HasName("PK__LuuTruye__7315E7552547880E");
 
-            entity.Property(e => e.NgayLuu).HasDefaultValueSql("(getdate())");
+            entity.ToTable("LuuTruyen");
+
+            entity.Property(e => e.TaiKhoan).HasMaxLength(50);
+            entity.Property(e => e.NgayLuu)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
 
             entity.HasOne(d => d.MaTruyenNavigation).WithMany(p => p.LuuTruyens)
+                .HasForeignKey(d => d.MaTruyen)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Luu_Truyen");
 
             entity.HasOne(d => d.TaiKhoanNavigation).WithMany(p => p.LuuTruyens)
+                .HasForeignKey(d => d.TaiKhoan)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Luu_TV");
         });
@@ -130,45 +171,78 @@ public partial class WebTruyenChuContext : DbContext
         modelBuilder.Entity<QuanTri>(entity =>
         {
             entity.HasKey(e => e.TaiKhoanQt).HasName("PK__QuanTri__9A120A5F1706C6AC");
+
+            entity.ToTable("QuanTri");
+
+            entity.Property(e => e.TaiKhoanQt)
+                .HasMaxLength(50)
+                .HasColumnName("TaiKhoanQT");
+            entity.Property(e => e.MatKhau).HasMaxLength(255);
         });
 
         modelBuilder.Entity<RepBinhLuan>(entity =>
         {
             entity.HasKey(e => e.MaRep).HasName("PK__RepBinhL__396140FA2A219C9C");
 
-            entity.Property(e => e.NgayGui).HasDefaultValueSql("(getdate())");
+            entity.ToTable("RepBinhLuan");
 
-            entity.HasOne(d => d.MaBinhLuanNavigation).WithMany(p => p.RepBinhLuans).HasConstraintName("FK_Rep_BL");
+            entity.Property(e => e.NgayGui)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.TaiKhoan).HasMaxLength(50);
 
-            entity.HasOne(d => d.TaiKhoanNavigation).WithMany(p => p.RepBinhLuans).HasConstraintName("FK_Rep_TV");
+            entity.HasOne(d => d.MaBinhLuanNavigation).WithMany(p => p.RepBinhLuans)
+                .HasForeignKey(d => d.MaBinhLuan)
+                .HasConstraintName("FK_Rep_BL");
+
+            entity.HasOne(d => d.TaiKhoanNavigation).WithMany(p => p.RepBinhLuans)
+                .HasForeignKey(d => d.TaiKhoan)
+                .HasConstraintName("FK_Rep_TV");
         });
 
         modelBuilder.Entity<ThanhVien>(entity =>
         {
             entity.HasKey(e => e.TaiKhoan).HasName("PK__ThanhVie__D5B8C7F1CA70B5BD");
 
+            entity.ToTable("ThanhVien");
+
+            entity.Property(e => e.TaiKhoan).HasMaxLength(50);
+            entity.Property(e => e.Avatar).HasMaxLength(255);
             entity.Property(e => e.IsDeleted).HasDefaultValue(false);
-            entity.Property(e => e.NgayTao).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.MatKhau).HasMaxLength(255);
+            entity.Property(e => e.NgayTao)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
         });
 
         modelBuilder.Entity<TheLoai>(entity =>
         {
             entity.HasKey(e => e.MaTheLoai).HasName("PK__TheLoai__D73FF34A59DF4ED2");
 
+            entity.ToTable("TheLoai");
+
             entity.Property(e => e.IsDeleted).HasDefaultValue(false);
+            entity.Property(e => e.TenTheLoai).HasMaxLength(100);
         });
 
         modelBuilder.Entity<TheoDoi>(entity =>
         {
             entity.HasKey(e => new { e.TaiKhoan, e.MaTruyen }).HasName("PK__TheoDoi__7315E7551536F9E0");
 
-            entity.Property(e => e.NgayTheoDoi).HasDefaultValueSql("(getdate())");
+            entity.ToTable("TheoDoi");
+
+            entity.Property(e => e.TaiKhoan).HasMaxLength(50);
+            entity.Property(e => e.NgayTheoDoi)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
 
             entity.HasOne(d => d.MaTruyenNavigation).WithMany(p => p.TheoDois)
+                .HasForeignKey(d => d.MaTruyen)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TheoDoi_Truyen");
 
             entity.HasOne(d => d.TaiKhoanNavigation).WithMany(p => p.TheoDois)
+                .HasForeignKey(d => d.TaiKhoan)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TheoDoi_TV");
         });
@@ -177,22 +251,42 @@ public partial class WebTruyenChuContext : DbContext
         {
             entity.HasKey(e => e.MaThongBao).HasName("PK__ThongBao__04DEB54E577951DE");
 
-            entity.Property(e => e.DaDoc).HasDefaultValue(false);
-            entity.Property(e => e.NgayGui).HasDefaultValueSql("(getdate())");
+            entity.ToTable("ThongBao");
 
-            entity.HasOne(d => d.TaiKhoanNavigation).WithMany(p => p.ThongBaos).HasConstraintName("FK_TB_TV");
+            entity.Property(e => e.DaDoc).HasDefaultValue(false);
+            entity.Property(e => e.NgayGui)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.TaiKhoan).HasMaxLength(50);
+
+            entity.HasOne(d => d.TaiKhoanNavigation).WithMany(p => p.ThongBaos)
+                .HasForeignKey(d => d.TaiKhoan)
+                .HasConstraintName("FK_TB_TV");
         });
 
         modelBuilder.Entity<Truyen>(entity =>
         {
             entity.HasKey(e => e.MaTruyen).HasName("PK__Truyen__6AD20A4B65616B8D");
 
-            entity.Property(e => e.IsDeleted).HasDefaultValue(false);
-            entity.Property(e => e.NgayDang).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.SoChuong).HasDefaultValue(0);
-            entity.Property(e => e.TongLuotXem).HasDefaultValue(0L);
+            entity.ToTable("Truyen");
 
-            entity.HasOne(d => d.NguoiDangNavigation).WithMany(p => p.Truyens).HasConstraintName("FK_Truyen_ThanhVien");
+            entity.Property(e => e.AnhBia).HasMaxLength(255);
+            entity.Property(e => e.IsDeleted).HasDefaultValue(false);
+            entity.Property(e => e.LoaiTruyen).HasMaxLength(50);
+            entity.Property(e => e.NgayCapNhat).HasColumnType("datetime");
+            entity.Property(e => e.NgayDang)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.NguoiDang).HasMaxLength(50);
+            entity.Property(e => e.SoChuong).HasDefaultValue(0);
+            entity.Property(e => e.TacGia).HasMaxLength(255);
+            entity.Property(e => e.TenTruyen).HasMaxLength(255);
+            entity.Property(e => e.TongLuotXem).HasDefaultValue(0L);
+            entity.Property(e => e.TrangThai).HasMaxLength(255);
+
+            entity.HasOne(d => d.NguoiDangNavigation).WithMany(p => p.Truyens)
+                .HasForeignKey(d => d.NguoiDang)
+                .HasConstraintName("FK_Truyen_ThanhVien");
 
             entity.HasMany(d => d.MaTheLoais).WithMany(p => p.MaTruyens)
                 .UsingEntity<Dictionary<string, object>>(

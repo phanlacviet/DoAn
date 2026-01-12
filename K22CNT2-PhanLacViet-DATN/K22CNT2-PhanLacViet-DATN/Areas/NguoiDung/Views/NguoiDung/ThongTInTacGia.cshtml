@@ -1,0 +1,105 @@
+﻿@model K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Models.TacGiaViewModels
+@{
+    Layout = "~/Areas/NguoiDung/Views/Shared/_Layout.cshtml";
+    var user = Context.Session.GetString("USER_LOGIN");
+}
+
+<link rel="stylesheet" href="~/NguoiDung/css/tacgia.css" />
+
+<div class="container">
+    <div class="header-wrapper">
+        <div class="author-card" style="flex:1; margin-right: 20px;">
+            <div class="avatar-circle">@user?.Substring(0, 1).ToUpper()</div>
+            <div>
+                <h2 style="margin:0; font-size:18px;">@user</h2>
+                <p style="margin:0; font-size:12px; color:var(--text-muted);">Tác giả • @DateTime.Now.Year</p>
+            </div>
+        </div>
+        <div class="notification-bell" id="btnNoti">
+            🔔 <span class="bell-badge">0</span>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card"><span>Tổng Lượt Xem</span><b id="totalViews">@Model.ThongKeChung.TongLuotXem.ToString("N0")</b></div>
+        <div class="stat-card purple"><span>Người Theo Dõi</span><b id="totalFollows">@Model.ThongKeChung.TongNguoiTheoDoi.ToString("N0")</b></div>
+        <div class="stat-card green"><span>Lưu Truyện</span><b id="totalSaved">@Model.ThongKeChung.TongLuotLuu.ToString("N0")</b></div>
+        <div class="stat-card"><span>Đánh Giá TB</span><b id="avgRating">@Model.ThongKeChung.DiemDanhGiaTrungBinh.ToString("0.0") ⭐</b></div>
+    </div>
+
+    <div id="storyContainer">
+        @if (Model.DanhSachTruyen != null && Model.DanhSachTruyen.Any())
+        {
+            foreach (var item in Model.DanhSachTruyen)
+            {
+                <div class="story-item" id="story-row-@item.MaTruyen">
+                    <div class="story-cover">
+                        <img src="@(string.IsNullOrEmpty(item.AnhBia) ? "https://via.placeholder.com/130x180?text=No+Cover" : item.AnhBia)"
+                             alt="@item.TenTruyen" onerror="this.src='https://via.placeholder.com/130x180?text=Error'">
+                    </div>
+                    <div class="story-content">
+                        <a href="@Url.Action("ChiTietTruyen", "Truyen", new { id = item.MaTruyen })" class="story-title">@item.TenTruyen</a>
+
+                        <div class="engagement-metrics">
+                            <div class="metric-item">❤️ Theo dõi: <b>@item.LuotTheoDoi</b></div>
+                            <div class="metric-item">💾 Đã lưu: <b>@item.LuotLuu</b></div>
+                            <div class="metric-item">💬 Bình luận: <b>@item.LuotBinhLuan</b></div>
+                            <div class="metric-item">⭐ Đánh giá: <span class="rating-star">@item.DiemDanhGia.ToString("0.0") (@item.LuotDanhGia)</span></div>
+                        </div>
+
+                        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">
+                            <span>📑 @item.SoChuong chương</span> •
+                            <span>🕒 Cập nhật: @(item.NgayCapNhat.HasValue? item.NgayCapNhat.Value.ToString("dd/MM/yyyy HH:mm") : "Chưa cập nhật")</span>
+                        </div>
+
+                        <div class="story-actions">
+                            <button class="btn btn-green" onclick="openChapters(@item.MaTruyen, '@item.TenTruyen')">📂 Quản lý chương</button>
+                            <button class="btn btn-blue" onclick="openStats(@item.MaTruyen)">📊 Thống kê chi tiết</button>
+                            <a href="@Url.Action("Edit", "Truyen", new { id = item.MaTruyen })" class="btn">📝 Sửa</a>
+                            <button class="btn btn-red" onclick="deleteStory(@item.MaTruyen)">🗑️ Xóa</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div style="text-align:center; padding: 40px; color:#999;">
+                <p>Bạn chưa đăng truyện nào.</p>
+                <a href="@Url.Action("Create", "Truyen")" class="btn btn-blue" style="display:inline-block;">+ Đăng truyện mới</a>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal" id="modalChapters">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModals()">&times;</button>
+        <h3 style="margin-top:0">📂 Danh sách chương</h3>
+        <p id="modalChapterTitle" style="color:var(--text-muted); font-size:14px">Truyện: ...</p>
+        <a id="btnAddChapter" href="#" class="btn btn-blue" style="width:100%; justify-content:center; margin-bottom:15px; text-decoration:none;">+ Đăng chương mới</a>
+        <div id="chapterListContent" class="modal-body-scroll" style="display:flex; flex-direction:column; gap:8px; max-height:400px; overflow-y:auto;">
+            <div style="text-align:center">Đang tải...</div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modalStats">
+    <div class="modal-content" style="max-width:500px">
+        <button class="close-modal" onclick="closeModals()">&times;</button>
+        <h3 style="margin-top:0">📊 Lượt xem 7 ngày qua</h3>
+        <div class="chart-container" id="chartContainer" style="height:200px; display:flex; align-items:flex-end; justify-content:space-around; background:#f8f9fa; padding:20px 10px; border-radius:8px;">
+        </div>
+        <div id="chartLabels" style="display:flex; justify-content:space-between; font-size:11px; color:#666; margin-top:10px;">
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modalNotifications">
+    <div class="modal-content" style="max-width:450px; padding:20px;">
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/NguoiDung/js/tacgia.js"></script>
+}

@@ -102,5 +102,120 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
 
             return Ok(viewModel);
         }
+        [HttpGet("dashboard/{taiKhoan}")]
+        public async Task<IActionResult> GetTacGiaDashboard(string taiKhoan)
+        {
+            if (string.IsNullOrEmpty(taiKhoan)) return BadRequest("Tài khoản không hợp lệ");
+
+            // 1. Lấy danh sách truyện
+            var listTruyen = await _context.Truyens
+                .Where(t => t.NguoiDang == taiKhoan && t.IsDeleted == false)
+                .Select(t => new TruyenDashboardDto
+                {
+                    MaTruyen = t.MaTruyen,
+                    TenTruyen = t.TenTruyen,
+                    AnhBia = t.AnhBia,
+                    NgayCapNhat = t.NgayCapNhat,
+                    SoChuong = _context.ChuongTruyens.Count(c => c.MaTruyen == t.MaTruyen),
+                    LuotTheoDoi = _context.TheoDois.Count(td => td.MaTruyen == t.MaTruyen),
+                    LuotLuu = _context.LuuTruyens.Count(lt => lt.MaTruyen == t.MaTruyen),
+                    LuotBinhLuan = _context.BinhLuans
+                        .Count(bl => bl.MaChuongTruyenNavigation.MaTruyen == t.MaTruyen),
+                    DiemDanhGia = _context.DanhGia.Where(dg => dg.MaTruyen == t.MaTruyen).Average(dg => (double?)dg.Diem) ?? 0,
+                    LuotDanhGia = _context.DanhGia.Count(dg => dg.MaTruyen == t.MaTruyen)
+                })
+                .OrderByDescending(t => t.NgayCapNhat)
+                .ToListAsync();
+            var stats = new TacGiaStatsDto
+            {
+                TongLuotXem = await _context.Truyens.Where(t => t.NguoiDang == taiKhoan).SumAsync(t => (long?)t.TongLuotXem) ?? 0,
+                TongNguoiTheoDoi = listTruyen.Sum(t => t.LuotTheoDoi),
+                TongLuotLuu = listTruyen.Sum(t => t.LuotLuu),
+                DiemDanhGiaTrungBinh = listTruyen.Any() ? listTruyen.Average(t => t.DiemDanhGia) : 0
+            };
+            var viewModel = new TacGiaViewModels
+            {
+                ThongKeChung = stats,
+                DanhSachTruyen = listTruyen
+            };
+
+            return Ok(viewModel);
+        }
+        [HttpGet("GetChapters/{maTruyen}")]
+        public IActionResult GetChapters(int maTruyen)
+        {
+            var chuongs = _context.ChuongTruyens
+                .Where(c => c.MaTruyen == maTruyen)
+                .OrderByDescending(c => c.ThuTuChuong) // Mới nhất lên đầu
+                .Select(c => new
+                {
+                    c.MaChuongTruyen,
+                    c.ThuTuChuong,
+                    c.TieuDe,
+                    NgayDang = c.NgayDang.HasValue ? c.NgayDang.Value.ToString("dd/MM/yyyy") : ""
+                })
+                .ToList();
+            return Ok(chuongs);
+        }
+        [HttpGet("GetChartStats/{maTruyen}")]
+        public IActionResult GetChartStats(int maTruyen)
+        {
+            var bayNgayTruoc = DateTime.Today.AddDays(-6);
+            var homNay = DateTime.Today;
+            var queryData = _context.LuotXemTruyens
+                .Where(lx => lx.MaTruyen == maTruyen && lx.Ngay >= bayNgayTruoc)
+                .ToList();
+            var result = new List<ChartDataDto>();
+
+            for (int i = 6; i >= 0; i--)
+            {
+                var currentDay = DateTime.Today.AddDays(-i);
+                var dataInDay = queryData.FirstOrDefault(x => x.Ngay.HasValue && x.Ngay.Value.Date == currentDay.Date);
+                result.Add(new ChartDataDto
+                {
+                    Label = currentDay.ToString("dd/MM"),
+                    Value = dataInDay?.SoLuotXem ?? 0
+                });
+            }
+            return Ok(result);
+        }
+
+        // API Xóa mềm truyện
+        [HttpPost("DeleteStory/{maTruyen}")]
+        public IActionResult DeleteStory(int maTruyen)
+        {
+            var truyen = _context.Truyens.Find(maTruyen);
+            if (truyen == null) return NotFound();
+            truyen.IsDeleted = true; // Xóa mềm
+            _context.SaveChanges();
+            return Ok(new { success = true, message = "Đã xóa truyện thành công" });
+        }
+        [HttpGet("GetNotifications/{taiKhoan}")]
+        public async Task<IActionResult> GetNotifications(string taiKhoan)
+        {
+            if (string.IsNullOrEmpty(taiKhoan)) return BadRequest("Tài khoản không hợp lệ");
+
+            try
+            {
+                var thongBaos = await _context.ThongBaos
+                    .Where(tb => tb.TaiKhoan == taiKhoan)
+                    .OrderByDescending(tb => tb.NgayGui)
+                    .Select(tb => new
+                    {
+                        tb.MaThongBao,
+                        TieuDe = tb.NoiDung.Length > 50 ? tb.NoiDung.Substring(0, 50) + "..." : tb.NoiDung,
+                        tb.NoiDung,
+                        NgayGui = tb.NgayGui.HasValue ? tb.NgayGui.Value.ToString("dd/MM/yyyy HH:mm") : "",
+                        DaDoc = tb.DaDoc 
+                    })
+                    .ToListAsync();
+
+                return Ok(thongBaos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Lỗi truy vấn: " + ex.Message);
+            }
+        }
     }
 }

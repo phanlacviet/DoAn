@@ -120,6 +120,8 @@ wwwroot\NguoiDung\js\ChiTietChuong.js
 wwwroot\NguoiDung\js\header.js
 wwwroot\NguoiDung\js\trangchu.js
 wwwroot\NguoiDung\js\user_info.js
+wwwroot\NguoiDung\css\tacgia.css
+wwwroot\NguoiDung\js\tacgia.js
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\Admin\css\adminlte.css
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\Admin\css\adminlte.css.map
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\Admin\css\adminlte.min.css
@@ -207,3 +209,5 @@ D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\Ng
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\NguoiDung\js\header.js
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\NguoiDung\js\trangchu.js
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\NguoiDung\js\user_info.js
+D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\NguoiDung\css\tacgia.css
+D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\wwwroot\NguoiDung\js\tacgia.js
