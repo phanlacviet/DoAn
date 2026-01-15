@@ -217,5 +217,152 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 return StatusCode(500, "Lỗi truy vấn: " + ex.Message);
             }
         }
+        [HttpPost("dang-truyen")]
+        public async Task<IActionResult> PostDangTruyen([FromForm] DangTruyenDto input)
+        {
+            var taiKhoan = HttpContext.Session.GetString("USER_LOGIN");
+            if (string.IsNullOrEmpty(taiKhoan)) return Unauthorized();
+
+            try
+            {
+                string fileNameToSave = "default.jpg";
+                if (input.FileAnhBia != null)
+                {
+                    string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "AnhBia");
+                    string originalFileName = Path.GetFileNameWithoutExtension(input.FileAnhBia.FileName);
+                    string extension = Path.GetExtension(input.FileAnhBia.FileName);
+                    fileNameToSave = originalFileName + extension;
+                    string fullPath = Path.Combine(folderPath, fileNameToSave);
+
+                    int count = 1;
+                    while (System.IO.File.Exists(fullPath))
+                    {
+                        fileNameToSave = $"{originalFileName}({count}){extension}";
+                        fullPath = Path.Combine(folderPath, fileNameToSave);
+                        count++;
+                    }
+
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        await input.FileAnhBia.CopyToAsync(stream);
+                    }
+                }
+                var truyen = new Truyen
+                {
+                    TenTruyen = input.TenTruyen,
+                    MoTa = input.MoTa,
+                    TacGia = input.TacGia,
+                    LoaiTruyen = input.LoaiTruyen,
+                    NguoiDang = taiKhoan,
+                    AnhBia = "/images/AnhBia/" + fileNameToSave,
+                    TrangThai = "Đang ra",
+                    NgayDang = DateTime.Now,
+                    NgayCapNhat = DateTime.Now,
+                    IsDeleted = false
+                };
+                if (input.SelectedTheLoais != null && input.SelectedTheLoais.Any())
+                {
+                    var listTheLoaiSelected = await _context.TheLoais
+                        .Where(tl => input.SelectedTheLoais.Contains(tl.MaTheLoai))
+                        .ToListAsync();
+                    truyen.MaTheLoais = listTheLoaiSelected;
+                }
+
+                _context.Truyens.Add(truyen);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        // --- SỬA TRUYỆN ---
+        [HttpPut("sua-truyen")]
+        public async Task<IActionResult> PutSuaTruyen([FromForm] SuaTruyenDto input)
+        {
+            var truyen = await _context.Truyens.Include(t => t.MaTheLoais).FirstOrDefaultAsync(t => t.MaTruyen == input.MaTruyen);
+            if (truyen == null) return NotFound(new { message = "Không tìm thấy truyện" });
+            truyen.TenTruyen = input.TenTruyen;
+            truyen.MoTa = input.MoTa;
+            truyen.TacGia = input.TacGia;
+            truyen.LoaiTruyen = input.LoaiTruyen;
+            truyen.NgayCapNhat = DateTime.Now;
+            string fileNameToSave = "default.jpg"; // Giá trị mặc định hoặc giữ ảnh cũ nếu là Sửa
+
+            if (input.FileAnhBia != null && input.FileAnhBia.Length > 0)
+            {
+                string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "AnhBia");
+                string originalFileName = Path.GetFileNameWithoutExtension(input.FileAnhBia.FileName);
+                string extension = Path.GetExtension(input.FileAnhBia.FileName);
+                string finalFileName = originalFileName + extension;
+                string fullPath = Path.Combine(folderPath, finalFileName);
+                int count = 1;
+                while (System.IO.File.Exists(fullPath))
+                {
+                    finalFileName = $"{originalFileName}({count}){extension}";
+                    fullPath = Path.Combine(folderPath, finalFileName);
+                    count++;
+                }
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await input.FileAnhBia.CopyToAsync(stream);
+                }
+                fileNameToSave = "/images/AnhBia/" + finalFileName;
+            }
+
+            truyen.MaTheLoais.Clear();
+            if (input.SelectedTheLoais != null)
+            {
+                var listTheLoai = await _context.TheLoais.Where(tl => input.SelectedTheLoais.Contains(tl.MaTheLoai)).ToListAsync();
+                truyen.MaTheLoais = listTheLoai;
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok(new { success = true });
+        }
+        // --- ĐĂNG CHƯƠNG ---
+        [HttpPost("dang-chuong")]
+        public async Task<IActionResult> PostDangChuong([FromForm] ChuongTruyenDto input)
+        {
+            try
+            {
+                var chuong = new ChuongTruyen
+                {
+                    MaTruyen = input.MaTruyen,
+                    TieuDe = input.TieuDe,
+                    NoiDung = input.NoiDung,
+                    ThuTuChuong = input.ThuTuChuong,
+                    NgayDang = DateTime.Now
+                };
+                _context.ChuongTruyens.Add(chuong);
+                var truyen = await _context.Truyens.FindAsync(input.MaTruyen);
+                if (truyen != null)
+                {
+                    truyen.NgayCapNhat = DateTime.Now;
+                    truyen.SoChuong = await _context.ChuongTruyens.CountAsync(x => x.MaTruyen == input.MaTruyen) + 1;
+                }
+
+                await _context.SaveChangesAsync();
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        // --- SỬA CHƯƠNG ---
+        [HttpPut("sua-chuong")]
+        public async Task<IActionResult> PutSuaChuong([FromForm] ChuongTruyenDto input)
+        {
+            var chuong = await _context.ChuongTruyens.FindAsync(input.MaChuongTruyen);
+            if (chuong == null) return NotFound();
+            chuong.TieuDe = input.TieuDe;
+            chuong.NoiDung = input.NoiDung;
+            await _context.SaveChangesAsync();
+            return Ok(new { success = true });
+        }
     }
 }

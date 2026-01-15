@@ -1,0 +1,68 @@
+﻿@using K22CNT2_PhanLacViet_DATN.Models
+@model Truyen
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Sửa truyện";
+    var allTheLoais = ViewBag.AllTheLoais as List<TheLoai>; // Tất cả thể loại
+    var selectedTheLoais = ViewBag.SelectedTheLoais as List<int>; // ID thể loại đã chọn của truyện
+}
+
+
+    <link rel="stylesheet" href="~/NguoiDung/css/DangTruyen.css" />
+
+
+<div class="form-box">
+    <h2>📝 Sửa thông tin truyện</h2>
+
+    <label>Tên truyện</label>
+    <input type="text" id="txtTenTruyen" value="@Model.TenTruyen" placeholder="Nhập tên truyện">
+
+    <label>Mô tả truyện</label>
+    <div class="toolbar">
+        <button id="btn-bold" type="button" onclick="cmd('bold')">B</button>
+        <button id="btn-italic" type="button" onclick="cmd('italic')">I</button>
+        <button id="btn-underline" type="button" onclick="cmd('underline')">U</button>
+        <button id="btn-list" type="button" onclick="cmd('insertUnorderedList')">•</button>
+    </div>
+    <div class="editor" id="moTa" contenteditable="true">@Html.Raw(Model.MoTa)</div>
+
+    <label>Tác giả</label>
+    <input type="text" id="txtTacGia" value="@Model.TacGia">
+
+    <label>Loại truyện</label>
+    <div class="radio-group">
+        <input type="radio" id="ai" name="type" value="AI dịch" @(Model.LoaiTruyen == "AI dịch" ? "checked" : null)><label for="ai">AI dịch</label>
+        <input type="radio" id="dich" name="type" value="Dịch" @(Model.LoaiTruyen == "Dịch" ? "checked" : "")><label for="dich">Dịch</label>
+        <input type="radio" id="sangtac" name="type" value="Sáng tác" @(Model.LoaiTruyen == "Sáng tác" ? "checked" : "")><label for="sangtac">Sáng tác</label>
+    </div>
+
+    <label>Thể loại truyện</label>
+    <div class="genre-group">
+        @if (allTheLoais != null)
+        {
+            foreach (var item in allTheLoais)
+            {
+                var isChecked = selectedTheLoais != null && selectedTheLoais.Contains(item.MaTheLoai) ? "checked" : "";
+                <input type="checkbox" class="genre-cb" id="tl-@item.MaTheLoai" value="@item.MaTheLoai" @isChecked>
+                <label for="tl-@item.MaTheLoai">@item.TenTheLoai</label>
+            }
+        }
+    </div>
+
+    <label>Ảnh bìa (Chọn nếu muốn thay đổi)</label>
+    <div style="display:flex; gap:15px; align-items:flex-start">
+        <div>
+            <input type="file" id="fileAnhBia" accept="image/*" onchange="preview(this)">
+            <p style="font-size:12px; color:#666">Bỏ trống nếu giữ ảnh cũ</p>
+        </div>
+        <div class="cover-preview" id="previewBox">
+            <img src="@Model.AnhBia" alt="Ảnh cũ">
+        </div>
+    </div>
+
+    <button class="submit" onclick="submitStory(true, @Model.MaTruyen)">Lưu thay đổi</button>
+</div>
+
+@section Scripts {
+    <script src="~/NguoiDung/js/DangTruyen.js"></script>
+}

@@ -1,0 +1,31 @@
+﻿@model K22CNT2_PhanLacViet_DATN.Models.ChuongTruyen
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Sửa chương";
+}
+
+
+    <link rel="stylesheet" href="~/NguoiDung/css/DangTruyen.css" />
+
+
+<div class="form-box">
+    <h2>📝 Sửa chương: @Model.ThuTuChuong</h2>
+
+    <input type="hidden" id="txtThuTu" value="@Model.ThuTuChuong">
+
+    <label>Tiêu đề chương</label>
+    <input type="text" id="txtTenTruyen" value="@Model.TieuDe">
+
+    <label>Nội dung chương</label>
+    <div class="toolbar">
+        <button id="btn-bold" type="button" onclick="cmd('bold')">B</button>
+        <button id="btn-italic" type="button" onclick="cmd('italic')">I</button>
+    </div>
+    <div class="editor" id="moTa" contenteditable="true" style="min-height:400px">@Html.Raw(Model.NoiDung)</div>
+
+    <button class="submit" onclick="submitChapter(true, @Model.MaChuongTruyen, @Model.MaTruyen)">Cập nhật chương</button>
+</div>
+
+@section Scripts {
+    <script src="~/NguoiDung/js/DangTruyen.js"></script>
+}

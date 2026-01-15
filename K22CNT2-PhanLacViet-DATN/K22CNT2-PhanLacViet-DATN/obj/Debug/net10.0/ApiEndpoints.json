@@ -1,6 +1,93 @@
 [
   {
     "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.NguoiDungApiController",
+    "Method": "PostDangChuong",
+    "RelativePath": "api/nguoidung/dang-chuong",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "MaChuongTruyen",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaTruyen",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "ThuTuChuong",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "TieuDe",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NoiDung",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NgayDang",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.NguoiDungApiController",
+    "Method": "PostDangTruyen",
+    "RelativePath": "api/nguoidung/dang-truyen",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "TenTruyen",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "MoTa",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TacGia",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TrangThai",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "LoaiTruyen",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FileAnhBia",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "SelectedTheLoais",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.NguoiDungApiController",
     "Method": "GetTacGiaDashboard",
     "RelativePath": "api/nguoidung/dashboard/{taiKhoan}",
     "HttpMethod": "GET",
@@ -91,6 +178,103 @@
         "Name": "taiKhoan",
         "Type": "System.String",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.NguoiDungApiController",
+    "Method": "PutSuaChuong",
+    "RelativePath": "api/nguoidung/sua-chuong",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "MaChuongTruyen",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaTruyen",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "ThuTuChuong",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "TieuDe",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NoiDung",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NgayDang",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.NguoiDungApiController",
+    "Method": "PutSuaTruyen",
+    "RelativePath": "api/nguoidung/sua-truyen",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "MaTruyen",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "AnhBiaCu",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TenTruyen",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "MoTa",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TacGia",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TrangThai",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "LoaiTruyen",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FileAnhBia",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "SelectedTheLoais",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

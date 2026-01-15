@@ -28,8 +28,6 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers
             ViewBag.CurrentUser = taiKhoan;
             return View();
         }
-        // GET: /NguoiDung/TacGiaDashboard
-        // Xóa bỏ IHttpClientFactory không cần thiết
         public async Task<IActionResult> ThongTinTacGia()
         {
             var taiKhoan = HttpContext.Session.GetString("USER_LOGIN");
@@ -80,6 +78,60 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers
                 ViewBag.Error = "Lỗi hệ thống: " + ex.Message;
                 return View(new TacGiaViewModels());
             }
+        }
+        // GET: /NguoiDung/DangTruyen
+        public async Task<IActionResult> DangTruyen()
+        {
+            ViewBag.TheLoais = await _context.TheLoais.Where(x => x.IsDeleted == false).ToListAsync();
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> SuaTruyen(int id)
+        {
+            var taiKhoan = HttpContext.Session.GetString("USER_LOGIN");
+            if (string.IsNullOrEmpty(taiKhoan)) return RedirectToAction("DangNhap", "TaiKhoan");
+            var truyen = await _context.Truyens
+                .Include(t => t.MaTheLoais)
+                .FirstOrDefaultAsync(t => t.MaTruyen == id);
+
+            if (truyen == null || truyen.NguoiDang != taiKhoan)
+            {
+                return NotFound();
+            }
+            ViewBag.AllTheLoais = await _context.TheLoais.Where(x => x.IsDeleted == false).ToListAsync();
+            ViewBag.SelectedTheLoais = truyen.MaTheLoais.Select(t => t.MaTheLoai).ToList();
+
+            return View(truyen);
+        }
+
+        // 2. GET: Hiển thị form Đăng Chương Mới
+        [HttpGet]
+        public async Task<IActionResult> DangChuong(int maTruyen)
+        {
+            var taiKhoan = HttpContext.Session.GetString("USER_LOGIN");
+            var truyen = await _context.Truyens.FirstOrDefaultAsync(t => t.MaTruyen == maTruyen && t.NguoiDang == taiKhoan);
+            if (truyen == null) return RedirectToAction("ThongTinTacGia");
+            ViewBag.MaTruyen = maTruyen;
+            ViewBag.TenTruyen = truyen.TenTruyen;
+            var maxChuong = await _context.ChuongTruyens
+                .Where(c => c.MaTruyen == maTruyen)
+                .OrderByDescending(c => c.ThuTuChuong)
+                .FirstOrDefaultAsync();
+            ViewBag.NextOrder = (maxChuong?.ThuTuChuong ?? 0) + 1;
+            return View();
+        }
+        // 3. GET: Hiển thị form Sửa Chương
+        [HttpGet]
+        public async Task<IActionResult> SuaChuong(int id)
+        {
+            var chuong = await _context.ChuongTruyens.FindAsync(id);
+            if (chuong == null) return NotFound();
+            var isOwner = await _context.Truyens.AnyAsync(t => t.MaTruyen == chuong.MaTruyen
+                                             && t.NguoiDang == HttpContext.Session.GetString("USER_LOGIN"));
+
+            if (!isOwner) return Unauthorized();
+
+            return View(chuong);
         }
     }
 }

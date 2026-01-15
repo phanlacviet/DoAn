@@ -54,6 +54,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/DO_AN_TOT_NGHIEP/K22CNT2-PhanLacViet-DATN/K22CNT2-PhanLacViet-DATN/Areas/NguoiDung/Views/NguoiDung/DangChuong.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTmd1b2lEdW5nXFZpZXdzXE5ndW9pRHVuZ1xEYW5nQ2h1b25nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DO_AN_TOT_NGHIEP/K22CNT2-PhanLacViet-DATN/K22CNT2-PhanLacViet-DATN/Areas/NguoiDung/Views/NguoiDung/DangTruyen.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTmd1b2lEdW5nXFZpZXdzXE5ndW9pRHVuZ1xEYW5nVHJ1eWVuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DO_AN_TOT_NGHIEP/K22CNT2-PhanLacViet-DATN/K22CNT2-PhanLacViet-DATN/Areas/NguoiDung/Views/NguoiDung/SuaChuong.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTmd1b2lEdW5nXFZpZXdzXE5ndW9pRHVuZ1xTdWFDaHVvbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DO_AN_TOT_NGHIEP/K22CNT2-PhanLacViet-DATN/K22CNT2-PhanLacViet-DATN/Areas/NguoiDung/Views/NguoiDung/SuaTruyen.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTmd1b2lEdW5nXFZpZXdzXE5ndW9pRHVuZ1xTdWFUcnV5ZW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/DO_AN_TOT_NGHIEP/K22CNT2-PhanLacViet-DATN/K22CNT2-PhanLacViet-DATN/Areas/NguoiDung/Views/NguoiDung/ThongTinNguoiDung.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTmd1b2lEdW5nXFZpZXdzXE5ndW9pRHVuZ1xUaG9uZ1Rpbk5ndW9pRHVuZy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

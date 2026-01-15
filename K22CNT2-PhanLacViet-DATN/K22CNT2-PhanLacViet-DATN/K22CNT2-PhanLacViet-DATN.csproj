@@ -25,6 +25,7 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\NguoiDung\Data\" />
+    <Folder Include="wwwroot\images\AnhBia\" />
     <Folder Include="wwwroot\NguoiDung\images\AnhBia\" />
   </ItemGroup>
 

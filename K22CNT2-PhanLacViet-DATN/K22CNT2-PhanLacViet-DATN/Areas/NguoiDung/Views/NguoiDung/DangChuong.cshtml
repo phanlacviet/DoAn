@@ -1,0 +1,34 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Đăng chương mới";
+    int maTruyen = ViewBag.MaTruyen;
+    int nextOrder = ViewBag.NextOrder ?? 1; // Backend tính số thứ tự tiếp theo
+}
+
+
+    <link rel="stylesheet" href="~/NguoiDung/css/DangTruyen.css" />
+
+
+<div class="form-box">
+    <h2>📄 Đăng chương mới</h2>
+
+    <label>Thứ tự chương</label>
+    <input type="number" id="txtThuTu" value="@nextOrder" style="width:100px; padding:10px; border:1px solid #ddd; border-radius:8px;">
+
+    <label>Tiêu đề chương (Ví dụ: Chương 1: Mở đầu)</label>
+    <input type="text" id="txtTenTruyen" placeholder="Nhập tiêu đề chương...">
+
+    <label>Nội dung chương</label>
+    <div class="toolbar">
+        <button id="btn-bold" type="button" onclick="cmd('bold')">B</button>
+        <button id="btn-italic" type="button" onclick="cmd('italic')">I</button>
+        <button id="btn-list" type="button" onclick="cmd('insertUnorderedList')">•</button>
+    </div>
+    <div class="editor" id="moTa" contenteditable="true" style="min-height:400px"></div>
+
+    <button class="submit" onclick="submitChapter(false, 0, @maTruyen)">Đăng chương</button>
+</div>
+
+@section Scripts {
+    <script src="~/NguoiDung/js/DangTruyen.js"></script>
+}

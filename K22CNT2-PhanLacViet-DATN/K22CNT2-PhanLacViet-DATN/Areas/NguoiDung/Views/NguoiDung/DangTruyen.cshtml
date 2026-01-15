@@ -1,0 +1,62 @@
+﻿@using K22CNT2_PhanLacViet_DATN.Models
+@{
+    Layout = "_Layout"; // Hoặc null tùy vào project của bạn
+    var theLoais = ViewBag.TheLoais as List<TheLoai>;
+}
+
+
+    <link rel="stylesheet" href="~/NguoiDung/css/DangTruyen.css" />
+<div class="form-box">
+    <h2>📘 Đăng truyện mới</h2>
+
+    <label for="txtTenTruyen">Tên truyện</label>
+    <input type="text" id="txtTenTruyen" placeholder="Nhập tên truyện">
+
+    <label>Mô tả truyện</label>
+    <div class="toolbar">
+        <button id="btn-bold" type="button" onclick="cmd('bold')">B</button>
+        <button id="btn-italic" type="button" onclick="cmd('italic')">I</button>
+        <button id="btn-underline" type="button" onclick="cmd('underline')">U</button>
+        <button id="btn-strike" type="button" onclick="cmd('strikeThrough')">S</button>
+        <button id="btn-list" type="button" onclick="cmd('insertUnorderedList')">•</button>
+    </div>
+
+    <div class="editor" id="moTa" contenteditable="true"></div>
+
+    <label for="txtTacGia">Tác giả</label>
+    <input type="text" id="txtTacGia" placeholder="Tên tác giả">
+
+    <label>Loại truyện</label>
+    <div class="radio-group">
+        <input type="radio" id="ai" name="type" value="AI dịch">
+        <label for="ai">AI dịch</label>
+
+        <input type="radio" id="dich" name="type" value="Dịch" checked>
+        <label for="dich">Dịch</label>
+
+        <input type="radio" id="sangtac" name="type" value="Sáng tác">
+        <label for="sangtac">Sáng tác</label>
+    </div>
+
+    <label>Thể loại truyện</label>
+    <div class="genre-group">
+        @if (theLoais != null)
+        {
+            foreach (var item in theLoais)
+            {
+                <input type="checkbox" class="genre-cb" id="tl-@item.MaTheLoai" value="@item.MaTheLoai">
+                <label for="tl-@item.MaTheLoai">@item.TenTheLoai</label>
+            }
+        }
+    </div>
+
+    <label>Ảnh bìa</label>
+    <input type="file" id="fileAnhBia" accept="image/*" onchange="preview(this)">
+    <div class="cover-preview" id="previewBox">Ảnh bìa</div>
+
+    <button class="submit" onclick="submitData()">Đăng truyện ngay</button>
+</div>
+
+@section Scripts {
+    <script src="~/NguoiDung/js/DangTruyen.js"></script>
+}

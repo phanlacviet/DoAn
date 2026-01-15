@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
 async function openChapters(maTruyen, tenTruyen) {
     document.getElementById('modalChapters').style.display = 'flex';
     document.getElementById('modalChapterTitle').innerText = `Truyện: ${tenTruyen}`;
-    document.getElementById('btnAddChapter').href = `/NguoiDung/ChuongTruyen/Create?maTruyen=${maTruyen}`;
+    document.getElementById('btnAddChapter').href = `/NguoiDung/NguoiDung/DangChuong?maTruyen=${maTruyen}`;
 
     const container = document.getElementById('chapterListContent');
     container.innerHTML = 'Đang tải...';
@@ -76,10 +76,10 @@ async function openChapters(maTruyen, tenTruyen) {
         container.innerHTML = data.map(c => `
             <div style="display:flex; justify-content:space-between; padding:10px; background:#f8f9fa; border-radius:8px; align-items:center;">
                 <div>
-                    <div style="font-weight:600">Chương ${c.thuTuChuong}: ${c.tieuDe}</div>
+                    <div style="font-weight:600">${c.tieuDe}</div>
                     <div style="font-size:11px; color:#888">${c.ngayDang}</div>
                 </div>
-                <a href="/NguoiDung/ChuongTruyen/Edit/${c.maChuongTruyen}" class="btn btn-blue" style="padding:4px 10px;">Sửa</a>
+                <a href="/NguoiDung/NguoiDung/SuaChuong?id=${c.maChuongTruyen}" class="btn btn-blue" style="padding:4px 10px;">Sửa</a>
             </div>
         `).join('');
     } catch (e) { container.innerHTML = 'Lỗi tải.'; }

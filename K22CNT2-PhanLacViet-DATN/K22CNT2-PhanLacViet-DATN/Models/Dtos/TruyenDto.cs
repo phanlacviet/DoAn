@@ -18,4 +18,19 @@ namespace K22CNT2_PhanLacViet_DATN.Models.Dtos
         public string? TrangThai { get; set; }
         public string? NguoiDang { get; set; }
     }
+    public class DangTruyenDto
+    {
+        public string TenTruyen { get; set; } = null!;
+        public string? MoTa { get; set; }
+        public string? TacGia { get; set; }
+        public string? TrangThai { get; set; }
+        public string? LoaiTruyen { get; set; }
+        public IFormFile? FileAnhBia { get; set; }
+        public List<int>? SelectedTheLoais { get; set; } 
+    }
+    public class SuaTruyenDto : DangTruyenDto
+    {
+        public int MaTruyen { get; set; }
+        public string? AnhBiaCu { get; set; } 
+    }
 }

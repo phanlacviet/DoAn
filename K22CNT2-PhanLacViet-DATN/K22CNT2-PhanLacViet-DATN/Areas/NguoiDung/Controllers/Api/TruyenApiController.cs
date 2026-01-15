@@ -75,7 +75,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 LoaiTruyen = truyenDb.LoaiTruyen,
                 TongLuotXem = truyenDb.TongLuotXem ?? 0,
                 NgayDang = truyenDb.NgayDang,
-                // Lấy danh sách tên thể loại nối với nhau
+                AnhBia = truyenDb.AnhBia,
                 TenTheLoai = string.Join(", ", truyenDb.MaTheLoais.Select(tl => tl.TenTheLoai))
             };
 
@@ -398,5 +398,6 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 .ToListAsync();
             return Ok(list);
         }
+
     }
 }

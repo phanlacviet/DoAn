@@ -42,7 +42,7 @@ public partial class WebTruyenChuContext : DbContext
     public virtual DbSet<Truyen> Truyens { get; set; }
 
 
-
+   
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BinhLuan>(entity =>

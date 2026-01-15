@@ -38,7 +38,7 @@
                              alt="@item.TenTruyen" onerror="this.src='https://via.placeholder.com/130x180?text=Error'">
                     </div>
                     <div class="story-content">
-                        <a href="@Url.Action("ChiTietTruyen", "Truyen", new { id = item.MaTruyen })" class="story-title">@item.TenTruyen</a>
+                        <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" class="story-title">@item.TenTruyen</a>
 
                         <div class="engagement-metrics">
                             <div class="metric-item">❤️ Theo dõi: <b>@item.LuotTheoDoi</b></div>
@@ -55,7 +55,7 @@
                         <div class="story-actions">
                             <button class="btn btn-green" onclick="openChapters(@item.MaTruyen, '@item.TenTruyen')">📂 Quản lý chương</button>
                             <button class="btn btn-blue" onclick="openStats(@item.MaTruyen)">📊 Thống kê chi tiết</button>
-                            <a href="@Url.Action("Edit", "Truyen", new { id = item.MaTruyen })" class="btn">📝 Sửa</a>
+                            <a href="@Url.Action("SuaTruyen", "NguoiDung", new { id = item.MaTruyen })" class="btn">📝 Sửa</a>
                             <button class="btn btn-red" onclick="deleteStory(@item.MaTruyen)">🗑️ Xóa</button>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
         {
             <div style="text-align:center; padding: 40px; color:#999;">
                 <p>Bạn chưa đăng truyện nào.</p>
-                <a href="@Url.Action("Create", "Truyen")" class="btn btn-blue" style="display:inline-block;">+ Đăng truyện mới</a>
+                <a href="@Url.Action("DangChuong", "NguoiDung")" class="btn btn-blue" style="display:inline-block;">+ Đăng truyện mới</a>
             </div>
         }
     </div>

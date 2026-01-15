@@ -8,7 +8,7 @@
     <div class="story-header">
         <div class="cover-image">
             @* DB không có AnhBia nên dùng ảnh mặc định *@
-            <img src="https://via.placeholder.com/220x330?text=No+Cover" alt="@Model.ThongTinTruyen.TenTruyen">
+            <img src="@Model.ThongTinTruyen.AnhBia" alt="@Model.ThongTinTruyen.TenTruyen">
         </div>
         <div class="story-info">
             <h1 class="story-title">@Model.ThongTinTruyen.TenTruyen</h1>
@@ -50,7 +50,7 @@
             </div>
             <div class="description">
                 <h3>Mô tả</h3>
-                <p>@Model.ThongTinTruyen.MoTa</p>
+                @Html.Raw(Model.ThongTinTruyen.MoTa)
             </div>
         </div>
     </div>
