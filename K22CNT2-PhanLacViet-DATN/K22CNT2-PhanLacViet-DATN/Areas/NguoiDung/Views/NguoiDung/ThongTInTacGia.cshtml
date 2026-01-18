@@ -15,7 +15,7 @@
                 <p style="margin:0; font-size:12px; color:var(--text-muted);">Tác giả • @DateTime.Now.Year</p>
             </div>
         </div>
-        <div class="notification-bell" id="btnNoti">
+        <div class="notification-bell" id="btnNoti" data-user="@user">
             🔔 <span class="bell-badge">0</span>
         </div>
     </div>
@@ -41,6 +41,7 @@
                         <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" class="story-title">@item.TenTruyen</a>
 
                         <div class="engagement-metrics">
+                            <div class="metric-item">👁️ Lượt xem: <b>@item.TongLuotXem</b></div>
                             <div class="metric-item">❤️ Theo dõi: <b>@item.LuotTheoDoi</b></div>
                             <div class="metric-item">💾 Đã lưu: <b>@item.LuotLuu</b></div>
                             <div class="metric-item">💬 Bình luận: <b>@item.LuotBinhLuan</b></div>

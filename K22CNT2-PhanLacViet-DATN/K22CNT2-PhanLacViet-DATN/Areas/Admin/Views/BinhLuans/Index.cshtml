@@ -1,0 +1,54 @@
+﻿@model IEnumerable<K22CNT2_PhanLacViet_DATN.Models.BinhLuan>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NoiDung)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayGui)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaChuongTruyenNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaiKhoanNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoiDung)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayGui)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaChuongTruyenNavigation.MaChuongTruyen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaiKhoanNavigation.TaiKhoan)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MaBinhLuan">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MaBinhLuan">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaBinhLuan">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

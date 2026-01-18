@@ -184,6 +184,22 @@
   },
   {
     "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.NguoiDungApiController",
+    "Method": "MarkAsRead",
+    "RelativePath": "api/nguoidung/MarkAsRead/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.NguoiDungApiController",
     "Method": "PutSuaChuong",
     "RelativePath": "api/nguoidung/sua-chuong",
     "HttpMethod": "PUT",
@@ -274,6 +290,52 @@
       {
         "Name": "SelectedTheLoais",
         "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.NguoiDungApiController",
+    "Method": "UpdateAvatar",
+    "RelativePath": "api/nguoidung/update-avatar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ContentType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ContentDisposition",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Headers",
+        "Type": "Microsoft.AspNetCore.Http.IHeaderDictionary",
+        "IsRequired": false
+      },
+      {
+        "Name": "Length",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "Name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FileName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "userName",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],

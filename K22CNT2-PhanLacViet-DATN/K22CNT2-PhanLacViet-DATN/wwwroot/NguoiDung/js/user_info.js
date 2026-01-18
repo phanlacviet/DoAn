@@ -91,3 +91,68 @@ function m2Tab(t) {
 document.addEventListener('DOMContentLoaded', () => {
     loadUserProfile();
 });
+function openEditAvatar() {
+    document.getElementById('modalEditAvatar').style.display = 'flex';
+    document.getElementById('imgPreview').src = document.getElementById('m2Avatar').src;
+}
+function closeModals() {
+    document.getElementById('modalEditAvatar').style.display = 'none';
+    document.getElementById('inputAvatar').value = "";
+}
+window.onclick = function (event) {
+    const modal = document.getElementById('modalEditAvatar');
+    if (event.target == modal) {
+        closeModals();
+    }
+}
+function prviewFile() {
+    const file = document.getElementById('inputAvatar').files[0];
+    const preview = document.getElementById('imgPreview');
+    const btnSave = document.getElementById('btnSaveAvatar');
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            preview.src = e.target.result; 
+            btnSave.disabled = false;
+        }
+        reader.readAsDataURL(file);
+    }
+}
+
+// Gọi API để upload ảnh
+async function uploadAvatar() {
+    const fileInput = document.getElementById('inputAvatar');
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('userName', window.USER_ACCOUNT); 
+
+    const btnSave = document.getElementById('btnSaveAvatar');
+    btnSave.innerText = 'Đang lưu...';
+    btnSave.disabled = true;
+
+    try {
+        const res = await fetch('/api/nguoidung/update-avatar', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await res.json();
+        if (result.success) {
+            alert('Cập nhật ảnh đại diện thành công!');
+            // Cập nhật ảnh ngoài trang chính
+            document.getElementById('m2Avatar').src = result.newUrl;
+            closeModals();
+        } else {
+            alert('Lỗi: ' + result.message);
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Có lỗi xảy ra khi upload.');
+    } finally {
+        btnSave.innerText = 'Lưu thay đổi';
+    }
+}

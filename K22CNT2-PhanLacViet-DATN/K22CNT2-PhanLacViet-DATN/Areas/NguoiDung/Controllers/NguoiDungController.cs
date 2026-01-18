@@ -46,6 +46,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers
                         TenTruyen = t.TenTruyen,
                         AnhBia = t.AnhBia,
                         NgayCapNhat = t.NgayCapNhat,
+                        TongLuotXem = t.TongLuotXem ?? 0,
                         SoChuong = _context.ChuongTruyens.Count(c => c.MaTruyen == t.MaTruyen),
                         LuotTheoDoi = _context.TheoDois.Count(td => td.MaTruyen == t.MaTruyen),
                         LuotLuu = _context.LuuTruyens.Count(lt => lt.MaTruyen == t.MaTruyen),

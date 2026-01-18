@@ -8,7 +8,30 @@
 
 <div class="m2-wrap">
     <aside class="m2-side">
-        <div class="m2-avatar"><img id="m2Avatar" src="" onerror="this.src='https://via.placeholder.com/400x300?text=User'"></div>
+        <div class="m2-avatar">
+            <img id="m2Avatar" src="" onerror="this.src='https://via.placeholder.com/400x300?text=User'">
+            <div class="m2-avatar-overlay" onclick="openEditAvatar()">
+                <i class="fa fa-camera"></i>
+            </div>
+        </div>
+
+        <div id="modalEditAvatar" class="modal">
+            <div class="modal-content" style="max-width: 400px; text-align: center;">
+                <button class="close-modal" onclick="closeModals()">&times;</button>
+                <h3>Thay đổi ảnh đại diện</h3>
+
+                <div class="preview-box">
+                    <img id="imgPreview" src="https://via.placeholder.com/200" style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%; margin: 20px 0;">
+                </div>
+
+                <input type="file" id="inputAvatar" hidden accept="image/*" onchange="previewFile()">
+                <button class="btn btn-blue" onclick="document.getElementById('inputAvatar').click()">Chọn ảnh từ máy</button>
+
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-green" id="btnSaveAvatar" onclick="uploadAvatar()" disabled>Lưu thay đổi</button>
+                </div>
+            </div>
+        </div>
         <div class="m2-name" id="m2Name">Đang tải...</div>
         <div class="m2-join" id="m2Join">...</div>
 

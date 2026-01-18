@@ -136,3 +136,46 @@
     color: #888;
     margin-top: 4px
 }
+.m2-avatar {
+    position: relative; /* Để overlay bám theo */
+    cursor: pointer;
+}
+
+.m2-avatar-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* Mặc định ẩn */
+    transition: 0.3s;
+}
+
+.m2-avatar:hover .m2-avatar-overlay {
+    opacity: 1; /* Hiện khi di chuột vào */
+}
+
+.preview-box {
+    display: flex;
+    justify-content: center;
+}
+
+/* Các nút bổ sung nếu chưa có */
+.btn-green {
+    background: #22c55e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+    .btn-green:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }

@@ -28,6 +28,7 @@
         public int LuotBinhLuan { get; set; }
         public double DiemDanhGia { get; set; }
         public int LuotDanhGia { get; set; } // Số lượng người đánh giá
+        public long TongLuotXem { get; internal set; }
     }
 
     // DTO dùng cho biểu đồ (API trả về)

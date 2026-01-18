@@ -172,6 +172,20 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 };
                 _context.TheoDois.Add(newTheoDoi);
                 isFollowed = true;
+
+                //GỬI THÔNG BÁO CHO TÁC GIẢ
+                var truyen = await _context.Truyens.FindAsync(input.MaTruyen);
+                if (truyen != null && truyen.NguoiDang != input.TaiKhoan) 
+                {
+                    var thongBao = new ThongBao
+                    {
+                        TaiKhoan = truyen.NguoiDang, 
+                        NoiDung = $"{input.TaiKhoan} đã theo dõi truyện '{truyen.TenTruyen}' của bạn.",
+                        DaDoc = false,
+                        NgayGui = DateTime.Now
+                    };
+                    _context.ThongBaos.Add(thongBao);
+                }
             }
 
             await _context.SaveChangesAsync();
@@ -185,7 +199,6 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
             if (string.IsNullOrEmpty(input.TaiKhoan)) return BadRequest("Chưa đăng nhập");
             var danhGiaCu = await _context.DanhGia
                 .FirstOrDefaultAsync(x => x.TaiKhoan == input.TaiKhoan && x.MaTruyen == input.MaTruyen);
-
             if (danhGiaCu != null)
             {
                 danhGiaCu.Diem = input.Diem;
@@ -194,7 +207,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
             }
             else
             {
-                var moi = new DanhGium
+                var moi = new DanhGium 
                 {
                     TaiKhoan = input.TaiKhoan,
                     MaTruyen = input.MaTruyen,
@@ -203,6 +216,18 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                     NgayDanhGia = DateTime.Now
                 };
                 _context.DanhGia.Add(moi);
+                var truyen = await _context.Truyens.FindAsync(input.MaTruyen);
+                if (truyen != null && truyen.NguoiDang != input.TaiKhoan)
+                {
+                    var thongBao = new ThongBao
+                    {
+                        TaiKhoan = truyen.NguoiDang,
+                        NoiDung = $"{input.TaiKhoan} đã đánh giá {input.Diem} sao cho truyện '{truyen.TenTruyen}' của bạn.",
+                        DaDoc = false,
+                        NgayGui = DateTime.Now
+                    };
+                    _context.ThongBaos.Add(thongBao);
+                }
             }
             await _context.SaveChangesAsync();
             return Ok(new { success = true, message = "Đánh giá thành công" });
@@ -227,7 +252,39 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 NgayDang = chuong.NgayDang
             };
 
-            // 2. LOGIC LƯU LỊCH SỬ ĐỌC
+            //2. tăng lượt xem
+            try
+            {
+                var truyen = await _context.Truyens.FindAsync(chuong.MaTruyen);
+                if (truyen != null)
+                {
+                    truyen.TongLuotXem = (truyen.TongLuotXem ?? 0) + 1;
+                }
+                var homNay = DateTime.Today; 
+                var thongKeNgay = await _context.LuotXemTruyens
+                    .FirstOrDefaultAsync(lx => lx.MaTruyen == chuong.MaTruyen && lx.Ngay == homNay);
+
+                if (thongKeNgay != null)
+                {
+                    thongKeNgay.SoLuotXem += 1;
+                }
+                else
+                {
+                    var moi = new LuotXemTruyen
+                    {
+                        MaTruyen = chuong.MaTruyen,
+                        Ngay = homNay,
+                        SoLuotXem = 1
+                    };
+                    _context.LuotXemTruyens.Add(moi);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Lỗi cập nhật lượt xem: " + ex.Message);
+            }
+
+            // 3. LOGIC LƯU LỊCH SỬ ĐỌC
             if (!string.IsNullOrEmpty(taiKhoan) && taiKhoan.ToLower() != "guest")
             {
                 try
@@ -315,6 +372,22 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 NgayGui = DateTime.Now
             };
             _context.BinhLuans.Add(bl);
+            var thongTinTruyen = await _context.ChuongTruyens
+                .Where(c => c.MaChuongTruyen == input.MaChuongId)
+                .Select(c => new { c.MaTruyenNavigation.NguoiDang, c.MaTruyenNavigation.TenTruyen, c.TieuDe })
+                .FirstOrDefaultAsync();
+
+            if (thongTinTruyen != null && thongTinTruyen.NguoiDang != input.TaiKhoan)
+            {
+                var thongBao = new ThongBao
+                {
+                    TaiKhoan = thongTinTruyen.NguoiDang,
+                    NoiDung = $"{input.TaiKhoan} đã bình luận tại chương '{thongTinTruyen.TieuDe}' truyện '{thongTinTruyen.TenTruyen}' của bạn.",
+                    DaDoc = false,
+                    NgayGui = DateTime.Now
+                };
+                _context.ThongBaos.Add(thongBao);
+            }
             await _context.SaveChangesAsync();
             return Ok();
         }
@@ -329,6 +402,26 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 NgayGui = DateTime.Now
             };
             _context.RepBinhLuans.Add(bl);
+            try
+            {
+                var binhLuanGoc = await _context.BinhLuans
+                    .FirstOrDefaultAsync(x => x.MaBinhLuan == input.MaBinhLuanGoc);
+                if (binhLuanGoc != null && binhLuanGoc.TaiKhoan != input.TaiKhoan)
+                {
+                    var thongBao = new ThongBao
+                    {
+                        TaiKhoan = binhLuanGoc.TaiKhoan,
+                        NoiDung = $"{input.TaiKhoan} đã rep bình luận của bạn.",
+                        DaDoc = false,
+                        NgayGui = DateTime.Now
+                    };
+                    _context.ThongBaos.Add(thongBao);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Lỗi gửi thông báo rep bình luận: " + ex.Message);
+            }
             await _context.SaveChangesAsync();
             return Ok();
         }

@@ -8,12 +8,40 @@ function closeModals() {
 window.onclick = function (event) {
     if (event.target.classList.contains('modal')) closeModals();
 }
+async function updateNotificationBadge() {
+    const btnNoti = document.getElementById('btnNoti');
+    if (!btnNoti) return;
 
+    const badge = btnNoti.querySelector('.bell-badge');
+    const currentUser = btnNoti.getAttribute('data-user');
+    if (!currentUser || !badge) return;
+
+    try {
+        const res = await fetch(`${BASE_API}/GetNotifications/${currentUser}`);
+        const data = await res.json();
+
+        // Tính toán số lượng chưa đọc
+        const unreadCount = data.filter(n => n.daDoc === false || n.daDoc === 0).length;
+
+        // Cập nhật giao diện số lượng
+        badge.innerText = unreadCount;
+
+        // Hiển thị hoặc ẩn badge đỏ
+        if (unreadCount > 0) {
+            badge.style.display = 'block';
+            badge.style.background = 'red';
+        } else {
+            badge.style.display = 'none';
+        }
+    } catch (e) {
+        console.error("Lỗi cập nhật badge:", e);
+    }
+}
 // 2. Xử lý Thông báo
 document.addEventListener('DOMContentLoaded', function () {
     const btnNoti = document.getElementById('btnNoti');
     const modalNoti = document.getElementById('modalNotifications');
-
+    updateNotificationBadge();
     if (btnNoti) {
         btnNoti.onclick = async function () {
             modalNoti.style.display = 'flex';
@@ -31,7 +59,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 const res = await fetch(`${BASE_API}/GetNotifications/${currentUser}`);
                 const data = await res.json();
                 const list = document.getElementById('notiList');
-
+                const badge = btnNoti.querySelector('.bell-badge');
+                const unreadCount = data.filter(n => n.daDoc === false || n.daDoc === 0).length;
+                if (badge) {
+                    badge.innerText = unreadCount;
+                    if (unreadCount > 0) {
+                        badge.style.display = 'block';
+                        badge.style.background = 'red';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                }
                 if (!data || data.length === 0) {
                     list.innerHTML = '<p style="text-align:center; padding:20px;">Không có thông báo.</p>';
                     return;
@@ -40,13 +78,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 list.innerHTML = data.map(n => {
                     const isUnread = n.daDoc === false || n.daDoc === 0;
                     return `
-                    <div class="noti-item" style="padding:12px; border-bottom:1px solid #eee; background:${isUnread ? '#f0f7ff' : '#fff'}; display:flex; gap:10px;">
-                        <div style="width:8px; height:8px; background:${isUnread ? '#007bff' : 'transparent'}; border-radius:50%; margin-top:6px;"></div>
-                        <div style="flex:1">
-                            <div style="font-size:14px; ${isUnread ? 'font-weight:600' : ''}">${n.noiDung}</div>
-                            <div style="font-size:11px; color:#999; margin-top:4px;">📅 ${n.ngayGui}</div>
-                        </div>
-                    </div>`;
+                        <div class="noti-item" 
+                             onclick="markAsRead(${n.maThongBao}, this)"
+                             style="padding:12px; border-bottom:1px solid #eee; background:${isUnread ? '#f0f7ff' : '#fff'}; display:flex; gap:10px; cursor:pointer; transition: 0.3s;">
+        
+                            <div class="unread-dot" style="width:8px; height:8px; background:${isUnread ? '#007bff' : 'transparent'}; border-radius:50%; margin-top:6px;"></div>
+        
+                            <div style="flex:1">
+                                <div class="noti-content" style="font-size:14px; ${isUnread ? 'font-weight:600' : ''}">${n.noiDung}</div>
+                                <div style="font-size:11px; color:#999; margin-top:4px;">📅 ${n.ngayGui}</div>
+                            </div>
+                        </div>`;
                 }).join('');
             } catch (e) {
                 document.getElementById('notiList').innerHTML = 'Lỗi tải dữ liệu.';
@@ -120,5 +162,23 @@ async function deleteStory(id) {
     if (result.success) {
         alert("Thành công");
         document.getElementById(`story-row-${id}`).remove();
+    }
+}
+async function markAsRead(id, element) {
+    if (element.style.background === 'rgb(255, 255, 255)' || element.style.background === '#fff') return;
+    try {
+        const res = await fetch(`${BASE_API}/MarkAsRead/${id}`, { method: 'POST' });
+        const result = await res.json();
+
+        if (result.success) {
+            element.style.background = '#fff';
+            const dot = element.querySelector('.unread-dot');
+            if (dot) dot.style.background = 'transparent';
+            const content = element.querySelector('.noti-content');
+            if (content) content.style.fontWeight = 'normal';
+            updateNotificationBadge();
+        }
+    } catch (e) {
+        console.error("Lỗi khi đánh dấu đã đọc:", e);
     }
 }

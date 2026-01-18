@@ -14,7 +14,11 @@
     <div class="chapter-date">
         Ngày đăng: @(Model.ChuongHienTai.NgayDang?.ToString("dd/MM/yyyy HH:mm") ?? "N/A")
     </div>
-
+    <div class="audio-controls">
+        <button id="btnOpenTTS" class="btn-nav" title="Nghe truyện">
+            🔊 Nghe truyện
+        </button>
+    </div>
     <div class="chapter-content">
         @Html.Raw(Model.ChuongHienTai.NoiDung)
     </div>
@@ -37,7 +41,7 @@
 
         @if (Model.MaChuongSau != null)
         {
-            <a href="@Url.Action("ChiTietChuong", new { id = Model.MaChuongSau })" class="btn-nav">
+            <a id="btnNextChapter" href="@Url.Action("ChiTietChuong", new { id = Model.MaChuongSau })" class="btn-nav">
                 Chương sau ➡
             </a>
         }
@@ -86,6 +90,27 @@
                 }
             </div>
         }
+    </div>
+    <div id="ttsPanel" class="tts-panel" style="display:none;">
+        <div class="tts-header">
+            <h4>Cài đặt giọng đọc</h4>
+            <span class="close-tts" onclick="toggleTTSPanel()">&times;</span>
+        </div>
+        <div class="tts-body">
+            <label>Chọn giọng đọc:</label>
+            <select id="voiceSelect" class="form-control"></select>
+            
+            <label>Tốc độ:</label>
+            <input type="range" id="rateRange" min="0.5" max="2" value="1" step="0.1">
+            <span id="rateValue">1x</span>
+
+            <div class="tts-buttons">
+                <button id="btnSpeak" class="btn-green">▶ Đọc</button>
+                <button id="btnPause" class="btn-yellow">⏸ Tạm dừng</button>
+                <button id="btnStop" class="btn-red">⏹ Dừng</button>
+            </div>
+            <p class="tts-note"><small>Tip: Bấm vào đoạn văn bất kỳ để đọc từ đó.</small></p>
+        </div>
     </div>
 </div>
 

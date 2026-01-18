@@ -319,3 +319,14 @@ body {
         height: 200px;
     }
 }
+:root {
+    --accent: #007bff; /* Hoặc màu xanh bạn thích */
+    --bg: #f4f7f6;
+    --card: #ffffff;
+    --text-main: #333;
+    --text-muted: #666;
+    --danger: #dc3545;
+    --success: #28a745;
+    --warning: #ffc107;
+    --border: #ddd;
+}

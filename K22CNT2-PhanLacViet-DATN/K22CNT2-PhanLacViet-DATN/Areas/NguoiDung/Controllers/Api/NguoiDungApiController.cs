@@ -217,6 +217,24 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 return StatusCode(500, "Lỗi truy vấn: " + ex.Message);
             }
         }
+        [HttpPost("MarkAsRead/{id}")]
+        public async Task<IActionResult> MarkAsRead(int id)
+        {
+            try
+            {
+                var thongBao = await _context.ThongBaos.FindAsync(id);
+                if (thongBao == null) return NotFound();
+                thongBao.DaDoc = true; 
+                _context.ThongBaos.Update(thongBao);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Lỗi: " + ex.Message);
+            }
+        }
         [HttpPost("dang-truyen")]
         public async Task<IActionResult> PostDangTruyen([FromForm] DangTruyenDto input)
         {
@@ -328,6 +346,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
         {
             try
             {
+                // 1. Thêm chương mới
                 var chuong = new ChuongTruyen
                 {
                     MaTruyen = input.MaTruyen,
@@ -337,11 +356,45 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                     NgayDang = DateTime.Now
                 };
                 _context.ChuongTruyens.Add(chuong);
+
+                // 2. Cập nhật thông tin truyện
                 var truyen = await _context.Truyens.FindAsync(input.MaTruyen);
                 if (truyen != null)
                 {
                     truyen.NgayCapNhat = DateTime.Now;
                     truyen.SoChuong = await _context.ChuongTruyens.CountAsync(x => x.MaTruyen == input.MaTruyen) + 1;
+
+                    // gửi thông báo cho những người đã theo dõi truyện
+                    var nguoiTheoDois = await _context.TheoDois
+                        .Where(td => td.MaTruyen == input.MaTruyen)
+                        .Select(td => td.TaiKhoan)
+                        .ToListAsync();
+
+                    if (nguoiTheoDois.Any())
+                    {
+                        var listThongBao = new List<ThongBao>();
+                        string noiDungTB = $"Truyện '{truyen.TenTruyen}' đã đăng chương mới: {chuong.TieuDe}";
+
+                        foreach (var tk in nguoiTheoDois)
+                        {
+                            // Không gửi thông báo cho chính người đăng (nếu tác giả tự theo dõi truyện mình)
+                            if (tk != truyen.NguoiDang)
+                            {
+                                listThongBao.Add(new ThongBao
+                                {
+                                    TaiKhoan = tk,
+                                    NoiDung = noiDungTB,
+                                    DaDoc = false,
+                                    NgayGui = DateTime.Now
+                                });
+                            }
+                        }
+
+                        if (listThongBao.Count > 0)
+                        {
+                            _context.ThongBaos.AddRange(listThongBao);
+                        }
+                    }
                 }
 
                 await _context.SaveChangesAsync();
@@ -363,6 +416,38 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
             chuong.NoiDung = input.NoiDung;
             await _context.SaveChangesAsync();
             return Ok(new { success = true });
+        }
+        [HttpPost("update-avatar")]
+        public async Task<IActionResult> UpdateAvatar([FromForm] IFormFile file, [FromForm] string userName)
+        {
+            if (file == null || file.Length == 0) return BadRequest("File không hợp lệ");
+
+            try
+            {
+                string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "NguoiDung", "images", "Avatar");
+                if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+                string fileName = userName + "_" + DateTime.Now.Ticks + Path.GetExtension(file.FileName);
+                string filePath = Path.Combine(folderPath, fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                var user = _context.ThanhViens.FirstOrDefault(u => u.TaiKhoan == userName);
+                if (user != null)
+                {
+                    string dbPath = "/NguoiDung/images/Avatar/" + fileName;
+                    user.Avatar = dbPath;
+                    await _context.SaveChangesAsync();
+
+                    return Ok(new { success = true, newUrl = dbPath });
+                }
+
+                return NotFound(new { success = false, message = "Không tìm thấy người dùng" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = ex.Message });
+            }
         }
     }
 }
