@@ -9,6 +9,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Đọc Truyện Chữ</title>
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('theme');
+                if (theme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+            } catch (e) {
+                console && console.warn && console.warn('Theme init failed', e);
+            }
+        })();
+    </script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/NguoiDung/css/header.css" asp-append-version="true" />
@@ -17,54 +31,92 @@
 
 <body>
     <header class="header-main">
-        <a asp-area="NguoiDung"
-           asp-controller="Truyen"
-           asp-action="Index"
-           class="header-logo">
-            TRUYỆN CHỮ
-        </a>
+        <div class="header-left">
+            <a asp-area="NguoiDung" asp-controller="Truyen" asp-action="Index" class="header-logo">
+                TRUYỆN CHỮ
+            </a>
+
+            <nav class="main-nav">
+                <div class="nav-item dropdown">
+                    <span class="nav-link">Thể loại <i class="fa-solid fa-chevron-down"></i></span>
+                    <div class="dropdown-menu mega-menu">
+                        <div class="mega-menu-grid">
+                            <a href="@Url.Action("Search", "Truyen", new { genres = 1 })">Tiên Hiệp</a>
+                            <a href="@Url.Action("Search", "Truyen", new { genres = 2 })">Kiếm Hiệp</a>
+                            <a href="@Url.Action("Search", "Truyen", new { genres = 3 })">Ngôn Tình</a>
+                            <a href="@Url.Action("Search", "Truyen", new { genres = 4 })">Đô Thị</a>
+                            <a href="@Url.Action("Search", "Truyen", new { genres = 5 })">Huyền Huyễn</a>
+                            <a href="@Url.Action("Search", "Truyen", new { genres = 6 })">Khoa Huyễn</a>
+                            <a href="@Url.Action("Search", "Truyen", new { genres = 7 })">Võng Du</a>
+                            <a href="@Url.Action("Search", "Truyen", new { genres = 8 })">Dị Năng</a>
+                            <a href="@Url.Action("Search", "Truyen", new { genres = 9 })">Lịch Sử</a>
+                            <a href="@Url.Action("Search", "Truyen", new { genres = 10 })">Quân Sự</a>
+                            <a href="@Url.Action("Search", "Truyen", new { genres = 11 })">Hệ Thống</a>
+                            <a href="@Url.Action("Search", "Truyen", new { genres = 12 })">Xuyên Không</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <span class="nav-link">Xếp hạng <i class="fa-solid fa-chevron-down"></i></span>
+                    <div class="dropdown-menu">
+                        <a href="/XepHang/XemNhieu">Xem nhiều nhất</a>
+                        <a href="/XepHang/MoiCapNhat">Mới cập nhật</a>
+                        <a href="/XepHang/HoanThanh">Đã hoàn thành</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
         <div class="header-search">
             <form asp-area="NguoiDung" asp-controller="Truyen" asp-action="Search" method="get" class="search-container">
-                <input type="text"
-                       id="searchInput"
-                       name="keyword"
-                       placeholder="Tìm truyện..."
-                       autocomplete="off" />
-
+                <button type="submit" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <input type="text" id="searchInput" name="keyword" placeholder="Tìm truyện, tác giả..." autocomplete="off" />
                 <div id="searchResults" class="search-results-dropdown"></div>
             </form>
         </div>
-        @if (string.IsNullOrEmpty(userLogin))
-        {
-            <div class="header-auth">
-                <a asp-area="NguoiDung"
-                   asp-controller="Truyen"
-                   asp-action="Auth"
-                   asp-route-mode="login">
-                    Đăng nhập
-                </a>
 
-                <a asp-area="NguoiDung"
-                   asp-controller="Truyen"
-                   asp-action="Auth"
-                   asp-route-mode="register">
-                    Đăng ký
-                </a>
-            </div>
-        }
-        else
-        {
-            <div class="header-user">
-                <div class="header-avatar">
-                    <a asp-area="NguoiDung" asp-controller="NguoiDung" asp-action="ThongTinNguoiDung">@userLogin.Substring(0, 1).ToUpper()</a>
+        <div class="header-right">
+            <button id="theme-toggle" class="icon-btn" title="Chế độ Sáng/Tối">
+                <i class="fa-regular fa-moon"></i>
+            </button>
+
+            @if (string.IsNullOrEmpty(userLogin))
+            {
+                <div class="header-auth">
+                    <a asp-action="Auth" asp-route-mode="login" class="btn-text">Đăng nhập</a>
+                    <a asp-action="Auth" asp-route-mode="register" class="btn-primary-custom">Đăng ký</a>
                 </div>
-                <div class="user-dropdown">
-                    <strong>@userLogin</strong>
-                    <hr />
-                    <a asp-action="Logout">Đăng xuất</a>
+            }
+            else
+            {
+                <div class="header-user-area">
+                    <button class="icon-btn notification-btn">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge-dot"></span>
+                    </button>
+
+                    <div class="user-profile-wrapper">
+                        <div class="user-avatar-circle">
+                            <img src="~/NguoiDung/images/Avatar/default.jpg" alt="Avatar" class="avatar-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+                            <span class="avatar-placeholder" style="display:none;">@userLogin.Substring(0, 1).ToUpper()</span>
+                        </div>
+
+                        <div class="user-dropdown-menu">
+                            <div class="user-info">
+                                <strong>@userLogin</strong>
+                                <span>Thành viên</span>
+                            </div>
+                            <hr />
+                            <a href="/TuTruyen/LichSu"><i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đọc</a>
+                            <a href="/TuTruyen/DaLuu"><i class="fa-solid fa-bookmark"></i> Tủ truyện đã lưu</a>
+                            <a href="/TaiKhoan/CaiDat"><i class="fa-solid fa-gear"></i> Cài đặt</a>
+                            <hr />
+                            <a asp-action="Logout" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </header>
     <main class="container mt-4">
         @RenderBody()

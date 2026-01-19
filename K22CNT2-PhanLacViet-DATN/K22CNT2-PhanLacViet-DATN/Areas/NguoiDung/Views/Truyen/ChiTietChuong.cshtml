@@ -4,7 +4,7 @@
     Layout = "~/Areas/NguoiDung/Views/Shared/_Layout.cshtml";
     var currentUser = Context.Session.GetString("USER_LOGIN");
 }
-
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 <link href="~/NguoiDung/css/ChiTietChuong.css" rel="stylesheet" />
 
 <div class="container">
@@ -72,7 +72,7 @@
 
                 <div class="reply-form" id="replyForm-@bl.MaBinhLuan">
                     <textarea id="txtReply-@bl.MaBinhLuan" placeholder="Nhập câu trả lời..."></textarea><br>
-                    <button onclick="postReply(@bl.MaBinhLuan)">Gửi</button>
+                    <button onclick="postReply(@bl.MaBinhLuan)" class="btn-rep">Gửi</button>
                 </div>
 
                 @if (bl.RepBinhLuans != null && bl.RepBinhLuans.Any())

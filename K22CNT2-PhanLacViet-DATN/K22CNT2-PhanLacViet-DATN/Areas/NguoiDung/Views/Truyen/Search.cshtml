@@ -3,6 +3,7 @@
     ViewData["Title"] = "Tìm kiếm truyện";
     Layout = "~/Areas/NguoiDung/Views/Shared/_Layout.cshtml";
 }
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/NguoiDung/css/TimKiem.css">
 <div class="s2-wrap">
     <aside class="s2-filter">
@@ -76,7 +77,8 @@
         }
         else
         {
-            <div style="grid-column: 1 / -1; text-align:center; padding: 40px; color: #666;">
+            <div class="no-results">
+                <i class="fa-solid fa-magnifying-glass" style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;"></i>
                 <h3>Không tìm thấy truyện nào!</h3>
                 <p>Hãy thử thay đổi từ khóa hoặc bộ lọc.</p>
             </div>

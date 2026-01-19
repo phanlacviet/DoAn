@@ -478,6 +478,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 TongLuotXem = t.TongLuotXem ?? 0,
                 NgayDang = t.NgayDang,
                 NgayCapNhat = t.NgayCapNhat ?? t.NgayDang,
+                AnhBia = t.AnhBia,
                 TenTheLoai = string.Join(", ", t.MaTheLoais.Select(tl => tl.TenTheLoai))
             }).ToListAsync();
 

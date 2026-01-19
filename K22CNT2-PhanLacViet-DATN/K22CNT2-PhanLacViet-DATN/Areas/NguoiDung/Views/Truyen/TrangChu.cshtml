@@ -4,6 +4,7 @@
     Layout = "~/Areas/NguoiDung/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Trang chủ đọc truyện";
 }
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 <link href="~/NguoiDung/css/TrangChu.css" rel="stylesheet" />
 
 <div class="wrap">
@@ -13,39 +14,31 @@
                 <h3 style="margin:0">Truyện mới cập nhật</h3>
             </div>
 
-            @foreach (var t in Model.DanhSachTruyen.Take(5))
-            {
-                <div class="list-item">
-                    @* Click vào ảnh cũng ra chi tiết *@
-                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" class="thumb"></a>
-
-                    <div style="flex:1">
-                        <div style="display:flex; justify-content:space-between; align-items:start">
-                            <div>
-                                <div class="title">
-                                    @* Link tên truyện *@
-                                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" style="text-decoration:none; color:inherit; font-weight:bold">
-                                        @t.TenTruyen
-                                    </a>
+            <div class="story-grid">
+                @foreach (var t in Model.DanhSachTruyen.Take(10))
+                {
+                    <div class="story-card">
+                        <div class="story-thumb-wrapper">
+                            <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" class="story-thumb">
+                                @if (!string.IsNullOrEmpty(t.AnhBia))
+                                {
+                                    <img src="@t.AnhBia" alt="@t.TenTruyen" />
+                                }
+                                else
+                                {
+                                    <img src="~/images/AnhBia/default.jpg" alt="Default Cover" />
+                                }
+                                <div class="story-time-badge">
+                                    @TimeHelper.GetTimeAgo(t.NgayCapNhat)
                                 </div>
-                                <div class="desc">@t.MoTa</div>
-                            </div>
-                            <div class="story-time">
-                                <i class="fa-regular fa-clock"></i>
-                                <span>@TimeHelper.GetTimeAgo(t.NgayCapNhat)</span>
-                            </div>
+                            </a>
                         </div>
-
-                        <div style="margin-top:8px; display:flex; gap:8px">
-                            @* Nút đọc ngay dẫn đến trang chi tiết *@
-                            <a class="btn" href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })">Đọc ngay</a>
-                            <button class="btn-save" data-id="@t.MaTruyen" style="padding:8px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer">
-                                Lưu
-                            </button>
+                        <div class="story-name">
+                            <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })">@t.TenTruyen</a>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </section>
 
         <section class="panel" style="margin-top:16px">
@@ -53,32 +46,31 @@
                 <h3 style="margin:0">Truyện dịch</h3>
             </div>
 
-            @foreach (var t in Model.DanhSachTruyen.Where(x => x.LoaiTruyen == "Dịch").Take(5))
-            {
-                <div class="list-item">
-                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" class="thumb"></a>
-                    <div style="flex:1">
-                        <div style="display:flex; justify-content:space-between; align-items:start">
-                            <div>
-                                <div class="title">
-                                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" style="text-decoration:none; color:inherit; font-weight:bold">
-                                        @t.TenTruyen
-                                    </a>
+            <div class="story-grid">
+                @foreach (var t in Model.DanhSachTruyen.Where(x => x.LoaiTruyen == "Dịch").Take(12))
+                {
+                    <div class="story-card">
+                        <div class="story-thumb-wrapper">
+                            <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" class="story-thumb">
+                                @if (!string.IsNullOrEmpty(t.AnhBia))
+                                {
+                                    <img src="@t.AnhBia" alt="@t.TenTruyen" />
+                                }
+                                else
+                                {
+                                    <img src="~/images/AnhBia/default.jpg" alt="Default Cover" />
+                                }
+                                <div class="story-time-badge">
+                                    @TimeHelper.GetTimeAgo(t.NgayCapNhat)
                                 </div>
-                                <div class="desc">@t.MoTa</div>
-                            </div>
-                            <div class="story-time">
-                                <i class="fa-regular fa-clock"></i>
-                                <span>@TimeHelper.GetTimeAgo(t.NgayCapNhat)</span>
-                            </div>
+                            </a>
                         </div>
-                        <div style="margin-top:8px; display:flex; gap:8px">
-                            <a class="btn" href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })">Đọc ngay</a>
-                            <button style="padding:8px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer">Lưu</button>
+                        <div class="story-name">
+                            <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })">@t.TenTruyen</a>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </section>
 
         <section class="panel" style="margin-top:16px">
@@ -86,30 +78,31 @@
                 <h3 style="margin:0">AI dịch — đề cử</h3>
             </div>
 
-            @foreach (var t in Model.DanhSachTruyen.Where(x => x.LoaiTruyen == "AI dịch").Take(5))
-            {
-                <div class="list-item">
-                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" class="thumb"></a>
-                    <div style="flex:1">
-                        <div style="display:flex; justify-content:space-between; align-items:start">
-                            <div>
-                                <div class="title">
-                                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" style="text-decoration:none; color:inherit; font-weight:bold">@t.TenTruyen</a>
+            <div class="story-grid">
+                @foreach (var t in Model.DanhSachTruyen.Where(x => x.LoaiTruyen == "AI dịch").Take(12))
+                {
+                    <div class="story-card">
+                        <div class="story-thumb-wrapper">
+                            <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" class="story-thumb">
+                                @if (!string.IsNullOrEmpty(t.AnhBia))
+                                {
+                                    <img src="@t.AnhBia" alt="@t.TenTruyen" />
+                                }
+                                else
+                                {
+                                    <img src="~/images/AnhBia/default.jpg" alt="Default Cover" />
+                                }
+                                <div class="story-time-badge">
+                                    @TimeHelper.GetTimeAgo(t.NgayCapNhat)
                                 </div>
-                                <div class="desc">@t.MoTa</div>
-                            </div>
-                            <div class="story-time">
-                                <i class="fa-regular fa-clock"></i>
-                                <span>@TimeHelper.GetTimeAgo(t.NgayCapNhat)</span>
-                            </div>
+                            </a>
                         </div>
-                        <div style="margin-top:8px; display:flex; gap:8px">
-                            <a class="btn" href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })">Đọc ngay</a>
-                            <button style="padding:8px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer">Lưu</button>
+                        <div class="story-name">
+                            <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })">@t.TenTruyen</a>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </section>
 
         <section class="panel" style="margin-top:16px">
@@ -117,30 +110,31 @@
                 <h3 style="margin:0">Sáng tác mới</h3>
             </div>
 
-            @foreach (var t in Model.DanhSachTruyen.Where(x => x.LoaiTruyen == "Sáng tác").Take(5))
-            {
-                <div class="list-item">
-                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" class="thumb"></a>
-                    <div style="flex:1">
-                        <div style="display:flex; justify-content:space-between; align-items:start">
-                            <div>
-                                <div class="title">
-                                    <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" style="text-decoration:none; color:inherit; font-weight:bold">@t.TenTruyen</a>
+            <div class="story-grid">
+                @foreach (var t in Model.DanhSachTruyen.Where(x => x.LoaiTruyen == "Sáng tác").Take(12))
+                {
+                    <div class="story-card">
+                        <div class="story-thumb-wrapper">
+                            <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })" class="story-thumb">
+                                @if (!string.IsNullOrEmpty(t.AnhBia))
+                                {
+                                    <img src="@t.AnhBia" alt="@t.TenTruyen" />
+                                }
+                                else
+                                {
+                                    <img src="~/images/AnhBia/default.jpg" alt="Default Cover" />
+                                }
+                                <div class="story-time-badge">
+                                    @TimeHelper.GetTimeAgo(t.NgayCapNhat)
                                 </div>
-                                <div class="desc">@t.MoTa</div>
-                            </div>
-                            <div class="story-time">
-                                <i class="fa-regular fa-clock"></i>
-                                <span style="text-decoration-color:grey">@TimeHelper.GetTimeAgo(t.NgayCapNhat)</span>
-                            </div>
+                            </a>
                         </div>
-                        <div style="margin-top:8px; display:flex; gap:8px">
-                            <a class="btn" href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })">Đọc ngay</a>
-                            <button style="padding:8px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer">Lưu</button>
+                        <div class="story-name">
+                            <a href="@Url.Action("ChiTiet", "Truyen", new { id = t.MaTruyen })">@t.TenTruyen</a>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </section>
     </main>
 

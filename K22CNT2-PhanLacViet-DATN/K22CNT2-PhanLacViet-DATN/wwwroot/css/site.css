@@ -1,3 +1,36 @@
+:root {
+    --bg: #f6f8fb;
+    --card: #ffffff;
+    --muted: #6b7280;
+    --accent: #0ea5e9;
+    --header-bg: #ffffff;
+    --header-border: #e5e7eb;
+    --text-main: #111827;
+    --text-muted: #6b7280;
+    --hover-bg: #f3f4f6;
+    --primary: #2563eb;
+    --dropdown-bg: #ffffff;
+    --dropdown-shadow: rgba(0,0,0,0.1);
+    --input-bg: #fff;
+    --input-border: #ccc;
+}
+
+[data-theme="dark"] {
+    --bg: #0b1220;
+    --card: #111827;
+    --muted: #9ca3af;
+    --accent: #60a5fa;
+    --header-bg: #1f2937;
+    --header-border: #374151;
+    --text-main: #f9fafb;
+    --text-muted: #9ca3af;
+    --hover-bg: #374151;
+    --primary: #60a5fa;
+    --dropdown-bg: #1f2937;
+    --dropdown-shadow: rgba(0,0,0,0.5);
+    --input-bg: #374151;
+    --input-border: #4b5563;
+}
 html {
   font-size: 14px;
 }

@@ -1,49 +1,65 @@
-﻿.s2-wrap {
+﻿body {
+    background: var(--bg);
+}
+.s2-wrap {
     display: flex;
     gap: 18px;
     max-width: 1100px;
     margin: 24px auto;
     align-items: flex-start;
+    color: var(--text-main);
 }
 
 .s2-filter {
     width: 300px;
     padding: 18px;
-    background: #fff;
+    background: var(--card); 
     border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+    border: 1px solid var(--header-border);
+    box-shadow: 0 6px 18px var(--dropdown-shadow);
     position: sticky;
     top: 100px;
 }
 
     .s2-filter h4 {
         margin: 0 0 12px 0;
+        color: var(--text-main);
     }
-
-    .s2-filter input[type="text"], .s2-filter textarea {
-        width: 100%;
-        padding: 8px;
-        border-radius: 8px;
-        border: 1px solid #e6e6e6;
-        margin-bottom: 10px;
-        box-sizing: border-box;
-    }
-
+    .s2-filter input[type="text"],
+    .s2-filter textarea,
     .s2-filter select {
         width: 100%;
-        padding: 8px;
+        padding: 10px;
         border-radius: 8px;
-        border: 1px solid #e6e6e6;
-        margin-bottom: 10px;
+        background: var(--input-bg); 
+        border: 1px solid var(--input-border); 
+        color: var(--text-main);
+        margin-bottom: 12px;
+        box-sizing: border-box;
+        outline: none;
+        transition: border-color 0.2s;
     }
 
+        .s2-filter input:focus,
+        .s2-filter select:focus {
+            border-color: var(--primary);
+        }
 .s2-genres {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
-    max-height: 300px;
+    max-height: 250px;
     overflow-y: auto;
+    padding-right: 5px;
 }
+    .s2-genres::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .s2-genres::-webkit-scrollbar-thumb {
+        background: var(--header-border);
+        border-radius: 10px;
+    }
 
     .s2-genres input {
         display: none;
@@ -55,48 +71,54 @@
         justify-content: center;
         padding: 8px;
         border-radius: 8px;
-        border: 1px solid #e5e7eb;
-        background: #fafafa;
+        border: 1px solid var(--header-border);
+        background: var(--hover-bg); 
         cursor: pointer;
         font-weight: 600;
-        color: #374151;
+        color: var(--text-main);
         font-size: 12px;
         width: 100%;
         box-sizing: border-box;
+        transition: all 0.2s;
     }
 
     .s2-genres input:checked + label {
-        background: #2563eb;
+        background: var(--primary);
         color: #fff;
-        border-color: #2563eb;
-        box-shadow: 0 8px 24px rgba(37,99,235,.12);
+        border-color: var(--primary);
+        box-shadow: 0 4px 12px var(--dropdown-shadow);
     }
-
+.s2-filter a {
+    color: var(--text-muted) !important;
+}
 .s2-content {
     flex: 1;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
 }
-
 .s2-card {
     border-radius: 10px;
     overflow: hidden;
-    background: #fff;
-    box-shadow: 0 6px 18px rgba(0,0,0,.04);
-    transition: transform 0.2s;
+    background: var(--card); 
+    box-shadow: 0 4px 12px var(--dropdown-shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
     text-decoration: none;
     color: inherit;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--header-border);
 }
 
     .s2-card:hover {
         transform: translateY(-5px);
+        box-shadow: 0 8px 24px var(--dropdown-shadow);
     }
 
 .s2-thumb {
     position: relative;
-    height: 280px;
+    height: 260px;
+    overflow: hidden;
 }
 
     .s2-thumb img {
@@ -104,43 +126,74 @@
         height: 100%;
         object-fit: cover;
     }
-
     .s2-thumb .views {
         position: absolute;
         right: 8px;
         top: 8px;
-        background: rgba(0,0,0,.6);
+        background: rgba(0,0,0,.7);
         color: #fff;
         padding: 4px 10px;
         border-radius: 999px;
         font-weight: 600;
-        font-size: 12px;
+        font-size: 11px;
+        z-index: 2;
     }
     .s2-thumb .updated-time {
         position: absolute;
         left: 0;
         bottom: 0;
         width: 100%;
-        color: grey;
-        padding: 10px 8px 5px 8px;
+        background: linear-gradient(transparent, rgba(0,0,0,0.8));
+        color: #eee;
+        padding: 15px 8px 5px 8px;
         font-size: 11px;
         font-weight: 500;
         z-index: 2;
     }
 .s2-body {
-    padding: 10px;
+    padding: 12px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
     .s2-body .title {
         font-weight: 700;
-        font-size: 15px;
-        margin-bottom: 5px;
-        white-space: nowrap;
+        font-size: 14px;
+        margin-bottom: 6px;
+        color: var(--text-main);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
         overflow: hidden;
-        text-overflow: ellipsis;
+        line-height: 1.4;
     }
 
     .s2-body .meta {
-        color: #6b7280;
-        font-size: 13px;
+        color: var(--text-muted); 
+        font-size: 12px;
+        margin-top: auto;
     }
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+@media (max-width: 768px) {
+    .s2-wrap {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .s2-filter {
+        width: 100%;
+        position: static;
+        margin-bottom: 20px;
+    }
+
+    .s2-content {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+    }
+}
