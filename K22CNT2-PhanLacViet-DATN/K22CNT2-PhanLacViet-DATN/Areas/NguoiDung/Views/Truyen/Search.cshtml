@@ -52,9 +52,12 @@
         {
             foreach (var truyen in Model.KetQua)
             {
+                var imgUrl = string.IsNullOrEmpty(truyen.AnhBia)
+                ? "/images/AnhBia/default.jpg"
+                                  : truyen.AnhBia;
                 <a href="@Url.Action("ChiTiet", "Truyen", new { id = truyen.MaTruyen })" class="s2-card">
                     <div class="s2-thumb">
-                        <img src="https://via.placeholder.com/220x330?text=No+Cover" alt="@truyen.TenTruyen">
+                        <img src="@imgUrl" alt="@truyen.TenTruyen" onerror="this.src='/images/AnhBia/default.jpg';">
 
                         <div class="views">
                             <i class="fa-solid fa-eye" style="font-size: 10px; margin-right: 2px;"></i>

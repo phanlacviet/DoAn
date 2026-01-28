@@ -8,6 +8,16 @@
 <link href="~/NguoiDung/css/ChiTietChuong.css" rel="stylesheet" />
 
 <div class="container">
+    <div class="sticky-action-bar">
+        <button id="btnSaveStory"
+                class="action-btn"
+                title="Lưu vào tủ truyện"
+                data-truyen="@Model.MaTruyen"
+                onclick="saveStory(this)">
+            <i class="fa-regular fa-bookmark"></i>
+            <span class="btn-tooltip">Lưu truyện</span>
+        </button>
+    </div>
     <div class="chapter-title">
         Chương @Model.ChuongHienTai.ThuTuChuong: @Model.ChuongHienTai.TieuDe
     </div>

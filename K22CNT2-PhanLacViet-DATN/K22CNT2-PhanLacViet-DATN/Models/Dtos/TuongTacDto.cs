@@ -4,6 +4,8 @@
     {
         public string TaiKhoan { get; set; } = null!;
         public int MaTruyen { get; set; }
+        public string? Avatar { get; set; }
+        public string NgayThucHien { get; set; } = string.Empty;
     }
 
     public class DanhGiaInputDto : TuongTacDto

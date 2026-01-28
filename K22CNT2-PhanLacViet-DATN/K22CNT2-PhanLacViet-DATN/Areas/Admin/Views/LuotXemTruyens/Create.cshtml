@@ -5,31 +5,53 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="container py-4">
+    <div class="card shadow border-0 mx-auto" style="max-width: 500px;">
+        <div class="card-header bg-primary text-white py-3">
+            <h5 class="mb-0 fw-bold"><i class="fas fa-plus-circle me-2"></i> Tạo mới lượt xem</h5>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small"></div>
 
-<h4>LuotXemTruyen</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="MaTruyen" class="control-label"></label>
-                <select asp-for="MaTruyen" class ="form-control" asp-items="ViewBag.MaTruyen"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ngay" class="control-label"></label>
-                <input asp-for="Ngay" class="form-control" />
-                <span asp-validation-for="Ngay" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Truyện</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="fas fa-book text-success"></i></span>
+                        <select asp-for="MaTruyen" class="form-select" asp-items="ViewBag.MaTruyen">
+                            <option value="">-- Chọn truyện --</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="MaTruyen" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Ngày ghi nhận</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="fas fa-calendar-day text-primary"></i></span>
+                        <input asp-for="Ngay" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <span asp-validation-for="Ngay" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Số lượt xem ban đầu</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="fas fa-chart-bar text-warning"></i></span>
+                        <input asp-for="SoLuotXem" class="form-control" type="number" value="0" min="0" />
+                    </div>
+                </div>
+
+                <div class="row g-2">
+                    <div class="col-6">
+                        <a asp-action="Index" class="btn btn-outline-secondary w-100">Hủy</a>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-primary w-100 fw-bold">Tạo mới</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

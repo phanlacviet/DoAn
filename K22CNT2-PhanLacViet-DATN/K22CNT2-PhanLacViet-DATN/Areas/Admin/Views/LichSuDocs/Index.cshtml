@@ -1,54 +1,40 @@
 ﻿@model IEnumerable<K22CNT2_PhanLacViet_DATN.Models.LichSuDoc>
-
 @{
-    ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="container-fluid shadow-sm p-3 mb-5 bg-white rounded">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary"><i class="fas fa-history me-2"></i>Quản lý Lịch sử đọc</h2>
+        <a asp-action="Create" class="btn btn-success shadow-sm"><i class="fas fa-plus-circle me-1"></i>Thêm mới</a>
+    </div>
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayDoc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaChuongTruyenNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaTruyenNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaiKhoanNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayDoc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaChuongTruyenNavigation.MaChuongTruyen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaTruyenNavigation.MaTruyen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TaiKhoanNavigation.TaiKhoan)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <table class="table table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th><i class="fas fa-user me-1"></i> @Html.DisplayNameFor(model => model.TaiKhoanNavigation)</th>
+                <th><i class="fas fa-book me-1"></i> @Html.DisplayNameFor(model => model.MaTruyenNavigation)</th>
+                <th><i class="fas fa-file-alt me-1"></i> Chương</th>
+                <th><i class="fas fa-calendar-alt me-1"></i> @Html.DisplayNameFor(model => model.NgayDoc)</th>
+                <th class="text-center">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold">@item.TaiKhoan</td>
+                    <td><span class="badge bg-info text-dark">@item.MaTruyenNavigation?.TenTruyen</span></td>
+                    <td>Chương @item.MaChuongTruyenNavigation?.ThuTuChuong</td>
+                    <td>@item.NgayDoc?.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td class="text-center">
+                        <div class="btn-group shadow-sm">
+                            <a asp-action="Edit" asp-route-taiKhoan="@item.TaiKhoan" asp-route-maTruyen="@item.MaTruyen" class="btn btn-sm btn-warning" title="Sửa"><i class="fas fa-edit"></i></a>
+                            <a asp-action="Details" asp-route-taiKhoan="@item.TaiKhoan" asp-route-maTruyen="@item.MaTruyen" class="btn btn-sm btn-info text-white" title="Chi tiết"><i class="fas fa-info-circle"></i></a>
+                            <a asp-action="Delete" asp-route-taiKhoan="@item.TaiKhoan" asp-route-maTruyen="@item.MaTruyen" class="btn btn-sm btn-danger" title="Xóa"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

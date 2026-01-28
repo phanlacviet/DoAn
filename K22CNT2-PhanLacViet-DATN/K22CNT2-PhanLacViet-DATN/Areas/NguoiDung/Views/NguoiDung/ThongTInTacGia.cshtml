@@ -42,10 +42,31 @@
 
                         <div class="engagement-metrics">
                             <div class="metric-item">👁️ Lượt xem: <b>@item.TongLuotXem</b></div>
-                            <div class="metric-item">❤️ Theo dõi: <b>@item.LuotTheoDoi</b></div>
-                            <div class="metric-item">💾 Đã lưu: <b>@item.LuotLuu</b></div>
-                            <div class="metric-item">💬 Bình luận: <b>@item.LuotBinhLuan</b></div>
-                            <div class="metric-item">⭐ Đánh giá: <span class="rating-star">@item.DiemDanhGia.ToString("0.0") (@item.LuotDanhGia)</span></div>
+
+                            <div class="metric-item clickable" onclick="openDetailModal('follow', @item.MaTruyen, '@item.TenTruyen')">
+                                ❤️ Theo dõi: <b>@item.LuotTheoDoi</b>
+                            </div>
+
+                            <div class="metric-item clickable" onclick="openDetailModal('save', @item.MaTruyen, '@item.TenTruyen')">
+                                💾 Đã lưu: <b>@item.LuotLuu</b>
+                            </div>
+
+                            <div class="metric-item clickable" onclick="openDetailModal('comment', @item.MaTruyen, '@item.TenTruyen')">
+                                💬 Bình luận: <b>@item.LuotBinhLuan</b>
+                            </div>
+
+                            <div class="metric-item clickable" onclick="openDetailModal('rating', @item.MaTruyen, '@item.TenTruyen')">
+                                ⭐ Đánh giá: <span class="rating-star">@item.DiemDanhGia.ToString("0.0") (@item.LuotDanhGia)</span>
+                            </div>
+                        </div>
+                        <div class="modal" id="modalDetails">
+                            <div class="modal-content" style="max-width: 600px;">
+                                <button class="close-modal" onclick="closeModals()">&times;</button>
+                                <h3 id="modalDetailTitle" style="margin-top:0; border-bottom: 1px solid #eee; padding-bottom: 10px;">Chi tiết</h3>
+                                <div id="modalDetailBody" class="modal-body-scroll" style="max-height: 500px; overflow-y: auto; padding-top: 10px;">
+                                    <div style="text-align:center">Đang tải...</div>
+                                </div>
+                            </div>
                         </div>
 
                         <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">

@@ -1,43 +1,44 @@
 ﻿@model K22CNT2_PhanLacViet_DATN.Models.RepBinhLuan
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết phản hồi";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>RepBinhLuan</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NoiDung)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NoiDung)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayGui)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgayGui)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaBinhLuanNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaBinhLuanNavigation.MaBinhLuan)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TaiKhoanNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TaiKhoanNavigation.TaiKhoan)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.MaRep">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow border-0 overflow-hidden">
+                <div class="card-header bg-dark text-white p-3">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Chi tiết phản hồi #@Model.MaRep</h5>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="row mb-4">
+                        <div class="col-sm-4 text-muted fw-bold text-uppercase small">Người gửi:</div>
+                        <div class="col-sm-8 fw-bold"><i class="fas fa-user text-primary me-2"></i>@Model.TaiKhoanNavigation?.TaiKhoan</div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-sm-4 text-muted fw-bold text-uppercase small">Ngày đăng:</div>
+                        <div class="col-sm-8 text-secondary">@Model.NgayGui?.ToString("dddd, dd/MM/yyyy HH:mm")</div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-sm-4 text-muted fw-bold text-uppercase small">ID Bình luận gốc:</div>
+                        <div class="col-sm-8"><span class="badge bg-primary">ID: @Model.MaBinhLuan</span></div>
+                    </div>
+                    <hr />
+                    <div class="mt-3">
+                        <label class="text-muted fw-bold text-uppercase small mb-2 d-block">Nội dung phản hồi:</label>
+                        <div class="p-3 bg-white border rounded shadow-sm italic" style="min-height: 100px;">
+                            <i class="fas fa-quote-left text-muted me-2 opacity-25"></i>
+                            @Model.NoiDung
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white d-flex justify-content-end gap-2 py-3">
+                    <a asp-action="Edit" asp-route-id="@Model.MaRep" class="btn btn-warning"><i class="fas fa-edit"></i> Sửa</a>
+                    <a asp-action="Index" class="btn btn-outline-dark">Quay lại danh sách</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

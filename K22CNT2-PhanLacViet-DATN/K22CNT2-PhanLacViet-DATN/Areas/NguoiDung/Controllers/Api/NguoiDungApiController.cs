@@ -61,7 +61,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                     MaTruyen = t.MaTruyen,
                     TenTruyen = t.MaTruyenNavigation.TenTruyen,
                     // Giả lập ảnh bìa nếu null
-                    AnhBia = "https://via.placeholder.com/200x300?text=" + (t.MaTruyenNavigation.TenTruyen.Substring(0, 1) ?? "T"),
+                    AnhBia = t.MaTruyenNavigation.AnhBia ?? "/images/AnhBia/default.jpg",
                     LuotXem = t.MaTruyenNavigation.TongLuotXem ?? 0,
                     ThoiGian = t.NgayTheoDoi.HasValue ? t.NgayTheoDoi.Value.ToString("dd/MM/yyyy") : "",
                     CoChuongMoi = false, // Cần logic check chương mới sau
@@ -79,7 +79,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 {
                     MaTruyen = ls.MaTruyen,
                     TenTruyen = ls.MaTruyenNavigation.TenTruyen,
-                    AnhBia = "https://via.placeholder.com/200x300?text=History",
+                    AnhBia = ls.MaTruyenNavigation.AnhBia ?? "/images/AnhBia/default.jpg",
                     TienDo = ls.MaChuongTruyenNavigation != null ? ls.MaChuongTruyenNavigation.TieuDe : "Đang đọc",
                     ThoiGian = ls.NgayDoc.HasValue ? ls.NgayDoc.Value.ToString("HH:mm dd/MM") : "",
                     LoaiDanhSach = "LichSu"
@@ -94,7 +94,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 {
                     MaTruyen = l.MaTruyen,
                     TenTruyen = l.MaTruyenNavigation.TenTruyen,
-                    AnhBia = "https://via.placeholder.com/200x300?text=Saved",
+                    AnhBia = l.MaTruyenNavigation.AnhBia ?? "/images/AnhBia/default.jpg",
                     LuotXem = l.MaTruyenNavigation.TongLuotXem ?? 0,
                     ThoiGian = l.NgayLuu.HasValue ? l.NgayLuu.Value.ToString("dd/MM/yyyy") : "",
                     LoaiDanhSach = "DaLuu"
@@ -120,7 +120,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                     LuotTheoDoi = _context.TheoDois.Count(td => td.MaTruyen == t.MaTruyen),
                     LuotLuu = _context.LuuTruyens.Count(lt => lt.MaTruyen == t.MaTruyen),
                     LuotBinhLuan = _context.BinhLuans
-                        .Count(bl => bl.MaChuongTruyenNavigation.MaTruyen == t.MaTruyen),
+                        .Count(bl => bl.MaChuongTruyenNavigation!.MaTruyen == t.MaTruyen),
                     DiemDanhGia = _context.DanhGia.Where(dg => dg.MaTruyen == t.MaTruyen).Average(dg => (double?)dg.Diem) ?? 0,
                     LuotDanhGia = _context.DanhGia.Count(dg => dg.MaTruyen == t.MaTruyen)
                 })
@@ -203,7 +203,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                     .Select(tb => new
                     {
                         tb.MaThongBao,
-                        TieuDe = tb.NoiDung.Length > 50 ? tb.NoiDung.Substring(0, 50) + "..." : tb.NoiDung,
+                        TieuDe = tb.NoiDung!.Length > 50 ? tb.NoiDung.Substring(0, 50) + "..." : tb.NoiDung,
                         tb.NoiDung,
                         NgayGui = tb.NgayGui.HasValue ? tb.NgayGui.Value.ToString("dd/MM/yyyy HH:mm") : "",
                         DaDoc = tb.DaDoc 
@@ -234,6 +234,53 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
             {
                 return StatusCode(500, "Lỗi: " + ex.Message);
             }
+        }
+        [HttpPost("MarkAllRead/{taiKhoan}")]
+        public async Task<IActionResult> MarkAllRead(string taiKhoan)
+        {
+            var list = await _context.ThongBaos.Where(x => x.TaiKhoan == taiKhoan && (x.DaDoc == false)).ToListAsync();
+            foreach (var item in list) { item.DaDoc = true; }
+            await _context.SaveChangesAsync();
+            return Ok(new { success = true });
+        }
+        [HttpDelete("DeleteReadNotifications/{taiKhoan}")]
+        public async Task<IActionResult> DeleteReadNotifications(string taiKhoan)
+        {
+            if (string.IsNullOrEmpty(taiKhoan)) return BadRequest();
+
+            try
+            {
+                var readNotifications = await _context.ThongBaos
+                    .Where(x => x.TaiKhoan == taiKhoan && x.DaDoc == true)
+                    .ToListAsync();
+
+                if (readNotifications.Any())
+                {
+                    _context.ThongBaos.RemoveRange(readNotifications);
+                    await _context.SaveChangesAsync();
+                }
+
+                return Ok(new { success = true, count = readNotifications.Count });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Lỗi khi xóa: " + ex.Message);
+            }
+        }
+        [HttpGet("GetAvatar/{taiKhoan}")]
+        public async Task<IActionResult> GetAvatar(string taiKhoan)
+        {
+            var user = await _context.ThanhViens
+                .Where(x => x.TaiKhoan == taiKhoan)
+                .Select(x => new { x.Avatar })
+                .FirstOrDefaultAsync();
+
+            if (user == null || string.IsNullOrEmpty(user.Avatar))
+            {
+                return Ok(new { avatar = "/NguoiDung/images/Avatar/default.jpg" });
+            }
+
+            return Ok(new { avatar = user.Avatar });
         }
         [HttpPost("dang-truyen")]
         public async Task<IActionResult> PostDangTruyen([FromForm] DangTruyenDto input)
@@ -448,6 +495,87 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
             {
                 return StatusCode(500, new { success = false, message = ex.Message });
             }
+        }
+        [HttpGet("GetFollowers/{maTruyen}")]
+        public async Task<IActionResult> GetFollowers(int maTruyen)
+        {
+            var data = await _context.TheoDois
+                .Where(x => x.MaTruyen == maTruyen)
+                .OrderByDescending(x => x.NgayTheoDoi)
+                .Select(x => new TuongTacDto
+                {
+                    TaiKhoan = x.TaiKhoan,
+                    // Join thủ công hoặc lấy từ quan hệ nếu có Navigation Property
+                    Avatar = _context.ThanhViens.FirstOrDefault(u => u.TaiKhoan == x.TaiKhoan)!.Avatar,
+                    NgayThucHien = x.NgayTheoDoi.HasValue ? x.NgayTheoDoi.Value.ToString("dd/MM/yyyy HH:mm") : ""
+                }).ToListAsync();
+            return Ok(data);
+        }
+
+        [HttpGet("GetSavers/{maTruyen}")]
+        public async Task<IActionResult> GetSavers(int maTruyen)
+        {
+            var data = await _context.LuuTruyens
+                .Where(x => x.MaTruyen == maTruyen)
+                .OrderByDescending(x => x.NgayLuu) // Giả sử có trường NgayLuu
+                .Select(x => new TuongTacDto
+                {
+                    TaiKhoan = x.TaiKhoan,
+                    Avatar = _context.ThanhViens.FirstOrDefault(u => u.TaiKhoan == x.TaiKhoan)!.Avatar,
+                    NgayThucHien = x.NgayLuu.HasValue ? x.NgayLuu.Value.ToString("dd/MM/yyyy HH:mm") : ""
+                }).ToListAsync();
+            return Ok(data);
+        }
+
+        [HttpGet("GetRatings/{maTruyen}")]
+        public async Task<IActionResult> GetRatings(int maTruyen)
+        {
+            var data = await _context.DanhGia
+                .Where(x => x.MaTruyen == maTruyen)
+                .OrderByDescending(x => x.NgayDanhGia)
+                .Select(x => new DanhGiaDto
+                {
+                    TaiKhoan = x.TaiKhoan,
+                    Avatar = _context.ThanhViens.FirstOrDefault(u => u.TaiKhoan == x.TaiKhoan)!.Avatar,
+                    Diem = x.Diem ?? 0,
+                    NoiDung = x.NoiDung,
+                    NgayDanhGia = x.NgayDanhGia
+                }).ToListAsync();
+            return Ok(data);
+        }
+
+        [HttpGet("GetComments/{maTruyen}")]
+        public async Task<IActionResult> GetComments(int maTruyen)
+        {
+            // Lấy tất cả bình luận thuộc các chương của truyện này
+            var comments = await (from bl in _context.BinhLuans
+                                  join c in _context.ChuongTruyens on bl.MaChuongTruyen equals c.MaChuongTruyen
+                                  join u in _context.ThanhViens on bl.TaiKhoan equals u.TaiKhoan
+                                  where c.MaTruyen == maTruyen
+                                  orderby bl.NgayGui descending
+                                  select new BinhLuanDto
+                                  {
+                                      MaBinhLuan = bl.MaBinhLuan,
+                                      NoiDung = bl.NoiDung,
+                                      TaiKhoan = bl.TaiKhoan,
+                                      Avatar = u.Avatar,
+                                      TenChuong = c.TieuDe,
+                                      NgayGui = bl.NgayGui,
+                                      // Lấy danh sách trả lời (Sub-query)
+                                      RepBinhLuans = _context.RepBinhLuans
+                                          .Where(r => r.MaBinhLuan == bl.MaBinhLuan)
+                                          .OrderBy(r => r.NgayGui)
+                                          .Select(r => new RepBinhLuanDto
+                                          {
+                                              MaRep = r.MaRep,
+                                              TaiKhoan = r.TaiKhoan,
+                                              Avatar = _context.ThanhViens.FirstOrDefault(uv => uv.TaiKhoan == r.TaiKhoan)!.Avatar,
+                                              NoiDung = r.NoiDung,
+                                              NgayGui = r.NgayGui
+                                          }).ToList()
+                                  }).ToListAsync();
+
+            return Ok(comments);
         }
     }
 }

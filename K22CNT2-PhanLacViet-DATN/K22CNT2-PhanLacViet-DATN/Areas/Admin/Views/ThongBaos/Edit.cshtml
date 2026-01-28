@@ -1,47 +1,65 @@
 ﻿@model K22CNT2_PhanLacViet_DATN.Models.ThongBao
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Cập nhật thông báo";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<div class="container py-4">
+    <div class="card shadow border-0 mx-auto" style="max-width: 550px;">
+        <div class="card-header bg-warning py-3">
+            <h5 class="mb-0 fw-bold"><i class="fas fa-edit me-2"></i> Cập nhật thông báo</h5>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small"></div>
 
-<h4>ThongBao</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="MaThongBao" />
-            <div class="form-group">
-                <label asp-for="TaiKhoan" class="control-label"></label>
-                <select asp-for="TaiKhoan" class="form-control" asp-items="ViewBag.TaiKhoan"></select>
-                <span asp-validation-for="TaiKhoan" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NoiDung" class="control-label"></label>
-                <input asp-for="NoiDung" class="form-control" />
-                <span asp-validation-for="NoiDung" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DaDoc" class="control-label"></label>
-                <input asp-for="DaDoc" class="form-control" />
-                <span asp-validation-for="DaDoc" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NgayGui" class="control-label"></label>
-                <input asp-for="NgayGui" class="form-control" />
-                <span asp-validation-for="NgayGui" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                @* Các trường ẩn quan trọng *@
+                <input type="hidden" asp-for="MaThongBao" />
+                <input type="hidden" asp-for="NgayGui" />
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small text-uppercase">Người nhận</label>
+                    <select asp-for="TaiKhoan" class="form-select bg-light fw-bold" asp-items="ViewBag.TaiKhoan"></select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Nội dung</label>
+                    <textarea asp-for="NoiDung" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="NoiDung" class="text-danger small"></span>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-7">
+                        <div class="form-check form-switch pt-2">
+                            @* GIẢI PHÁP SỬA LỖI: 
+                                Không dùng asp-for cho checkbox nếu kiểu dữ liệu là bool? (nullable)
+                            *@
+                            <input class="form-check-input" type="checkbox"
+                                   name="DaDoc"
+                                   id="chkDoc"
+                                   value="true"
+                                   @(Model.DaDoc == true ? "checked" : "")>
+                            <label class="form-check-label fw-bold" for="chkDoc">Đánh dấu đã đọc</label>
+
+                            @* Hidden input này cực kỳ quan trọng để gửi giá trị false nếu checkbox không được tích *@
+                            <input type="hidden" name="DaDoc" value="false">
+                        </div>
+                    </div>
+                    <div class="col-md-5 text-end align-self-center">
+                        <small class="text-muted"><i class="fas fa-clock me-1"></i> @Model.NgayGui?.ToString("g")</small>
+                    </div>
+                </div>
+
+                <div class="row g-2">
+                    <div class="col-6">
+                        <a asp-action="Index" class="btn btn-light border w-100">Hủy bỏ</a>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-warning w-100 fw-bold shadow-sm">Lưu thay đổi</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

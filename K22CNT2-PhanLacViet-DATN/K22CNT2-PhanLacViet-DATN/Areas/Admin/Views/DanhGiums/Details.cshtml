@@ -1,49 +1,88 @@
 ﻿@model K22CNT2_PhanLacViet_DATN.Models.DanhGium
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết đánh giá";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow border-0 overflow-hidden">
+                <div class="card-header bg-info text-white p-3">
+                    <h5 class="mb-0"><i class="fas fa-search me-2"></i> Chi tiết đánh giá từ khách hàng</h5>
+                </div>
 
-<div>
-    <h4>DanhGium</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Diem)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Diem)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NoiDung)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NoiDung)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayDanhGia)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgayDanhGia)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaTruyenNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaTruyenNavigation.MaTruyen)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TaiKhoanNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TaiKhoanNavigation.TaiKhoan)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+                <div class="card-body bg-light p-4">
+                    <div class="row mb-4 border-bottom pb-3">
+                        <div class="col-sm-6">
+                            <label class="text-muted small fw-bold text-uppercase d-block">Người đánh giá</label>
+                            <div class="d-flex align-items-center mt-1">
+                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <span class="fw-bold text-dark">@Model.TaiKhoanNavigation?.TaiKhoan</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="text-muted small fw-bold text-uppercase d-block">Truyện được đánh giá</label>
+                            <div class="mt-1">
+                                <i class="fas fa-book text-success me-1"></i>
+                                <span class="fw-bold">@Model.MaTruyenNavigation?.TenTruyen</span>
+                                <small class="text-muted">(ID: #@Model.MaTruyen)</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-sm-6">
+                            <label class="text-muted small fw-bold text-uppercase d-block mb-1">Điểm số</label>
+                            <div class="h4">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= Model.Diem)
+                                    {
+                                        <i class="fas fa-star text-warning"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="far fa-star text-secondary opacity-50"></i>
+                                    }
+                                }
+                                <span class="ms-2 badge bg-warning text-dark font-size-sm">@Model.Diem / 5</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 text-sm-end">
+                            <label class="text-muted small fw-bold text-uppercase d-block mb-1">Thời gian gửi</label>
+                            <p class="text-dark"><i class="far fa-calendar-alt me-1"></i> @Model.NgayDanhGia?.ToString("dddd, dd/MM/yyyy HH:mm")</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-2">
+                        <label class="text-muted small fw-bold text-uppercase d-block mb-2">Nội dung nhận xét</label>
+                        <div class="p-3 bg-white rounded border border-info shadow-sm" style="min-height: 120px; border-left-width: 5px !important;">
+                            <i class="fas fa-quote-left text-info opacity-25 fa-2x float-start me-3"></i>
+                            <p class="mb-0 pt-1 text-dark fs-5 italic">
+                                @(string.IsNullOrEmpty(Model.NoiDung) ? "Không có nội dung nhận xét." : Model.NoiDung)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-white d-flex justify-content-between py-3">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fas fa-chevron-left me-1"></i> Trở về danh sách
+                    </a>
+                    <div class="btn-group">
+                        <a asp-action="Edit"
+                           asp-route-taiKhoan="@Model.TaiKhoan"
+                           asp-route-maTruyen="@Model.MaTruyen"
+                           class="btn btn-warning fw-bold">
+                            <i class="fas fa-edit me-1"></i> Chỉnh sửa
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

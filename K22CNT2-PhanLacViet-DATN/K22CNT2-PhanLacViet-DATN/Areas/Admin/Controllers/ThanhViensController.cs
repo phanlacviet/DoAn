@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using K22CNT2_PhanLacViet_DATN.Models;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace K22CNT2_PhanLacViet_DATN.Areas.Admin.Controllers
 {
@@ -54,10 +56,34 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TaiKhoan,MatKhau,Avatar,NgayTao,IsDeleted")] ThanhVien thanhVien)
+        public async Task<IActionResult> Create([Bind("TaiKhoan,MatKhau,IsDeleted")] ThanhVien thanhVien, IFormFile fAvatar)
         {
             if (ModelState.IsValid)
             {
+                if (fAvatar != null && fAvatar.Length > 0)
+                {
+                    // Đường dẫn thư mục lưu: wwwroot/NguoiDung/images/Avatar
+                    string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "NguoiDung", "images", "Avatar");
+                    if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+
+                    string fileName = Path.GetFileName(fAvatar.FileName);
+                    string filePath = Path.Combine(folderPath, fileName);
+
+                    // Kiểm tra trùng tên, nếu trùng thì đổi tên (thêm Guid)
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        fileName = Guid.NewGuid().ToString() + "_" + fileName;
+                        filePath = Path.Combine(folderPath, fileName);
+                    }
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await fAvatar.CopyToAsync(stream);
+                    }
+                    thanhVien.Avatar = "/NguoiDung/images/Avatar/" + fileName;
+                }
+
+                thanhVien.NgayTao = DateTime.Now;
                 _context.Add(thanhVien);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,30 +112,42 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("TaiKhoan,MatKhau,Avatar,NgayTao,IsDeleted")] ThanhVien thanhVien)
+        public async Task<IActionResult> Edit(string id, [Bind("TaiKhoan,MatKhau,NgayTao,IsDeleted,Avatar")] ThanhVien thanhVien, IFormFile fAvatar)
         {
-            if (id != thanhVien.TaiKhoan)
-            {
-                return NotFound();
-            }
+            if (id != thanhVien.TaiKhoan) return NotFound();
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (fAvatar != null && fAvatar.Length > 0)
+                    {
+                        // 1. Xóa ảnh cũ nếu có
+                        if (!string.IsNullOrEmpty(thanhVien.Avatar))
+                        {
+                            string oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", thanhVien.Avatar.TrimStart('/'));
+                            if (System.IO.File.Exists(oldPath)) System.IO.File.Delete(oldPath);
+                        }
+
+                        // 2. Lưu ảnh mới
+                        string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "NguoiDung", "images", "Avatar");
+                        string fileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(fAvatar.FileName);
+                        string filePath = Path.Combine(folderPath, fileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await fAvatar.CopyToAsync(stream);
+                        }
+                        thanhVien.Avatar = "/NguoiDung/images/Avatar/" + fileName;
+                    }
+
                     _context.Update(thanhVien);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ThanhVienExists(thanhVien.TaiKhoan))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!ThanhVienExists(thanhVien.TaiKhoan)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }

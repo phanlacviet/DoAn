@@ -153,6 +153,9 @@
                         {
                             <div class="mini-item">
                                 <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" class="mini-thumb">
+                                    <img src="@(string.IsNullOrEmpty(item.AnhBia) ? "/images/default-cover.jpg" : item.AnhBia)"
+                                         alt="@item.TenTruyen"
+                                         style="width:100%; height:100%; object-fit:cover; border-radius:4px;" />
                                 </a>
                                 <div class="mini-info">
                                     <div class="mini-title">
@@ -187,7 +190,11 @@
                         foreach (var item in Model.DaLuu)
                         {
                             <div class="mini-item">
-                                <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" class="mini-thumb"></a>
+                                <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" class="mini-thumb">
+                                    <img src="@(string.IsNullOrEmpty(item.AnhBia) ? "/images/default-cover.jpg" : item.AnhBia)"
+                                         alt="@item.TenTruyen"
+                                         style="width:100%; height:100%; object-fit:cover; border-radius:4px;" />
+                                </a>
                                 <div class="mini-info">
                                     <div class="mini-title">
                                         <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" style="text-decoration:none; color:inherit;">@item.TenTruyen</a>

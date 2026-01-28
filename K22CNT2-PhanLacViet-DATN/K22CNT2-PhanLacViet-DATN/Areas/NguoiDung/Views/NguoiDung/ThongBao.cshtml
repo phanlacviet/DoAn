@@ -1,0 +1,100 @@
+﻿@using K22CNT2_PhanLacViet_DATN.Models
+@model IEnumerable<ThongBao>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Tất cả thông báo";
+    var userLogin = Context.Session.GetString("USER_LOGIN");
+    var userAvatar = ViewBag.UserAvatar;
+}
+
+<link rel="stylesheet" href="~/NguoiDung/css/ThongBao.css" />
+
+<div class="container">
+    <div class="ntf-page-wrapper">
+        <div class="ntf-sidebar">
+            <div class="ntf-profile-card">
+                <div class="ntf-avatar-box">
+                    <img src="@userAvatar" alt="@userLogin" onerror="this.src='/NguoiDung/images/Avatar/default-avatar.jpg'">
+                </div>
+                <h3 class="ntf-username">@userLogin</h3>
+                <p class="ntf-role">Thành viên</p>
+                <div class="ntf-stats">
+                    <span>Tổng thông báo: <b>@Model.Count()</b></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ntf-main-content">
+            <div class="ntf-toolbar">
+                <h2 class="ntf-title">🔔 Thông báo của bạn</h2>
+
+                <div class="ntf-actions">
+                    <button class="btn-mark-all" onclick="markAllReadPage()">
+                        <i class="fa-solid fa-check-double"></i> Đọc tất cả
+                    </button>
+                    <button class="btn-delete-read" onclick="deleteReadNotifications()">
+                        <i class="fa-solid fa-trash-can"></i> Xóa đã đọc
+                    </button>
+                    <div class="ntf-sort-box">
+                        <label><i class="fa-solid fa-sort"></i> Sắp xếp:</label>
+                        <select id="sortSelect" onchange="sortNotifications()">
+                            <option value="desc">Mới nhất trước</option>
+                            <option value="asc">Cũ nhất trước</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="notificationContainer" class="ntf-list-full">
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        var isUnread = (item.DaDoc == false);
+                        var rawDate = item.NgayGui.HasValue ? item.NgayGui.Value.ToString("yyyy-MM-dd HH:mm:ss") : "";
+                        var displayDate = item.NgayGui.HasValue ? item.NgayGui.Value.ToString("HH:mm - dd/MM/yyyy") : "";
+
+                        <div class="ntf-row @(isUnread ? "unread" : "")"
+                             data-id="@item.MaThongBao"
+                             data-date="@rawDate"
+                             onclick="markOneRead(@item.MaThongBao, this)">
+
+                            <div class="ntf-icon">
+                                @if (isUnread)
+                                {
+                                    <i class="fa-solid fa-envelope" style="color:var(--accent)"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa-regular fa-envelope-open" style="color:var(--text-muted)"></i>
+                                }
+                            </div>
+
+                            <div class="ntf-body">
+                                <div class="ntf-msg">@item.NoiDung</div>
+                                <div class="ntf-time">@displayDate</div>
+                            </div>
+
+                            @if (isUnread)
+                            {
+                                <div class="ntf-dot" title="Chưa đọc"></div>
+                            }
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="ntf-empty-state">
+                        <img src="https://via.placeholder.com/150?text=Empty" alt="Empty">
+                        <p>Bạn không có thông báo nào.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/NguoiDung/js/ThongBao.js"></script>
+}

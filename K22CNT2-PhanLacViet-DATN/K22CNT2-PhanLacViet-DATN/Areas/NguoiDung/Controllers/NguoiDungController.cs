@@ -37,7 +37,6 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers
             }
             try
             {
-                // 1. Lấy danh sách truyện
                 var listTruyen = await _context.Truyens
                     .Where(t => t.NguoiDang == taiKhoan && t.IsDeleted == false)
                     .Select(t => new TruyenDashboardDto
@@ -50,14 +49,12 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers
                         SoChuong = _context.ChuongTruyens.Count(c => c.MaTruyen == t.MaTruyen),
                         LuotTheoDoi = _context.TheoDois.Count(td => td.MaTruyen == t.MaTruyen),
                         LuotLuu = _context.LuuTruyens.Count(lt => lt.MaTruyen == t.MaTruyen),
-                        LuotBinhLuan = _context.BinhLuans.Count(bl => bl.MaChuongTruyenNavigation.MaTruyen == t.MaTruyen),
+                        LuotBinhLuan = _context.BinhLuans.Count(bl => bl.MaChuongTruyenNavigation!.MaTruyen == t.MaTruyen),
                         DiemDanhGia = _context.DanhGia.Where(dg => dg.MaTruyen == t.MaTruyen).Average(dg => (double?)dg.Diem) ?? 0,
                         LuotDanhGia = _context.DanhGia.Count(dg => dg.MaTruyen == t.MaTruyen)
                     })
                     .OrderByDescending(t => t.NgayCapNhat)
                     .ToListAsync();
-
-                // 2. Tính toán thống kê
                 var stats = new TacGiaStatsDto
                 {
                     TongLuotXem = await _context.Truyens.Where(t => t.NguoiDang == taiKhoan).SumAsync(t => (long?)t.TongLuotXem) ?? 0,
@@ -133,6 +130,23 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers
             if (!isOwner) return Unauthorized();
 
             return View(chuong);
+        }
+        public async Task<IActionResult> ThongBao()
+        {
+            var taiKhoan = HttpContext.Session.GetString("USER_LOGIN");
+            if (string.IsNullOrEmpty(taiKhoan)) return RedirectToAction("Auth", "Truyen");
+            var user = await _context.ThanhViens
+                .FirstOrDefaultAsync(x => x.TaiKhoan == taiKhoan);
+            ViewBag.UserAvatar = !string.IsNullOrEmpty(user?.Avatar)
+                                 ? user.Avatar
+                                 : "/NguoiDung/images/Avatar/default-avatar.jpg";
+
+            var list = await _context.ThongBaos
+                .Where(x => x.TaiKhoan == taiKhoan)
+                .OrderByDescending(x => x.NgayGui)
+                .ToListAsync();
+
+            return View(list);
         }
     }
 }

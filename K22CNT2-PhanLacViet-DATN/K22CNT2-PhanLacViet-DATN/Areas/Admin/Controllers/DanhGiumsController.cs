@@ -22,149 +22,134 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.Admin.Controllers
         // GET: Admin/DanhGiums
         public async Task<IActionResult> Index()
         {
-            var webTruyenChuContext = _context.DanhGia.Include(d => d.MaTruyenNavigation).Include(d => d.TaiKhoanNavigation);
+            var webTruyenChuContext = _context.DanhGia
+                .Include(d => d.MaTruyenNavigation)
+                .Include(d => d.TaiKhoanNavigation)
+                .OrderByDescending(d => d.NgayDanhGia);
             return View(await webTruyenChuContext.ToListAsync());
         }
 
-        // GET: Admin/DanhGiums/Details/5
-        public async Task<IActionResult> Details(string id)
+        // GET: Admin/DanhGiums/Details?taiKhoan=abc&maTruyen=1
+        public async Task<IActionResult> Details(string taiKhoan, int? maTruyen)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (taiKhoan == null || maTruyen == null) return NotFound();
 
             var danhGium = await _context.DanhGia
                 .Include(d => d.MaTruyenNavigation)
                 .Include(d => d.TaiKhoanNavigation)
-                .FirstOrDefaultAsync(m => m.TaiKhoan == id);
-            if (danhGium == null)
-            {
-                return NotFound();
-            }
+                .FirstOrDefaultAsync(m => m.TaiKhoan == taiKhoan && m.MaTruyen == maTruyen);
+
+            if (danhGium == null) return NotFound();
 
             return View(danhGium);
         }
 
-        // GET: Admin/DanhGiums/Create
         public IActionResult Create()
         {
-            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "MaTruyen");
+            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "TenTruyen");
             ViewData["TaiKhoan"] = new SelectList(_context.ThanhViens, "TaiKhoan", "TaiKhoan");
             return View();
         }
 
-        // POST: Admin/DanhGiums/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TaiKhoan,MaTruyen,Diem,NoiDung,NgayDanhGia")] DanhGium danhGium)
+        public async Task<IActionResult> Create([Bind("TaiKhoan,MaTruyen,Diem,NoiDung")] DanhGium danhGium)
         {
+            ModelState.Remove("MaTruyenNavigation");
+            ModelState.Remove("TaiKhoanNavigation");
             if (ModelState.IsValid)
             {
-                _context.Add(danhGium);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Kiểm tra xem user này đã đánh giá truyện này chưa (tránh lỗi PK)
+                bool exists = _context.DanhGia.Any(d => d.TaiKhoan == danhGium.TaiKhoan && d.MaTruyen == danhGium.MaTruyen);
+                if (exists)
+                {
+                    ModelState.AddModelError("", "Người dùng này đã đánh giá truyện này rồi.");
+                }
+                else
+                {
+                    danhGium.NgayDanhGia = DateTime.Now;
+                    _context.Add(danhGium);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "MaTruyen", danhGium.MaTruyen);
+            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "TenTruyen", danhGium.MaTruyen);
             ViewData["TaiKhoan"] = new SelectList(_context.ThanhViens, "TaiKhoan", "TaiKhoan", danhGium.TaiKhoan);
             return View(danhGium);
         }
 
-        // GET: Admin/DanhGiums/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        // GET: Admin/DanhGiums/Edit?taiKhoan=abc&maTruyen=1
+        public async Task<IActionResult> Edit(string taiKhoan, int? maTruyen)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (taiKhoan == null || maTruyen == null) return NotFound();
+            var danhGium = await _context.DanhGia.FirstOrDefaultAsync(x => x.TaiKhoan == taiKhoan && x.MaTruyen == maTruyen);
 
-            var danhGium = await _context.DanhGia.FindAsync(id);
-            if (danhGium == null)
-            {
-                return NotFound();
-            }
-            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "MaTruyen", danhGium.MaTruyen);
+            if (danhGium == null) return NotFound();
+
+            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "TenTruyen", danhGium.MaTruyen);
             ViewData["TaiKhoan"] = new SelectList(_context.ThanhViens, "TaiKhoan", "TaiKhoan", danhGium.TaiKhoan);
             return View(danhGium);
         }
 
-        // POST: Admin/DanhGiums/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("TaiKhoan,MaTruyen,Diem,NoiDung,NgayDanhGia")] DanhGium danhGium)
+        public async Task<IActionResult> Edit(string TaiKhoan, int MaTruyen, [Bind("TaiKhoan,MaTruyen,Diem,NoiDung,NgayDanhGia")] DanhGium danhGium)
         {
-            if (id != danhGium.TaiKhoan)
+            // Kiểm tra khớp dữ liệu của cả 2 thành phần khóa chính
+            if (TaiKhoan != danhGium.TaiKhoan || MaTruyen != danhGium.MaTruyen)
             {
                 return NotFound();
             }
-
+            ModelState.Remove("MaTruyenNavigation");
+            ModelState.Remove("TaiKhoanNavigation");
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(danhGium);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DanhGiumExists(danhGium.TaiKhoan))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!DanhGiumExists(danhGium.TaiKhoan, danhGium.MaTruyen)) return NotFound();
+                    else throw;
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "MaTruyen", danhGium.MaTruyen);
-            ViewData["TaiKhoan"] = new SelectList(_context.ThanhViens, "TaiKhoan", "TaiKhoan", danhGium.TaiKhoan);
+            
             return View(danhGium);
         }
 
-        // GET: Admin/DanhGiums/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string taiKhoan, int? maTruyen)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (taiKhoan == null || maTruyen == null) return NotFound();
 
             var danhGium = await _context.DanhGia
                 .Include(d => d.MaTruyenNavigation)
                 .Include(d => d.TaiKhoanNavigation)
-                .FirstOrDefaultAsync(m => m.TaiKhoan == id);
-            if (danhGium == null)
-            {
-                return NotFound();
-            }
+                .FirstOrDefaultAsync(m => m.TaiKhoan == taiKhoan && m.MaTruyen == maTruyen);
+
+            if (danhGium == null) return NotFound();
 
             return View(danhGium);
         }
 
-        // POST: Admin/DanhGiums/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(string taiKhoan, int maTruyen)
         {
-            var danhGium = await _context.DanhGia.FindAsync(id);
+            var danhGium = await _context.DanhGia.FindAsync(taiKhoan, maTruyen);
             if (danhGium != null)
             {
                 _context.DanhGia.Remove(danhGium);
             }
-
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DanhGiumExists(string id)
+        private bool DanhGiumExists(string taiKhoan, int maTruyen)
         {
-            return _context.DanhGia.Any(e => e.TaiKhoan == id);
+            return _context.DanhGia.Any(e => e.TaiKhoan == taiKhoan && e.MaTruyen == maTruyen);
         }
     }
 }

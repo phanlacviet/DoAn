@@ -38,6 +38,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 {
                     MaTruyen = l.MaTruyen,
                     TenTruyen = l.MaTruyenNavigation.TenTruyen,
+                    AnhBia = l.MaTruyenNavigation.AnhBia,
                     ThuTuChuong = l.MaChuongTruyenNavigation != null ? l.MaChuongTruyenNavigation.ThuTuChuong : 0,
                     NgayDoc = l.NgayDoc
                 })
@@ -360,6 +361,45 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
             };
 
             return Ok(result);
+        }
+        [HttpPost("LuuTruyen")]
+        public async Task<IActionResult> LuuTruyen([FromBody] LuuTruyenInput input)
+        {
+            // 1. Kiểm tra đã lưu chưa
+            var daTonTai = await _context.LuuTruyens
+                .AnyAsync(x => x.TaiKhoan == input.TaiKhoan && x.MaTruyen == input.MaTruyen);
+
+            if (daTonTai)
+                return Ok(new { success = false, message = "Truyện đã có trong tủ." });
+
+            // 2. Thêm mới
+            var tuTruyen = new LuuTruyen
+            {
+                TaiKhoan = input.TaiKhoan,
+                MaTruyen = input.MaTruyen,
+                NgayLuu = DateTime.Now
+            };
+
+            _context.LuuTruyens.Add(tuTruyen);
+            var thongTinTruyen = await _context.ChuongTruyens
+                .Where(c => c.MaTruyen == input.MaTruyen)
+                .Select(c => new { c.MaTruyenNavigation.NguoiDang, c.MaTruyenNavigation.TenTruyen, c.TieuDe })
+                .FirstOrDefaultAsync();
+
+            if (thongTinTruyen != null && thongTinTruyen.NguoiDang != input.TaiKhoan)
+            {
+                var thongBao = new ThongBao
+                {
+                    TaiKhoan = thongTinTruyen.NguoiDang,
+                    NoiDung = $"{input.TaiKhoan} đã lưu truyện '{thongTinTruyen.TenTruyen}' của bạn.",
+                    DaDoc = false,
+                    NgayGui = DateTime.Now
+                };
+                _context.ThongBaos.Add(thongBao);
+            }
+            await _context.SaveChangesAsync();
+
+            return Ok(new { success = true });
         }
         [HttpPost("BinhLuan/Them")]
         public async Task<IActionResult> ThemBinhLuan([FromBody] ThemBinhLuanInput input)

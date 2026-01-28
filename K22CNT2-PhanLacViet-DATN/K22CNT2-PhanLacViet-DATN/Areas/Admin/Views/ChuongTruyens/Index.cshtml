@@ -1,60 +1,65 @@
 ﻿@model IEnumerable<K22CNT2_PhanLacViet_DATN.Models.ChuongTruyen>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Quản lý chương truyện";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="container-fluid shadow-sm p-3 mb-5 bg-white rounded">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 text-gray-800">Danh sách chương</h1>
+        <a asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm chương mới</a>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ThuTuChuong)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TieuDe)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NoiDung)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayDang)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaTruyenNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ThuTuChuong)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TieuDe)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NoiDung)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayDang)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaTruyenNavigation.MaTruyen)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaChuongTruyen">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaChuongTruyen">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaChuongTruyen">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Truyện</th>
+                <th style="width: 80px;">Thứ tự</th>
+                <th>Tiêu đề</th>
+                <th>Nội dung (Preview)</th>
+                <th>Ngày đăng</th>
+                <th style="width: 150px;">Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold text-primary">
+                        @Html.DisplayFor(modelItem => item.MaTruyenNavigation.TenTruyen)
+                    </td>
+                    <td class="text-center">
+                        <span class="badge bg-secondary">#@item.ThuTuChuong</span>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TieuDe)
+                    </td>
+                    <td class="small text-muted">
+                        @if (!string.IsNullOrEmpty(item.NoiDung))
+                        {
+                            // Loại bỏ thẻ HTML để hiển thị text thuần ở preview cho đẹp
+                            string plainText = System.Text.RegularExpressions.Regex.Replace(item.NoiDung, "<.*?>", String.Empty);
+                            if (plainText.Length > 100)
+                            {
+                                @(plainText.Substring(0, 100) + "...")
+                            }
+                            else
+                            {
+                                @plainText
+                            }
+                        }
+                    </td>
+                    <td>
+                        @item.NgayDang?.ToString("dd/MM/yyyy HH:mm")
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.MaChuongTruyen" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i></a>
+                        <a asp-action="Details" asp-route-id="@item.MaChuongTruyen" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.MaChuongTruyen" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

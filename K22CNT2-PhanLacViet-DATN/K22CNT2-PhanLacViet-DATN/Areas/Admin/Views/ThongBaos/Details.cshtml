@@ -5,39 +5,45 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="container py-4">
+    <div class="card shadow border-0 mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-info text-white py-3 text-center">
+            <h5 class="mb-0 fw-bold"><i class="fas fa-info-circle me-2"></i> Nội dung chi tiết thông báo</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-start mb-4">
+                <div>
+                    <h6 class="text-muted small text-uppercase mb-1">Gửi cho:</h6>
+                    <h5 class="fw-bold text-info"><i class="fas fa-user-circle me-1"></i> @Model.TaiKhoan</h5>
+                </div>
+                <div class="text-end">
+                    <h6 class="text-muted small text-uppercase mb-1">Ngày gửi:</h6>
+                    <p class="mb-0 fw-bold">@Model.NgayGui?.ToString("F")</p>
+                </div>
+            </div>
 
-<div>
-    <h4>ThongBao</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NoiDung)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NoiDung)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DaDoc)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DaDoc)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayGui)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgayGui)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TaiKhoanNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TaiKhoanNavigation.TaiKhoan)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.MaThongBao">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+            <div class="p-3 bg-light border rounded mb-4">
+                <h6 class="fw-bold border-bottom pb-2 mb-2">Nội dung:</h6>
+                <p class="mb-0" style="white-space: pre-wrap;">@Model.NoiDung</p>
+            </div>
+
+            <div class="mb-4">
+                <span class="fw-bold me-2">Trạng thái:</span>
+                @if (Model.DaDoc == true)
+                {
+                    <span class="badge bg-secondary">Người dùng đã đọc</span>
+                }
+                else
+                {
+                    <span class="badge bg-warning text-dark">Chưa đọc</span>
+                }
+            </div>
+
+            <hr />
+            <div class="d-flex justify-content-center gap-2">
+                <a asp-action="Edit" asp-route-id="@Model.MaThongBao" class="btn btn-warning px-4 text-dark fw-bold shadow-sm">Sửa nội dung</a>
+                <a asp-action="Index" class="btn btn-light border px-4 shadow-sm">Trở lại danh sách</a>
+            </div>
+        </div>
+    </div>
 </div>

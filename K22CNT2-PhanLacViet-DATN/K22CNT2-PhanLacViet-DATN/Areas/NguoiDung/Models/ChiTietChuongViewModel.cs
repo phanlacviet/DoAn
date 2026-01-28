@@ -11,4 +11,9 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Models
         public List<BinhLuanDto> DanhSachBinhLuan { get; set; } = new List<BinhLuanDto>();
         public int ThuTuChuongDaDoc { get; set; } = 0;
     }
+    public class LuuTruyenInput
+    {
+        public string? TaiKhoan { get; set; }
+        public int MaTruyen { get; set; }
+    }
 }

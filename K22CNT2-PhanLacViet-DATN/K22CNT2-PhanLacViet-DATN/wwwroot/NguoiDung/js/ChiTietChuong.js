@@ -247,3 +247,34 @@ async function postReply(maBinhLuanGoc) {
         console.error(error);
     }
 }
+async function saveStory(btn) {
+    if (!currentUser) {
+        alert("Vui lòng đăng nhập để lưu truyện!");
+        window.location.href = "/NguoiDung/Truyen/Auth";
+        return;
+    }
+    const maTruyen = btn.getAttribute('data-truyen');
+    try {
+        const response = await fetch('/api/Truyen/LuuTruyen', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                TaiKhoan: currentUser,
+                MaTruyen: parseInt(maTruyen)
+            })
+        });
+        const result = await response.json();
+        if (response.ok && result.success) {
+            const icon = btn.querySelector('i');
+            if (icon) icon.className = 'fa-solid fa-bookmark';
+            btn.classList.add('saved');
+
+            alert("Đã thêm vào tủ truyện của bạn!");
+        } else {
+            alert(result.message || "Truyện này đã có trong tủ truyện.");
+        }
+    } catch (error) {
+        console.error("Lỗi lưu truyện:", error);
+        alert("Lỗi kết nối máy chủ.");
+    }
+}

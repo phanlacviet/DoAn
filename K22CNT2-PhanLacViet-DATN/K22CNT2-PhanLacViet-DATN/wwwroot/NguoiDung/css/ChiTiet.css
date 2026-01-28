@@ -154,7 +154,7 @@
     /* Chương đã đọc */
     .chapter-item.read {
         color: #bbb;
-        background: #f9f9f9;
+        background: var(--hover-bg);
     }
 
 .hidden-chapter {

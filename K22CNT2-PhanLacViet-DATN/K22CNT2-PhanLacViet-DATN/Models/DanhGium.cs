@@ -15,7 +15,7 @@ public partial class DanhGium
 
     public DateTime? NgayDanhGia { get; set; }
 
-    public virtual Truyen MaTruyenNavigation { get; set; } = null!;
+    public virtual Truyen? MaTruyenNavigation { get; set; } = null!;
 
-    public virtual ThanhVien TaiKhoanNavigation { get; set; } = null!;
+    public virtual ThanhVien? TaiKhoanNavigation { get; set; } = null!;
 }

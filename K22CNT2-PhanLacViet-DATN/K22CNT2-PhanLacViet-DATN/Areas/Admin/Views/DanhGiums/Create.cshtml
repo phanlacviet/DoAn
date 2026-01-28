@@ -1,44 +1,43 @@
 ﻿@model K22CNT2_PhanLacViet_DATN.Models.DanhGium
-
 @{
-    ViewData["Title"] = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="container py-4">
+    <div class="card shadow-sm mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="fas fa-pen-nib"></i> Tạo đánh giá mới</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
 
-<h1>Create</h1>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Chọn tài khoản</label>
+                    <select asp-for="TaiKhoan" class="form-select" asp-items="ViewBag.TaiKhoan"></select>
+                </div>
 
-<h4>DanhGium</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TaiKhoan" class="control-label"></label>
-                <select asp-for="TaiKhoan" class ="form-control" asp-items="ViewBag.TaiKhoan"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaTruyen" class="control-label"></label>
-                <select asp-for="MaTruyen" class ="form-control" asp-items="ViewBag.MaTruyen"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Diem" class="control-label"></label>
-                <input asp-for="Diem" class="form-control" />
-                <span asp-validation-for="Diem" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NoiDung" class="control-label"></label>
-                <input asp-for="NoiDung" class="form-control" />
-                <span asp-validation-for="NoiDung" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Chọn truyện</label>
+                    <select asp-for="MaTruyen" class="form-select" asp-items="ViewBag.MaTruyen"></select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Điểm số (1-5)</label>
+                    <input asp-for="Diem" type="number" min="1" max="5" class="form-control" />
+                    <span asp-validation-for="Diem" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Nội dung đánh giá</label>
+                    <textarea asp-for="NoiDung" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="NoiDung" class="text-danger small"></span>
+                </div>
+
+                <div class="d-flex justify-content-between border-top pt-3">
+                    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+                    <button type="submit" class="btn btn-primary px-4">Lưu lại</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

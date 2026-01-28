@@ -1,43 +1,50 @@
 ﻿@model K22CNT2_PhanLacViet_DATN.Models.BinhLuan
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết bình luận";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-info-circle"></i> Chi tiết nội dung bình luận</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="flex-shrink-0">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="fas fa-user fa-lg"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-0 fw-bold">@Model.TaiKhoanNavigation?.TaiKhoan</h6>
+                            <small class="text-muted">Đã gửi vào: @Model.NgayGui?.ToString("dd/MM/yyyy HH:mm")</small>
+                        </div>
+                    </div>
 
-<div>
-    <h4>BinhLuan</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NoiDung)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NoiDung)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayGui)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgayGui)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaChuongTruyenNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaChuongTruyenNavigation.MaChuongTruyen)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TaiKhoanNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TaiKhoanNavigation.TaiKhoan)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.MaBinhLuan">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+                    <div class="p-3 bg-light rounded border mb-4">
+                        <p class="mb-0">@Model.NoiDung</p>
+                    </div>
+
+                    <div class="row text-center border-top pt-3">
+                        <div class="col-6 border-end">
+                            <small class="text-muted d-block text-uppercase">Mã chương</small>
+                            <span class="fw-bold">#@Model.MaChuongTruyen</span>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted d-block text-uppercase">Mã bình luận</small>
+                            <span class="fw-bold">#@Model.MaBinhLuan</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent d-flex justify-content-end gap-2">
+                    <a asp-action="Edit" asp-route-id="@Model.MaBinhLuan" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Sửa</a>
+                    <a asp-action="Index" class="btn btn-secondary btn-sm">Quay lại danh sách</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

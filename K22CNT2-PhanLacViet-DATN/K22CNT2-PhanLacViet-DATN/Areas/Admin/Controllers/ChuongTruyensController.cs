@@ -22,7 +22,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.Admin.Controllers
         // GET: Admin/ChuongTruyens
         public async Task<IActionResult> Index()
         {
-            var webTruyenChuContext = _context.ChuongTruyens.Include(c => c.MaTruyenNavigation);
+            var webTruyenChuContext = _context.ChuongTruyens.Include(c => c.MaTruyenNavigation).OrderByDescending(x => x.NgayDang);
             return View(await webTruyenChuContext.ToListAsync());
         }
 
@@ -48,56 +48,53 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.Admin.Controllers
         // GET: Admin/ChuongTruyens/Create
         public IActionResult Create()
         {
-            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "MaTruyen");
+            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "TenTruyen");
             return View();
         }
 
         // POST: Admin/ChuongTruyens/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaChuongTruyen,MaTruyen,ThuTuChuong,TieuDe,NoiDung,NgayDang")] ChuongTruyen chuongTruyen)
+        public async Task<IActionResult> Create([Bind("MaTruyen,TieuDe,NoiDung")] ChuongTruyen chuongTruyen)
         {
+            ModelState.Remove("MaTruyenNavigation");
+            ModelState.Remove("ThuTuChuong");
             if (ModelState.IsValid)
             {
+                var maxThuTu = await _context.ChuongTruyens
+                                    .Where(x => x.MaTruyen == chuongTruyen.MaTruyen)
+                                    .MaxAsync(x => (int?)x.ThuTuChuong) ?? 0;
+
+                chuongTruyen.ThuTuChuong = maxThuTu + 1;
+                chuongTruyen.NgayDang = DateTime.Now;
+
                 _context.Add(chuongTruyen);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "MaTruyen", chuongTruyen.MaTruyen);
+            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "TenTruyen", chuongTruyen.MaTruyen);
             return View(chuongTruyen);
         }
 
         // GET: Admin/ChuongTruyens/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var chuongTruyen = await _context.ChuongTruyens.FindAsync(id);
-            if (chuongTruyen == null)
-            {
-                return NotFound();
-            }
-            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "MaTruyen", chuongTruyen.MaTruyen);
+            if (chuongTruyen == null) return NotFound();
+
+            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "TenTruyen", chuongTruyen.MaTruyen);
             return View(chuongTruyen);
         }
 
         // POST: Admin/ChuongTruyens/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("MaChuongTruyen,MaTruyen,ThuTuChuong,TieuDe,NoiDung,NgayDang")] ChuongTruyen chuongTruyen)
         {
-            if (id != chuongTruyen.MaChuongTruyen)
-            {
-                return NotFound();
-            }
-
+            if (id != chuongTruyen.MaChuongTruyen) return NotFound();
+            ModelState.Remove("MaTruyenNavigation");
             if (ModelState.IsValid)
             {
                 try
@@ -107,18 +104,12 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.Admin.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ChuongTruyenExists(chuongTruyen.MaChuongTruyen))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!ChuongTruyenExists(chuongTruyen.MaChuongTruyen)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "MaTruyen", chuongTruyen.MaTruyen);
+            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "TenTruyen", chuongTruyen.MaTruyen);
             return View(chuongTruyen);
         }
 

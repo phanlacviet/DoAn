@@ -5,34 +5,74 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="container py-4">
+    <div class="card border-0 shadow-lg mx-auto" style="max-width: 500px;">
+        <div class="card-header bg-primary text-white py-3">
+            <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Thêm lịch sử đọc mới</h5>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small"></div>
 
-<h4>LichSuDoc</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TaiKhoan" class="control-label"></label>
-                <select asp-for="TaiKhoan" class ="form-control" asp-items="ViewBag.TaiKhoan"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaTruyen" class="control-label"></label>
-                <select asp-for="MaTruyen" class ="form-control" asp-items="ViewBag.MaTruyen"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaChuongTruyen" class="control-label"></label>
-                <select asp-for="MaChuongTruyen" class ="form-control" asp-items="ViewBag.MaChuongTruyen"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="mb-3">
+                    <label class="form-label fw-bold"><i class="fas fa-user me-1 text-secondary"></i>Tài khoản</label>
+                    <select asp-for="TaiKhoan" class="form-select border-primary" asp-items="ViewBag.TaiKhoan"></select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold"><i class="fas fa-book me-1 text-secondary"></i>Truyện</label>
+                    <select asp-for="MaTruyen" id="dropdownTruyen" class="form-select border-primary" asp-items="ViewBag.MaTruyen">
+                        <option value="">-- Chọn truyện --</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold"><i class="fas fa-list-ol me-1 text-secondary"></i>Chương truyện</label>
+                    <select asp-for="MaChuongTruyen" id="dropdownChuong" class="form-select border-primary" asp-items="ViewBag.MaChuongTruyen">
+                        <option value="">-- Chọn chương --</option>
+                    </select>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save me-1"></i> Lưu dữ liệu</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Quay lại danh sách</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#dropdownTruyen").change(function () {
+                var maTruyen = $(this).val();
+                var $chuongSelect = $("#dropdownChuong");
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+                // Xóa các option cũ
+                $chuongSelect.empty();
+                $chuongSelect.append('<option value="">-- Đang tải chương... --</option>');
 
+                if (maTruyen) {
+                    $.ajax({
+                        url: '@Url.Action("GetChaptersByStory", "LichSuDocs")',
+                        type: 'GET',
+                        data: { maTruyen: maTruyen },
+                        success: function (data) {
+                            $chuongSelect.empty();
+                            $chuongSelect.append('<option value="">-- Chọn chương --</option>');
+                            $.each(data, function (index, item) {
+                                $chuongSelect.append($('<option>', {
+                                    value: item.value,
+                                    text: item.text
+                                }));
+                            });
+                        }
+                    });
+                } else {
+                    $chuongSelect.empty();
+                    $chuongSelect.append('<option value="">-- Chọn chương --</option>');
+                }
+            });
+        });
+    </script>
+}

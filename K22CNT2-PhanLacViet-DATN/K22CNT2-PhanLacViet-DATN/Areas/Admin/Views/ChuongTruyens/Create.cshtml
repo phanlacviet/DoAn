@@ -1,45 +1,98 @@
 ﻿@model K22CNT2_PhanLacViet_DATN.Models.ChuongTruyen
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Thêm chương mới";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<style>
+    /* CSS cho bộ soạn thảo đơn giản */
+    .toolbar {
+        margin-bottom: 5px;
+        border: 1px solid #ccc;
+        padding: 5px;
+        background: #f9f9f9;
+        border-radius: 5px 5px 0 0;
+    }
 
-<h4>ChuongTruyen</h4>
+        .toolbar button {
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background: #fff;
+            padding: 5px 10px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+            .toolbar button:hover {
+                background: #eee;
+            }
+
+    .editor {
+        min-height: 300px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 0 0 5px 5px;
+        background: #fff;
+        overflow-y: auto;
+        outline: none;
+    }
+        /* Giữ nguyên định dạng thẻ div, p khi xuống dòng */
+        .editor div, .editor p {
+            margin: 0;
+            padding: 0;
+        }
+</style>
+
+<h1>Thêm chương mới</h1>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+    <div class="col-md-10">
+        <form asp-action="Create" id="createForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="MaTruyen" class="control-label"></label>
-                <select asp-for="MaTruyen" class ="form-control" asp-items="ViewBag.MaTruyen"></select>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Thuộc truyện</label>
+                <select asp-for="MaTruyen" class="form-control" asp-items="ViewBag.MaTruyen"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="ThuTuChuong" class="control-label"></label>
-                <input asp-for="ThuTuChuong" class="form-control" />
-                <span asp-validation-for="ThuTuChuong" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TieuDe" class="control-label"></label>
-                <input asp-for="TieuDe" class="form-control" />
+
+            <div class="form-group mb-3">
+                <label asp-for="TieuDe" class="control-label">Tiêu đề chương</label>
+                <input asp-for="TieuDe" class="form-control" placeholder="Ví dụ: Chương 1: Mở đầu" />
                 <span asp-validation-for="TieuDe" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="NoiDung" class="control-label"></label>
-                <input asp-for="NoiDung" class="form-control" />
+
+            <div class="form-group mb-3">
+                <label class="control-label">Nội dung chương</label>
+
+                <div class="toolbar">
+                    <button type="button" onclick="cmd('bold')">B</button>
+                    <button type="button" onclick="cmd('italic')">I</button>
+                    <button type="button" onclick="cmd('underline')">U</button>
+                    <button type="button" onclick="cmd('insertUnorderedList')">• List</button>
+                </div>
+
+                <div class="editor" id="editorContent" contenteditable="true"></div>
+
+                <input type="hidden" asp-for="NoiDung" id="hiddenNoiDung" />
+
                 <span asp-validation-for="NoiDung" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Tạo mới" class="btn btn-primary" onclick="submitData()" />
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+<script>
+    function cmd(command) {
+        document.execCommand(command, false, null);
+    }
+    function submitData() {
+        var content = document.getElementById('editorContent').innerHTML;
+        document.getElementById('hiddenNoiDung').value = content;
+    }
+</script>

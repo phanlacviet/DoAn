@@ -1,41 +1,47 @@
 ﻿@model K22CNT2_PhanLacViet_DATN.Models.ThanhVien
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Thêm thành viên";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="container shadow-sm p-4 bg-white rounded" style="max-width: 500px;">
+    <h2 class="text-center text-success mb-4"><i class="fas fa-user-plus"></i> Tạo tài khoản</h2>
+    <hr />
+    <form asp-action="Create" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-<h4>ThanhVien</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TaiKhoan" class="control-label"></label>
-                <input asp-for="TaiKhoan" class="form-control" />
-                <span asp-validation-for="TaiKhoan" class="text-danger"></span>
+        <div class="mb-3">
+            <label asp-for="TaiKhoan" class="form-label fw-bold">Tên tài khoản</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                <input asp-for="TaiKhoan" class="form-control" placeholder="Nhập tên đăng nhập..." />
             </div>
-            <div class="form-group">
-                <label asp-for="MatKhau" class="control-label"></label>
-                <input asp-for="MatKhau" class="form-control" />
-                <span asp-validation-for="MatKhau" class="text-danger"></span>
+            <span asp-validation-for="TaiKhoan" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="MatKhau" class="form-label fw-bold">Mật khẩu</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                <input asp-for="MatKhau" type="password" class="form-control" placeholder="Nhập mật khẩu..." />
             </div>
-            <div class="form-group">
-                <label asp-for="Avatar" class="control-label"></label>
-                <input asp-for="Avatar" class="form-control" />
-                <span asp-validation-for="Avatar" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+            <span asp-validation-for="MatKhau" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Chọn ảnh đại diện</label>
+            <input type="file" name="fAvatar" class="form-control" accept="image/*" />
+            @if (!string.IsNullOrEmpty(Model?.Avatar))
+            {
+                <img src="@Model.Avatar" width="100" class="mt-2 rounded border" />
+                <input type="hidden" asp-for="Avatar" />
+            }
+        </div>
+
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Tạo tài khoản</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Quay lại danh sách</a>
+        </div>
+    </form>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

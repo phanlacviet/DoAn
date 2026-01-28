@@ -4,45 +4,40 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayLuu)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaTruyenNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaiKhoanNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayLuu)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaTruyenNavigation.MaTruyen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TaiKhoanNavigation.TaiKhoan)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container py-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fas fa-save me-2"></i> Quản lý Lưu truyện</h5>
+            <a asp-action="Create" class="btn btn-light btn-sm fw-bold"><i class="fas fa-plus"></i> Thêm mới</a>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-3">Người dùng</th>
+                        <th>Truyện đã lưu</th>
+                        <th>Thời gian lưu</th>
+                        <th class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="ps-3 fw-bold text-dark"><i class="fas fa-user-circle text-muted"></i> @item.TaiKhoan</td>
+                            <td><span class="badge bg-info text-dark">@item.MaTruyenNavigation?.TenTruyen</span></td>
+                            <td>@item.NgayLuu?.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td class="text-center">
+                                <div class="btn-group btn-group-sm">
+                                    <a asp-action="Edit" asp-route-taiKhoan="@item.TaiKhoan" asp-route-maTruyen="@item.MaTruyen" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                    <a asp-action="Details" asp-route-taiKhoan="@item.TaiKhoan" asp-route-maTruyen="@item.MaTruyen" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                    <a asp-action="Delete" asp-route-taiKhoan="@item.TaiKhoan" asp-route-maTruyen="@item.MaTruyen" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

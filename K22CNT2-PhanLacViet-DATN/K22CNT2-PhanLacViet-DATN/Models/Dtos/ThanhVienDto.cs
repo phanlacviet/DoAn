@@ -16,14 +16,14 @@
     public class TruyenProfileItem
     {
         public int MaTruyen { get; set; }
-        public string TenTruyen { get; set; } = "";
-        public string AnhBia { get; set; } = "";
+        public string? TenTruyen { get; set; } = "";
+        public string? AnhBia { get; set; } = "";
         public string? TacGia { get; set; }
         public long LuotXem { get; set; }
-        public string ThoiGian { get; set; } = "";
+        public string? ThoiGian { get; set; } = "";
         public string? TienDo { get; set; }
         public bool CoChuongMoi { get; set; } = false;
-        public string LoaiDanhSach { get; set; } = "";
+        public string? LoaiDanhSach { get; set; } = "";
     }
 
 }

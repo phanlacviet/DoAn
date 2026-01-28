@@ -1,102 +1,112 @@
 ﻿@model IEnumerable<K22CNT2_PhanLacViet_DATN.Models.Truyen>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Quản lý truyện";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="container-fluid shadow-sm p-3 mb-5 bg-white rounded">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 text-gray-800">Quản lý danh sách truyện</h1>
+        <a asp-action="Create" class="btn btn-primary btn-icon-split">
+            <span class="icon text-white-50">
+                <i class="fas fa-plus"></i>
+            </span>
+            <span class="text">Thêm truyện mới</span>
+        </a>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TenTruyen)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MoTa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TacGia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LoaiTruyen)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoChuong)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TongLuotXem)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayDang)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayCapNhat)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AnhBia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NguoiDangNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenTruyen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MoTa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TacGia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LoaiTruyen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoChuong)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TongLuotXem)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayDang)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayCapNhat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AnhBia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrangThai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NguoiDangNavigation.TaiKhoan)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaTruyen">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaTruyen">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaTruyen">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width: 80px;">Ảnh bìa</th>
+                    <th>@Html.DisplayNameFor(model => model.TenTruyen)</th>
+                    <th style="width: 250px;">@Html.DisplayNameFor(model => model.MoTa)</th>
+                    <th>@Html.DisplayNameFor(model => model.TacGia)</th>
+                    <th>Thông tin thêm</th>
+                    <th>Thời gian</th>
+                    <th>@Html.DisplayNameFor(model => model.TrangThai)</th>
+                    <th class="text-center">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">
+                            @if (!string.IsNullOrEmpty(item.AnhBia))
+                            {
+                                <img src="@item.AnhBia" class="img-thumbnail" style="width: 60px; height: 80px; object-fit: cover;" alt="Cover" />
+                            }
+                            else
+                            {
+                                <div class="bg-light text-muted d-flex align-items-center justify-content-center" style="width: 60px; height: 80px; font-size: 10px; border: 1px solid #dee2e6;">No image</div>
+                            }
+                        </td>
+                        <td class="fw-bold text-primary">
+                            @Html.DisplayFor(modelItem => item.TenTruyen)
+                        </td>
+                        <td style="white-space: pre-line; font-size: 0.85rem; max-height: 100px; overflow: hidden;">
+                            @if (item.MoTa?.Length > 150)
+                            {
+                                @(item.MoTa.Substring(0, 150) + "...")
+                            }
+                            else
+                            {
+                                @item.MoTa
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.TacGia)</td>
+                        <td style="font-size: 0.85rem;">
+                            <div><i class="fas fa-list-ol"></i> Chương: <strong>@item.SoChuong</strong></div>
+                            <div><i class="fas fa-eye"></i> Xem: @item.TongLuotXem</div>
+                            <div><i class="fas fa-tag"></i> @item.LoaiTruyen</div>
+                        </td>
+                        <td style="font-size: 0.8rem;">
+                            <div class="text-muted">Đăng: @item.NgayDang?.ToString("dd/MM/yyyy")</div>
+                            <div class="text-info">Sửa: @item.NgayCapNhat?.ToString("dd/MM/yyyy")</div>
+                        </td>
+                        <td>
+                            @if (item.TrangThai == "Hoàn thành")
+                            {
+                                <span class="badge bg-success">@item.TrangThai</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">@item.TrangThai</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group btn-group-sm">
+                                <a asp-action="Edit" asp-route-id="@item.MaTruyen" class="btn btn-outline-warning" title="Sửa">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a asp-action="Details" asp-route-id="@item.MaTruyen" class="btn btn-outline-info" title="Chi tiết">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.MaTruyen" class="btn btn-outline-danger" title="Xóa">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    /* Đảm bảo mô tả xuống dòng nhưng không làm dài bảng quá mức */
+    .table td {
+        vertical-align: middle;
+    }
+
+    /* Hiệu ứng khi di chuột qua ảnh */
+    .img-thumbnail:hover {
+        transform: scale(1.1);
+        transition: 0.3s;
+        cursor: pointer;
+    }
+</style>

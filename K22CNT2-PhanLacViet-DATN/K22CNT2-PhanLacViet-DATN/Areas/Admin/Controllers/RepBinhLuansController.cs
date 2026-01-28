@@ -55,14 +55,13 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.Admin.Controllers
         }
 
         // POST: Admin/RepBinhLuans/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaRep,MaBinhLuan,TaiKhoan,NoiDung,NgayGui")] RepBinhLuan repBinhLuan)
+        public async Task<IActionResult> Create([Bind("MaRep,MaBinhLuan,TaiKhoan,NoiDung")] RepBinhLuan repBinhLuan)
         {
             if (ModelState.IsValid)
             {
+                repBinhLuan.NgayGui = DateTime.Now;
                 _context.Add(repBinhLuan);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

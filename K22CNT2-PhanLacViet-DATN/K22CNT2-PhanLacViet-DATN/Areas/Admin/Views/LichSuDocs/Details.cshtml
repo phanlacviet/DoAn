@@ -1,43 +1,43 @@
 ﻿@model K22CNT2_PhanLacViet_DATN.Models.LichSuDoc
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết lịch sử";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>LichSuDoc</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayDoc)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgayDoc)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaChuongTruyenNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaChuongTruyenNavigation.MaChuongTruyen)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaTruyenNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaTruyenNavigation.MaTruyen)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TaiKhoanNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TaiKhoanNavigation.TaiKhoan)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+<div class="container py-4">
+    <div class="card shadow border-0 mx-auto" style="max-width: 700px;">
+        <div class="card-header bg-info text-white d-flex align-items-center justify-content-between">
+            <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i> Thông tin lịch sử đọc</h5>
+            <span class="badge bg-light text-dark">ID: @Model.TaiKhoan - @Model.MaTruyen</span>
+        </div>
+        <div class="card-body p-0">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                    <span class="fw-bold text-muted"><i class="fas fa-user me-2"></i>Người đọc:</span>
+                    <span class="text-primary fw-bold">@Model.TaiKhoanNavigation?.TaiKhoan</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                    <span class="fw-bold text-muted"><i class="fas fa-book me-2"></i>Truyện:</span>
+                    <span>@Model.MaTruyenNavigation?.TenTruyen <small class="text-muted">(@Model.MaTruyen)</small></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                    <span class="fw-bold text-muted"><i class="fas fa-bookmark me-2"></i>Chương hiện tại:</span>
+                    <span class="badge bg-success">@Model.MaChuongTruyenNavigation?.TieuDe (Chương @Model.MaChuongTruyenNavigation?.ThuTuChuong)</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                    <span class="fw-bold text-muted"><i class="fas fa-clock me-2"></i>Thời gian đọc cuối:</span>
+                    <span class="text-dark">@Model.NgayDoc?.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                </li>
+            </ul>
+        </div>
+        <div class="card-footer bg-light d-flex justify-content-end gap-2 py-3">
+            <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-arrow-left me-1"></i> Quay lại
+            </a>
+            <a asp-action="Edit" asp-route-taiKhoan="@Model.TaiKhoan" asp-route-maTruyen="@Model.MaTruyen" class="btn btn-warning btn-sm">
+                <i class="fas fa-edit me-1"></i> Chỉnh sửa
+            </a>
+        </div>
+    </div>
 </div>

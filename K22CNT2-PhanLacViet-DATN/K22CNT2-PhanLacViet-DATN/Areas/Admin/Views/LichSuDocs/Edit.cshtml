@@ -1,38 +1,102 @@
 ﻿@model K22CNT2_PhanLacViet_DATN.Models.LichSuDoc
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Cập nhật lịch sử";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<div class="container py-4">
+    <div class="card shadow border-0 mx-auto" style="max-width: 550px;">
+        <div class="card-header bg-warning py-3">
+            <h5 class="mb-0 text-dark fw-bold"><i class="fas fa-bookmark me-2"></i> Chỉnh sửa chương đang đọc</h5>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small"></div>
 
-<h4>LichSuDoc</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="TaiKhoan" />
-            <input type="hidden" asp-for="MaTruyen" />
-            <div class="form-group">
-                <label asp-for="MaChuongTruyen" class="control-label"></label>
-                <select asp-for="MaChuongTruyen" class="form-control" asp-items="ViewBag.MaChuongTruyen"></select>
-                <span asp-validation-for="MaChuongTruyen" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NgayDoc" class="control-label"></label>
-                <input asp-for="NgayDoc" class="form-control" />
-                <span asp-validation-for="NgayDoc" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                @* Khóa chính cố định (Bắt buộc phải có 2 dòng này để nhận diện bản ghi) *@
+                <input type="hidden" asp-for="TaiKhoan" />
+                <input type="hidden" asp-for="MaTruyen" />
+
+                <div class="mb-4 text-center border-bottom pb-3">
+                    <p class="mb-1 text-muted small text-uppercase fw-bold">Đang cập nhật cho</p>
+                    <h6 class="mb-0">
+                        <i class="fas fa-user text-primary"></i> @Model.TaiKhoan
+                        <i class="fas fa-book-open mx-2 text-secondary"></i>
+                        <span class="text-success fw-bold">@Model.MaTruyenNavigation?.TenTruyen</span>
+                    </h6>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Chọn chương truyện</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fas fa-list-ol text-primary"></i></span>
+                        @* Chỉ hiển thị danh sách chương của chính truyện này *@
+                        <select asp-for="MaChuongTruyen" class="form-select" asp-items="ViewBag.MaChuongTruyen"></select>
+                    </div>
+                    <span asp-validation-for="MaChuongTruyen" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Thời điểm đọc</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fas fa-clock text-primary"></i></span>
+                        <input asp-for="NgayDoc" class="form-control" type="datetime-local" />
+                    </div>
+                    <span asp-validation-for="NgayDoc" class="text-danger small"></span>
+                </div>
+
+                <div class="row g-2">
+                    <div class="col-6">
+                        <a asp-action="Index" class="btn btn-outline-secondary w-100">Hủy bỏ</a>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-warning w-100 fw-bold">Lưu thay đổi</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // 1. Lấy mã truyện và mã chương hiện tại từ Model (thông qua thuộc tính value của thẻ input/select)
+            var maTruyenHienTai = $("input[name='MaTruyen']").val();
+            var maChuongHienTai = "@Model.MaChuongTruyen";
 
+            // 2. Hàm load chương
+            function loadChapters(maTruyen, selectedChapterId) {
+                var $chuongSelect = $("#MaChuongTruyen"); // Lưu ý id mặc định của asp-for thường là tên thuộc tính
+
+                if (maTruyen) {
+                    $.ajax({
+                        url: '/Admin/LichSuDocs/GetChaptersByStory',
+                        type: 'GET',
+                        data: { maTruyen: maTruyen },
+                        success: function (data) {
+                            $chuongSelect.empty();
+                            $.each(data, function (index, item) {
+                                var option = $('<option>', {
+                                    value: item.value,
+                                    text: item.text
+                                });
+                                // Nếu ID chương trùng với chương đang đọc thì chọn nó
+                                if (item.value == selectedChapterId) {
+                                    option.attr("selected", "selected");
+                                }
+                                $chuongSelect.append(option);
+                            });
+                        }
+                    });
+                }
+            }
+
+            // 3. Tự động chạy ngay khi vào trang
+            if (maTruyenHienTai) {
+                loadChapters(maTruyenHienTai, maChuongHienTai);
+            }
+        });
+    </script>
+}

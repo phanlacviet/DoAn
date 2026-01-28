@@ -1,31 +1,48 @@
 ﻿@model K22CNT2_PhanLacViet_DATN.Models.TheLoai
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết thể loại";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="container shadow-sm p-0 bg-white rounded" style="max-width: 700px; overflow: hidden;">
+    <div class="bg-info p-3 text-white d-flex align-items-center">
+        <i class="fas fa-info-circle fa-2x me-3"></i>
+        <h3 class="mb-0">Thông tin chi tiết thể loại</h3>
+    </div>
 
-<div>
-    <h4>TheLoai</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TenTheLoai)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TenTheLoai)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.MaTheLoai">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="p-4">
+        <div class="row mb-3 border-bottom pb-2">
+            <div class="col-sm-4 text-muted fw-bold">Mã thể loại:</div>
+            <div class="col-sm-8 fw-bold text-dark">#@Model.MaTheLoai</div>
+        </div>
+
+        <div class="row mb-3 border-bottom pb-2">
+            <div class="col-sm-4 text-muted fw-bold">Tên thể loại:</div>
+            <div class="col-sm-8 fs-5 text-primary fw-bold">@Model.TenTheLoai</div>
+        </div>
+
+        <div class="row mb-4 border-bottom pb-2">
+            <div class="col-sm-4 text-muted fw-bold">Trạng thái hiện tại:</div>
+            <div class="col-sm-8">
+                @if (Model.IsDeleted == true)
+                {
+                    <span class="badge bg-danger">Đã bị ẩn khỏi người dùng</span>
+                }
+                else
+                {
+                    <span class="badge bg-success">Đang hiển thị công khai</span>
+                }
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+            <a asp-action="Edit" asp-route-id="@Model?.MaTheLoai" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Sửa thể loại
+            </a>
+            <a asp-action="Index" class="btn btn-secondary text-white">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+        </div>
+    </div>
 </div>

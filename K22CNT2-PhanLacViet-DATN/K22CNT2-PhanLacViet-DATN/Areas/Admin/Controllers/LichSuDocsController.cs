@@ -22,27 +22,26 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.Admin.Controllers
         // GET: Admin/LichSuDocs
         public async Task<IActionResult> Index()
         {
-            var webTruyenChuContext = _context.LichSuDocs.Include(l => l.MaChuongTruyenNavigation).Include(l => l.MaTruyenNavigation).Include(l => l.TaiKhoanNavigation);
+            var webTruyenChuContext = _context.LichSuDocs
+                .Include(l => l.MaChuongTruyenNavigation)
+                .Include(l => l.MaTruyenNavigation)
+                .Include(l => l.TaiKhoanNavigation)
+                .OrderByDescending(l => l.NgayDoc);
             return View(await webTruyenChuContext.ToListAsync());
         }
 
-        // GET: Admin/LichSuDocs/Details/5
-        public async Task<IActionResult> Details(string id)
+        // GET: Admin/LichSuDocs/Details?taiKhoan=abc&maTruyen=1
+        public async Task<IActionResult> Details(string taiKhoan, int? maTruyen)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (taiKhoan == null || maTruyen == null) return NotFound();
 
             var lichSuDoc = await _context.LichSuDocs
                 .Include(l => l.MaChuongTruyenNavigation)
                 .Include(l => l.MaTruyenNavigation)
                 .Include(l => l.TaiKhoanNavigation)
-                .FirstOrDefaultAsync(m => m.TaiKhoan == id);
-            if (lichSuDoc == null)
-            {
-                return NotFound();
-            }
+                .FirstOrDefaultAsync(m => m.TaiKhoan == taiKhoan && m.MaTruyen == maTruyen);
+
+            if (lichSuDoc == null) return NotFound();
 
             return View(lichSuDoc);
         }
@@ -50,61 +49,72 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.Admin.Controllers
         // GET: Admin/LichSuDocs/Create
         public IActionResult Create()
         {
-            ViewData["MaChuongTruyen"] = new SelectList(_context.ChuongTruyens, "MaChuongTruyen", "MaChuongTruyen");
-            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "MaTruyen");
+            ViewData["MaChuongTruyen"] = new SelectList(_context.ChuongTruyens, "MaChuongTruyen", "TieuDe");
+            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "TenTruyen");
             ViewData["TaiKhoan"] = new SelectList(_context.ThanhViens, "TaiKhoan", "TaiKhoan");
             return View();
         }
 
-        // POST: Admin/LichSuDocs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TaiKhoan,MaTruyen,MaChuongTruyen,NgayDoc")] LichSuDoc lichSuDoc)
+        public async Task<IActionResult> Create([Bind("TaiKhoan,MaTruyen,MaChuongTruyen")] LichSuDoc lichSuDoc)
         {
+            ModelState.Remove("MaChuongTruyenNavigation");
+            ModelState.Remove("MaTruyenNavigation");
+            ModelState.Remove("TaiKhoanNavigation");
+            bool exists = _context.LichSuDocs.Any(l => l.TaiKhoan == lichSuDoc.TaiKhoan && l.MaTruyen == lichSuDoc.MaTruyen);
+
+            if (exists)
+            {
+                ModelState.AddModelError("", "Lịch sử đọc của tài khoản này cho truyện này đã tồn tại.");
+            }
+
             if (ModelState.IsValid)
             {
+                lichSuDoc.NgayDoc = DateTime.Now;
                 _context.Add(lichSuDoc);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MaChuongTruyen"] = new SelectList(_context.ChuongTruyens, "MaChuongTruyen", "MaChuongTruyen", lichSuDoc.MaChuongTruyen);
-            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "MaTruyen", lichSuDoc.MaTruyen);
+
+            ViewData["MaChuongTruyen"] = new SelectList(_context.ChuongTruyens, "MaChuongTruyen", "TieuDe", lichSuDoc.MaChuongTruyen);
+            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "TenTruyen", lichSuDoc.MaTruyen);
             ViewData["TaiKhoan"] = new SelectList(_context.ThanhViens, "TaiKhoan", "TaiKhoan", lichSuDoc.TaiKhoan);
             return View(lichSuDoc);
         }
 
-        // GET: Admin/LichSuDocs/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        // GET: Admin/LichSuDocs/Edit?taiKhoan=abc&maTruyen=1
+        public async Task<IActionResult> Edit(string taiKhoan, int? maTruyen)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (taiKhoan == null || maTruyen == null) return NotFound();
 
-            var lichSuDoc = await _context.LichSuDocs.FindAsync(id);
-            if (lichSuDoc == null)
-            {
-                return NotFound();
-            }
-            ViewData["MaChuongTruyen"] = new SelectList(_context.ChuongTruyens, "MaChuongTruyen", "MaChuongTruyen", lichSuDoc.MaChuongTruyen);
-            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "MaTruyen", lichSuDoc.MaTruyen);
+            // FindAsync có thể nhận nhiều tham số cho Composite Key
+            var lichSuDoc = await _context.LichSuDocs.FindAsync(taiKhoan, maTruyen);
+
+            if (lichSuDoc == null) return NotFound();
+            ViewData["MaChuongTruyen"] = new SelectList(
+                _context.ChuongTruyens.Where(c => c.MaTruyen == maTruyen),
+                "MaChuongTruyen",
+                "TieuDe",
+                lichSuDoc.MaChuongTruyen
+            );
+            ViewData["MaChuongTruyen"] = new SelectList(_context.ChuongTruyens, "MaChuongTruyen", "TieuDe", lichSuDoc.MaChuongTruyen);
+            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "TenTruyen", lichSuDoc.MaTruyen);
             ViewData["TaiKhoan"] = new SelectList(_context.ThanhViens, "TaiKhoan", "TaiKhoan", lichSuDoc.TaiKhoan);
             return View(lichSuDoc);
         }
 
-        // POST: Admin/LichSuDocs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("TaiKhoan,MaTruyen,MaChuongTruyen,NgayDoc")] LichSuDoc lichSuDoc)
+        public async Task<IActionResult> Edit(string taiKhoan, int maTruyen, [Bind("TaiKhoan,MaTruyen,MaChuongTruyen,NgayDoc")] LichSuDoc lichSuDoc)
         {
-            if (id != lichSuDoc.TaiKhoan)
+            if (taiKhoan != lichSuDoc.TaiKhoan || maTruyen != lichSuDoc.MaTruyen)
             {
                 return NotFound();
             }
+            ModelState.Remove("MaChuongTruyenNavigation");
+            ModelState.Remove("MaTruyenNavigation");
+            ModelState.Remove("TaiKhoanNavigation");
 
             if (ModelState.IsValid)
             {
@@ -112,53 +122,41 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.Admin.Controllers
                 {
                     _context.Update(lichSuDoc);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LichSuDocExists(lichSuDoc.TaiKhoan))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!LichSuDocExists(lichSuDoc.TaiKhoan, lichSuDoc.MaTruyen)) return NotFound();
+                    else throw;
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["MaChuongTruyen"] = new SelectList(_context.ChuongTruyens, "MaChuongTruyen", "MaChuongTruyen", lichSuDoc.MaChuongTruyen);
-            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "MaTruyen", lichSuDoc.MaTruyen);
+            ViewData["MaChuongTruyen"] = new SelectList(_context.ChuongTruyens.Where(c => c.MaTruyen == maTruyen), "MaChuongTruyen", "TieuDe", lichSuDoc.MaChuongTruyen);
+            ViewData["MaTruyen"] = new SelectList(_context.Truyens, "MaTruyen", "TenTruyen", lichSuDoc.MaTruyen);
             ViewData["TaiKhoan"] = new SelectList(_context.ThanhViens, "TaiKhoan", "TaiKhoan", lichSuDoc.TaiKhoan);
             return View(lichSuDoc);
         }
 
-        // GET: Admin/LichSuDocs/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        // GET: Admin/LichSuDocs/Delete?taiKhoan=abc&maTruyen=1
+        public async Task<IActionResult> Delete(string taiKhoan, int? maTruyen)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (taiKhoan == null || maTruyen == null) return NotFound();
 
             var lichSuDoc = await _context.LichSuDocs
                 .Include(l => l.MaChuongTruyenNavigation)
                 .Include(l => l.MaTruyenNavigation)
                 .Include(l => l.TaiKhoanNavigation)
-                .FirstOrDefaultAsync(m => m.TaiKhoan == id);
-            if (lichSuDoc == null)
-            {
-                return NotFound();
-            }
+                .FirstOrDefaultAsync(m => m.TaiKhoan == taiKhoan && m.MaTruyen == maTruyen);
+
+            if (lichSuDoc == null) return NotFound();
 
             return View(lichSuDoc);
         }
 
-        // POST: Admin/LichSuDocs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(string taiKhoan, int maTruyen)
         {
-            var lichSuDoc = await _context.LichSuDocs.FindAsync(id);
+            var lichSuDoc = await _context.LichSuDocs.FindAsync(taiKhoan, maTruyen);
             if (lichSuDoc != null)
             {
                 _context.LichSuDocs.Remove(lichSuDoc);
@@ -167,10 +165,23 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        private bool LichSuDocExists(string id)
+        [HttpGet]
+        public async Task<JsonResult> GetChaptersByStory(int maTruyen)
         {
-            return _context.LichSuDocs.Any(e => e.TaiKhoan == id);
+            var chapters = await _context.ChuongTruyens
+                .Where(c => c.MaTruyen == maTruyen)
+                .OrderBy(c => c.ThuTuChuong)
+                .Select(c => new {
+                    value = c.MaChuongTruyen,
+                    text = c.TieuDe
+                })
+                .ToListAsync();
+
+            return Json(chapters);
+        }
+        private bool LichSuDocExists(string taiKhoan, int maTruyen)
+        {
+            return _context.LichSuDocs.Any(e => e.TaiKhoan == taiKhoan && e.MaTruyen == maTruyen);
         }
     }
 }

@@ -5,33 +5,29 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>LuuTruyen</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayLuu)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgayLuu)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaTruyenNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaTruyenNavigation.MaTruyen)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TaiKhoanNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TaiKhoanNavigation.TaiKhoan)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+<div class="container py-4">
+    <div class="card shadow border-0 mx-auto" style="max-width: 550px;">
+        <div class="card-header bg-info text-white py-3 text-center">
+            <h5 class="mb-0 fw-bold"><i class="fas fa-info-circle me-2"></i> Chi tiết lưu truyện</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="row mb-3">
+                <div class="col-4 fw-bold text-muted">Tài khoản:</div>
+                <div class="col-8">@Model.TaiKhoan</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-4 fw-bold text-muted">Truyện:</div>
+                <div class="col-8 text-primary fw-bold">@Model.MaTruyenNavigation?.TenTruyen</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-4 fw-bold text-muted">Ngày lưu:</div>
+                <div class="col-8">@Model.NgayLuu?.ToString("dd/MM/yyyy HH:mm:ss")</div>
+            </div>
+            <hr />
+            <div class="d-flex justify-content-center gap-2">
+                <a asp-action="Edit" asp-route-taiKhoan="@Model.TaiKhoan" asp-route-maTruyen="@Model.MaTruyen" class="btn btn-warning px-4">Sửa</a>
+                <a asp-action="Index" class="btn btn-light border px-4">Danh sách</a>
+            </div>
+        </div>
+    </div>
 </div>

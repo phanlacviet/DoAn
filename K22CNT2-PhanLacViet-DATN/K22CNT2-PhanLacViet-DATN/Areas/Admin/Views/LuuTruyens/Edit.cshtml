@@ -5,29 +5,38 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<div class="container py-4">
+    <div class="card shadow border-0 mx-auto" style="max-width: 500px;">
+        <div class="card-header bg-warning py-3">
+            <h5 class="mb-0 fw-bold"><i class="fas fa-edit me-2"></i> Cập nhật Lưu truyện</h5>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Edit">
+                <input type="hidden" asp-for="TaiKhoan" />
+                <input type="hidden" asp-for="MaTruyen" />
 
-<h4>LuuTruyen</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="TaiKhoan" />
-            <input type="hidden" asp-for="MaTruyen" />
-            <div class="form-group">
-                <label asp-for="NgayLuu" class="control-label"></label>
-                <input asp-for="NgayLuu" class="form-control" />
-                <span asp-validation-for="NgayLuu" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="alert alert-light border text-center mb-4">
+                    <p class="mb-1 small text-uppercase fw-bold text-muted">Bản ghi của</p>
+                    <h6 class="mb-0 text-primary">@Model.TaiKhoan <i class="fas fa-arrow-right mx-2 text-dark"></i> @Model.MaTruyenNavigation?.TenTruyen</h6>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Ngày lưu</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                        <input asp-for="NgayLuu" class="form-control" type="datetime-local" />
+                    </div>
+                </div>
+
+                <div class="row g-2">
+                    <div class="col-6">
+                        <a asp-action="Index" class="btn btn-outline-secondary w-100">Quay lại</a>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-warning w-100 fw-bold">Cập nhật</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

@@ -19,86 +19,100 @@
                     </a>
                 </li>
 
-                <li class="nav-header">Nội dung</li>
+                <li class="nav-header">Nội dung truyện</li>
 
                 <li class="nav-item">
-                    <a asp-area="Admin" asp-controller="Stories" asp-action="Index" class="nav-link">
+                    <a asp-area="Admin" asp-controller="Truyens" asp-action="Index" class="nav-link">
                         <i class="nav-icon bi bi-book"></i>
-                        <p>Truyện (Stories)</p>
+                        <p>Truyện</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a asp-area="Admin" asp-controller="Chapters" asp-action="Index" class="nav-link">
+                    <a asp-area="Admin" asp-controller="ChuongTruyens" asp-action="Index" class="nav-link">
                         <i class="nav-icon bi bi-journal-text"></i>
-                        <p>Chương (Chapters)</p>
+                        <p>Chương truyện</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a asp-area="Admin" asp-controller="Authors" asp-action="Index" class="nav-link">
-                        <i class="nav-icon bi bi-person-badge"></i>
-                        <p>Tác giả (Authors)</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="nav-link">
+                    <a asp-area="Admin" asp-controller="TheLoais" asp-action="Index" class="nav-link">
                         <i class="nav-icon bi bi-tags"></i>
-                        <p>Thể loại (Categories)</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a asp-area="Admin" asp-controller="Tags" asp-action="Index" class="nav-link">
-                        <i class="nav-icon bi bi-tag"></i>
-                        <p>Thẻ (Tags)</p>
+                        <p>Thể loại</p>
                     </a>
                 </li>
 
                 <li class="nav-header">Người dùng & Tương tác</li>
 
                 <li class="nav-item">
-                    <a asp-area="Admin" asp-controller="Users" asp-action="Index" class="nav-link">
+                    <a asp-area="Admin" asp-controller="ThanhViens" asp-action="Index" class="nav-link">
                         <i class="nav-icon bi bi-people"></i>
-                        <p>Người dùng (Users)</p>
+                        <p>Thành viên</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a asp-area="Admin" asp-controller="Comments" asp-action="Index" class="nav-link">
+                    <a asp-area="Admin" asp-controller="BinhLuans" asp-action="Index" class="nav-link">
                         <i class="nav-icon bi bi-chat-dots"></i>
-                        <p>Bình luận (Comments)</p>
+                        <p>Bình luận</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a asp-area="Admin" asp-controller="Ratings" asp-action="Index" class="nav-link">
+                    <a asp-area="Admin" asp-controller="RepBinhLuans" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-reply-all"></i>
+                        <p>Trả lời bình luận</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="DanhGiums" asp-action="Index" class="nav-link">
                         <i class="nav-icon bi bi-star-fill"></i>
-                        <p>Đánh giá (Ratings)</p>
+                        <p>Đánh giá</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a asp-area="Admin" asp-controller="Favorites" asp-action="Index" class="nav-link">
+                    <a asp-area="Admin" asp-controller="TheoDois" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-bookmark-heart"></i>
+                        <p>Theo dõi</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="LuuTruyens" asp-action="Index" class="nav-link">
                         <i class="nav-icon bi bi-heart"></i>
-                        <p>Yêu thích (Favorites)</p>
+                        <p>Lưu truyện</p>
                     </a>
                 </li>
 
-                <li class="nav-header">Hệ thống</li>
+                <li class="nav-header">Hệ thống & Thống kê</li>
 
                 <li class="nav-item">
-                    <a asp-area="Admin" asp-controller="Reports" asp-action="Index" class="nav-link">
-                        <i class="nav-icon bi bi-flag"></i>
-                        <p>Báo cáo (Reports)</p>
+                    <a asp-area="Admin" asp-controller="LuotXemTruyens" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-graph-up"></i>
+                        <p>Lượt xem</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a asp-area="Admin" asp-controller="Settings" asp-action="Index" class="nav-link">
-                        <i class="nav-icon bi bi-gear"></i>
-                        <p>Cài đặt (Settings)</p>
+                    <a asp-area="Admin" asp-controller="LichSuDocs" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-clock-history"></i>
+                        <p>Lịch sử đọc</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="ThongBaos" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-bell"></i>
+                        <p>Thông báo</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="QuanTris" asp-action="Index" class="nav-link">
+                        <i class="nav-icon bi bi-shield-lock"></i>
+                        <p>Quản trị viên</p>
                     </a>
                 </li>
             </ul>
