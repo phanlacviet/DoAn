@@ -7,6 +7,9 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Models
         public List<TruyenDto> DanhSachTruyen { get; set; } = new();
         public List<LichSuDocDto> LichSu { get; set; } = new();
         public List<TruyenDto> DaLuu { get; set; } = new();
+        public List<TruyenDto> TopNgay { get; set; } = new();
+        public List<TruyenDto> TopTuan { get; set; } = new();
+        public List<TruyenDto> TopThang { get; set; } = new();
     }
 
     public class LichSuDoc

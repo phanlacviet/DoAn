@@ -1,3 +1,148 @@
-﻿@{
+﻿@model K22CNT2_PhanLacViet_DATN.Areas.Admin.Models.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard Quản Trị";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section Header {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        /* Tinh chỉnh để màu chữ đậm đà hơn */
+        .small-box h3 {
+            font-weight: 700;
+        }
+
+        .small-box p {
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .card-title {
+            font-weight: bold !important;
+            color: #343a40;
+        }
+
+        .list-group-item {
+            color: #212529;
+            font-weight: 500;
+        }
+    </style>
+}
+
+<div class="container-fluid pt-4">
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-primary shadow">
+                <div class="inner">
+                    <h3>@Model.TongTruyen.ToString("N0")</h3>
+                    <p>Tổng Truyện</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <a href="#" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-success shadow">
+                <div class="inner">
+                    <h3>@Model.TongThanhVien.ToString("N0")</h3>
+                    <p>Thành Viên</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <a href="#" class="small-box-footer">Quản lý User <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning shadow">
+                <div class="inner">
+                    <h3>@Model.TongChuong.ToString("N0")</h3>
+                    <p>Tổng Chương</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <a href="#" class="small-box-footer">Dữ liệu nội dung <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info shadow">
+                <div class="inner">
+                    <h3>@Model.ThanhVienMoi7Ngay</h3>
+                    <p>TV Mới (7 ngày)</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <a href="#" class="small-box-footer">Xem danh sách <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card card-primary card-outline shadow">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-chart-line mr-1"></i>
+                        Thống kê lượt xem 15 ngày qua
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <canvas id="viewChart" style="min-height: 300px; height: 300px; max-height: 300px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card card-primary card-outline shadow">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-trophy mr-1 text-warning"></i>
+                        Top 5 Xem Nhiều
+                    </h3>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        @if (Model.TopTruyenXemNhieu != null)
+                        {
+                            foreach (var truyen in Model.TopTruyenXemNhieu)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span class="text-truncate" style="max-width: 200px;">
+                                        <i class="fas fa-angle-right text-muted mr-2"></i>@truyen.TenTruyen
+                                    </span>
+                                    <span class="badge badge-primary badge-pill px-3">
+                                        @(truyen.TongLuotXem?.ToString("N0") ?? "0")
+                                    </span>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="javascript:void(0)" class="uppercase">Xem tất cả truyện</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Dữ liệu truyền từ Controller
+    const chartLabels = @Json.Serialize(Model.ChartLabels);
+    const chartData = @Json.Serialize(Model.ChartData);
+</script>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="~/admin/js/dashboard.js"></script>
 }

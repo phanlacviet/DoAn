@@ -146,59 +146,42 @@
             </div>
 
             <div class="tab-content active" id="history">
-                <div class="mini-list">
+                <div class="mini-list scrollable-list">
                     @if (Model.LichSu != null && Model.LichSu.Any())
                     {
                         foreach (var item in Model.LichSu)
                         {
                             <div class="mini-item">
                                 <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" class="mini-thumb">
-                                    <img src="@(string.IsNullOrEmpty(item.AnhBia) ? "/images/default-cover.jpg" : item.AnhBia)"
-                                         alt="@item.TenTruyen"
-                                         style="width:100%; height:100%; object-fit:cover; border-radius:4px;" />
+                                    <img src="@item.AnhBia" alt="@item.TenTruyen" />
                                 </a>
                                 <div class="mini-info">
-                                    <div class="mini-title">
-                                        <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" style="text-decoration:none; color:inherit; font-weight:bold;">
-                                            @item.TenTruyen
-                                        </a>
-                                    </div>
-                                    <div class="mini-chapter" style="color: #555; font-size: 0.9em;">
-                                        Đã đọc: Chương @item.ThuTuChuong
-                                    </div>
-                                    @if (item.NgayDoc.HasValue)
-                                    {
-                                        <div class="mini-time" style="font-size: 0.8em; color: #999;">
-                                            <i class="far fa-clock"></i> @item.NgayDoc.Value.ToString("dd/MM/yyyy HH:mm")
-                                        </div>
-                                    }
+                                    <div class="mini-title"><a href="#">@item.TenTruyen</a></div>
+                                    <div class="mini-chapter">Đọc tiếp: Chương @item.ThuTuChuong</div>
                                 </div>
                             </div>
                         }
                     }
                     else
                     {
-                        <p class="empty-msg">Chưa có lịch sử đọc</p>
+
+                        <p class="empty-msg">Chưa có lịch sử</p>
                     }
                 </div>
             </div>
 
             <div class="tab-content" id="saved">
-                <div class="mini-list">
+                <div class="mini-list scrollable-list">
                     @if (Model.DaLuu != null && Model.DaLuu.Any())
                     {
                         foreach (var item in Model.DaLuu)
                         {
                             <div class="mini-item">
                                 <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" class="mini-thumb">
-                                    <img src="@(string.IsNullOrEmpty(item.AnhBia) ? "/images/default-cover.jpg" : item.AnhBia)"
-                                         alt="@item.TenTruyen"
-                                         style="width:100%; height:100%; object-fit:cover; border-radius:4px;" />
+                                    <img src="@item.AnhBia" alt="@item.TenTruyen" />
                                 </a>
                                 <div class="mini-info">
-                                    <div class="mini-title">
-                                        <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" style="text-decoration:none; color:inherit;">@item.TenTruyen</a>
-                                    </div>
+                                    <div class="mini-title"><a href="#">@item.TenTruyen</a></div>
                                     <div class="mini-chapter">@item.TacGia</div>
                                 </div>
                             </div>
@@ -206,13 +189,86 @@
                     }
                     else
                     {
-                        <p class="empty-msg">Chưa có truyện đã lưu</p>
+
+                        <p class="empty-msg">Chưa lưu truyện nào</p>
                     }
                 </div>
             </div>
         </div>
+
+        <div class="panel side-tabs-container" style="margin-top: 20px; background: var(--card);">
+            <div class="section-title" style="padding: 10px 16px; border-bottom: 1px solid #eee;">
+                <h3 style="margin:0; font-size: 16px;">Bảng Xếp Hạng</h3>
+            </div>
+            <div class="side-tabs-header small-tabs">
+                <button class="tab-btn active" onclick="switchRank(event, 'rankDay')">Ngày</button>
+                <button class="tab-btn" onclick="switchRank(event, 'rankWeek')">Tuần</button>
+                <button class="tab-btn" onclick="switchRank(event, 'rankMonth')">Tháng</button>
+            </div>
+
+            <div id="rankDay" class="rank-content active">
+                @{
+                    RenderRankingList(Model.TopNgay);
+                }
+            </div>
+            <div id="rankWeek" class="rank-content" style="display:none">
+                @{
+                    RenderRankingList(Model.TopTuan);
+                }
+            </div>
+            <div id="rankMonth" class="rank-content" style="display:none">
+                @{
+                    RenderRankingList(Model.TopThang);
+                }
+            </div>
+        </div>
     </aside>
-</div>
+
+@functions {
+    void RenderRankingList(List<K22CNT2_PhanLacViet_DATN.Models.Dtos.TruyenDto> list)
+    {
+            <div class="mini-list">
+                @if (list != null && list.Any())
+                {
+                    int index = 1;
+                    foreach (var item in list)
+                    {
+                        <div class="rank-item">
+                            <div class="rank-number rank-@index">@index</div>
+                            <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" class="rank-thumb">
+                                <img src="@(string.IsNullOrEmpty(item.AnhBia) ? "/images/default-cover.jpg" : item.AnhBia)"
+                                     alt="@item.TenTruyen" />
+                            </a>
+                            <div class="rank-info">
+                                <a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })" class="rank-name">@item.TenTruyen</a>
+                                <div class="rank-view"><i class="fa fa-eye"></i> @item.LuotXem.ToString("N0")</div>
+                            </div>
+                        </div>
+                        index++;
+                    }
+                }
+                else
+                {
+                    <p class="empty-msg">Chưa có dữ liệu</p>
+                }
+            </div>
+    }
+}
+
 @section Scripts {
-    <script src="~/NguoiDung/js/trangchu.js"></script>
+        <script src="~/NguoiDung/js/trangchu.js"></script>
+        <script>
+            function switchRank(evt, rankId) {
+                var contents = document.getElementsByClassName("rank-content");
+                for (var i = 0; i < contents.length; i++) {
+                    contents[i].style.display = "none";
+                }
+                var buttons = document.querySelector(".small-tabs").getElementsByClassName("tab-btn");
+                for (var i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.remove("active");
+                }
+                document.getElementById(rankId).style.display = "block";
+                evt.currentTarget.classList.add("active");
+            }
+        </script>
 }

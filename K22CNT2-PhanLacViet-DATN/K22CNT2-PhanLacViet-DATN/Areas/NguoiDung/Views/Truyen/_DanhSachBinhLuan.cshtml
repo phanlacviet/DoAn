@@ -1,0 +1,31 @@
+﻿@model List<K22CNT2_PhanLacViet_DATN.Models.Dtos.BinhLuanDto>
+
+@foreach (var bl in Model)
+{
+    <div class="comment-wrapper" style="border-bottom: 1px solid #eee; padding: 15px 0;">
+        <div class="comment">
+            <div class="user-name">
+                <strong>@bl.TaiKhoan</strong>
+                @if (!string.IsNullOrEmpty(bl.TenChuong))
+                {
+                    <span class="comment-at-chapter" style="color: var(--accent); font-size: 0.8rem; margin-left: 10px;">
+                        tại <i>@bl.TenChuong</i>
+                    </span>
+                }
+                <small style="color: #999; margin-left: 10px;">- @bl.NgayGui?.ToString("dd/MM/yyyy HH:mm")</small>
+            </div>
+            <p class="comment-content" style="margin-top: 5px;">@bl.NoiDung</p>
+        </div>
+
+        @foreach (var rep in bl.RepBinhLuans)
+        {
+            <div class="comment reply-comment" style="margin-left: 40px; margin-top: 10px; background: var(--card); padding: 8px; border-radius: 5px;">
+                <div class="user-name">
+                    <strong>@rep.TaiKhoan</strong>
+                    <small style="color: #999;">- @rep.NgayGui?.ToString("dd/MM/yyyy")</small>
+                </div>
+                <p class="comment-content">@rep.NoiDung</p>
+            </div>
+        }
+    </div>
+}

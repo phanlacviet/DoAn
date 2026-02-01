@@ -1,5 +1,4 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
-    // --- PHẦN 1: XỬ LÝ DARK MODE (ĐÃ CẬP NHẬT) ---
     const themeToggleBtn = document.getElementById('theme-toggle');
     const rootElement = document.documentElement;
     function applyTheme(theme) {
@@ -85,6 +84,21 @@
             searchResults.style.display = 'none';
         }
     });
+    function handleAds() {
+        const ADS_LINK = "https://shopee.vn/";
+        const COOLDOWN_TIME = 10 * 60 * 1000;
+
+        document.addEventListener('click', function () {
+            const lastAdTime = localStorage.getItem('lastAdTime');
+            const currentTime = new Date().getTime();
+            if (!lastAdTime || (currentTime - lastAdTime > COOLDOWN_TIME)) {
+                window.open(ADS_LINK, '_blank');
+                localStorage.setItem('lastAdTime', currentTime);
+                window.focus();
+            }
+        });
+    }
+    handleAds();
 });
 document.addEventListener("DOMContentLoaded", function () {
     const bellBtn = document.getElementById('ntfBellBtn');

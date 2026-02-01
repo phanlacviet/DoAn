@@ -22,6 +22,15 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.Admin.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+
+        public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("ADMIN_LOGIN")))
+            {
+                context.Result = new RedirectToActionResult("Auth", "Truyen", new { area = "NguoiDung" });
+            }
+            base.OnActionExecuting(context);
+        }
         // GET: Admin/Truyens
         public async Task<IActionResult> Index()
         {

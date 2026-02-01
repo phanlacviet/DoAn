@@ -9,7 +9,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
 {
     [Route("api/Truyen")]
     [ApiController]
-    public class TruyenApiController : ControllerBase
+    public class TruyenApiController : Controller
     {
         private readonly WebTruyenChuContext _context;
 
@@ -58,9 +58,9 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
         }
         // GET: api/Truyen/ChiTiet/5?taiKhoan=admin
         [HttpGet("ChiTiet/{id}")]
-        public async Task<IActionResult> GetChiTietTruyen(int id, string? taiKhoan = null)
+        public async Task<IActionResult> GetChiTietTruyen(int id, [FromQuery] string? taiKhoan = null)
         {
-            // 1. Lấy thông tin truyện và Thể loại
+            // 1. Lấy thông tin truyện và Thể loại (Dùng Include để lấy bảng trung gian TruyenTheLoai)
             var truyenDb = await _context.Truyens
                 .Include(t => t.MaTheLoais)
                 .FirstOrDefaultAsync(t => t.MaTruyen == id);
@@ -77,7 +77,11 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 TongLuotXem = truyenDb.TongLuotXem ?? 0,
                 NgayDang = truyenDb.NgayDang,
                 AnhBia = truyenDb.AnhBia,
-                TenTheLoai = string.Join(", ", truyenDb.MaTheLoais.Select(tl => tl.TenTheLoai))
+                TrangThai = truyenDb.TrangThai,
+                // Map thể loại từ danh sách liên kết
+                TenTheLoai = truyenDb.MaTheLoais != null
+                             ? string.Join(", ", truyenDb.MaTheLoais.Select(tl => tl.TenTheLoai))
+                             : "Khác"
             };
 
             // 2. Lấy danh sách chương
@@ -93,16 +97,26 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                     NgayDang = x.NgayDang
                 }).ToListAsync();
 
+            // 3. Khởi tạo các trạng thái người dùng
             int? thuTuDaDoc = 0;
-            if (!string.IsNullOrEmpty(taiKhoan))
+            bool daTheoDoi = false;
+            bool daDanhGia = false;
+
+            // 4. Kiểm tra logic nếu có người dùng đăng nhập
+            if (!string.IsNullOrWhiteSpace(taiKhoan))
             {
-                thuTuDaDoc = await _context.LichSuDocs
-                    .Where(ls => ls.TaiKhoan == taiKhoan && ls.MaTruyen == id)
-                    .Select(ls => ls.MaChuongTruyenNavigation != null ? (int?)ls.MaChuongTruyenNavigation.ThuTuChuong : 0)
-                    .FirstOrDefaultAsync() ?? 0;
+                string tkNorm = taiKhoan.Trim();
+                var lichSu = await _context.LichSuDocs
+                    .Where(ls => ls.TaiKhoan.Trim() == tkNorm && ls.MaTruyen == id)
+                    .Include(ls => ls.MaChuongTruyenNavigation)
+                    .FirstOrDefaultAsync();
+
+                thuTuDaDoc = lichSu?.MaChuongTruyenNavigation?.ThuTuChuong ?? 0;
+                daTheoDoi = await _context.TheoDois
+                    .AnyAsync(x => x.MaTruyen == id && x.TaiKhoan.Trim() == tkNorm);
+                daDanhGia = await _context.DanhGia
+                    .AnyAsync(x => x.MaTruyen == id && x.TaiKhoan.Trim() == tkNorm);
             }
-            
-            // 4. Lấy bình luận thông qua các chương của truyện này
             var maChuongIds = dsChuong.Select(c => c.MaChuongTruyen).ToList();
             var dsBinhLuan = await _context.BinhLuans
                 .Where(bl => bl.MaChuongTruyen != null && maChuongIds.Contains(bl.MaChuongTruyen.Value))
@@ -111,29 +125,24 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                     MaBinhLuan = bl.MaBinhLuan,
                     NoiDung = bl.NoiDung,
                     TaiKhoan = bl.TaiKhoan,
+                    Avatar = bl.TaiKhoanNavigation != null ? (bl.TaiKhoanNavigation.Avatar ?? "/images/default-avatar.png") : "/images/default-avatar.png",
                     NgayGui = bl.NgayGui,
+                    TenChuong = bl.MaChuongTruyenNavigation != null ? bl.MaChuongTruyenNavigation.TieuDe : "Chương không xác định",
                     RepBinhLuans = bl.RepBinhLuans.Select(r => new RepBinhLuanDto
                     {
                         MaRep = r.MaRep,
                         TaiKhoan = r.TaiKhoan,
+                        Avatar = bl.TaiKhoanNavigation != null ? (bl.TaiKhoanNavigation.Avatar ?? "/images/default-avatar.png") : "/images/default-avatar.png",
                         NoiDung = r.NoiDung,
                         NgayGui = r.NgayGui
                     }).ToList()
                 }).OrderByDescending(x => x.NgayGui).ToListAsync();
-
-            // 5. Tính điểm đánh giá (Sử dụng DanhGia - EF Scaffold thành DanhGia)
-            var danhGias = await _context.DanhGia.Where(dg => dg.MaTruyen == id).ToListAsync();
-            double diemTB = danhGias.Any() ? (double)danhGias.Average(dg => dg.Diem ?? 0) : 0;
-
-            // 6. Kiểm tra trạng thái User
-            bool daTheoDoi = false;
-            bool daDanhGia = false;
-            if (!string.IsNullOrEmpty(taiKhoan))
+            var queryDanhGia = _context.DanhGia.Where(dg => dg.MaTruyen == id);
+            double diemTB = 0;
+            if (await queryDanhGia.AnyAsync())
             {
-                daTheoDoi = await _context.TheoDois.AnyAsync(x => x.MaTruyen == id && x.TaiKhoan == taiKhoan);
-                daDanhGia = await _context.DanhGia.AnyAsync(x => x.MaTruyen == id && x.TaiKhoan == taiKhoan);
+                diemTB = await queryDanhGia.AverageAsync(dg => (double)(dg.Diem ?? 0));
             }
-
             var result = new TrangTruyenViewModel
             {
                 ThongTinTruyen = truyenDto,
@@ -279,6 +288,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                     };
                     _context.LuotXemTruyens.Add(moi);
                 }
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -340,11 +350,13 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                     NoiDung = bl.NoiDung,
                     TaiKhoan = bl.TaiKhoan,
                     NgayGui = bl.NgayGui,
+                    Avatar = bl.TaiKhoanNavigation != null ? (bl.TaiKhoanNavigation.Avatar ?? "/images/default-avatar.png") : "/images/default-avatar.png",
                     RepBinhLuans = bl.RepBinhLuans.Select(r => new RepBinhLuanDto
                     {
                         MaRep = r.MaRep,
                         TaiKhoan = r.TaiKhoan,
                         NoiDung = r.NoiDung,
+                        Avatar = r.TaiKhoanNavigation != null ? (r.TaiKhoanNavigation.Avatar ?? "/images/default-avatar.png") : "/images/default-avatar.png",
                         NgayGui = r.NgayGui
                     }).ToList()
                 })
@@ -470,6 +482,8 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
             string? keyword = null,
             string? tacGia = null,
             string? moTa = null,
+            string? loaiTruyen = null, 
+            string? luotXemRange = null,
             string? sort = "NgayDang_Desc",
             [FromQuery] List<int>? theLoais = null
         )
@@ -479,22 +493,39 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 .Where(t => t.IsDeleted == false)
                 .AsQueryable();
 
-            // 1. Lọc theo từ khóa (Tên truyện)
+            // Lọc theo từ khóa (Tên truyện)
             if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(t => t.TenTruyen.Contains(keyword));
             }
-            // 2. Lọc theo tác giả
+            // Lọc theo tác giả
             if (!string.IsNullOrEmpty(tacGia))
             {
                 query = query.Where(t => t.TacGia!.Contains(tacGia));
             }
-            // 3. Lọc theo mô tả
+            // Lọc theo mô tả
             if (!string.IsNullOrEmpty(moTa))
             {
                 query = query.Where(t => t.MoTa!.Contains(moTa));
             }
-            // 4. Lọc theo thể loại (Nếu có chọn)
+            // Lọc theo Loại truyện
+            if (!string.IsNullOrEmpty(loaiTruyen))
+            {
+                query = query.Where(t => t.LoaiTruyen == loaiTruyen);
+            }
+
+            // Lọc theo Khoảng lượt xem
+            if (!string.IsNullOrEmpty(luotXemRange))
+            {
+                switch (luotXemRange)
+                {
+                    case "1": query = query.Where(t => t.TongLuotXem >= 0 && t.TongLuotXem <= 1000); break;
+                    case "2": query = query.Where(t => t.TongLuotXem > 1000 && t.TongLuotXem <= 10000); break;
+                    case "3": query = query.Where(t => t.TongLuotXem > 10000 && t.TongLuotXem <= 100000); break;
+                    case "4": query = query.Where(t => t.TongLuotXem > 100000); break;
+                }
+            }
+            // Lọc theo thể loại (Nếu có chọn)
             if (theLoais != null && theLoais.Any())
             {
                 query = query.Where(t => t.MaTheLoais.Any(tl => theLoais.Contains(tl.MaTheLoai)));
@@ -532,6 +563,55 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                 .ToListAsync();
             return Ok(list);
         }
+        [HttpGet("BangXepHang/{loai}")] // loai = ngay, tuan, thang
+        public async Task<IActionResult> GetBangXepHang(string loai)
+        {
+            var query = _context.LuotXemTruyens.AsQueryable();
+            var today = DateTime.Now.Date;
+            switch (loai.ToLower())
+            {
+                case "ngay":
+                    query = query.Where(x => x.Ngay == today);
+                    break;
+                case "tuan":
+                    // Lấy 7 ngày gần nhất
+                    var startWeek = today.AddDays(-7);
+                    query = query.Where(x => x.Ngay >= startWeek);
+                    break;
+                case "thang":
+                    // Lấy 30 ngày gần nhất
+                    var startMonth = today.AddDays(-30);
+                    query = query.Where(x => x.Ngay >= startMonth);
+                    break;
+                default:
+                    return BadRequest("Loại xếp hạng không hợp lệ");
+            }
 
+            var result = await query
+                .GroupBy(x => x.MaTruyen)
+                .Select(g => new
+                {
+                    MaTruyen = g.Key,
+                    TongLuotXem = g.Sum(x => x.SoLuotXem)
+                })
+                .OrderByDescending(x => x.TongLuotXem)
+                .Take(10)
+                .Join(_context.Truyens,
+                    lx => lx.MaTruyen,
+                    t => t.MaTruyen,
+                    (lx, t) => new TruyenDto
+                    {
+                        MaTruyen = t.MaTruyen,
+                        TenTruyen = t.TenTruyen,
+                        AnhBia = t.AnhBia,
+                        TacGia = t.TacGia,
+                        LuotXem = lx.TongLuotXem ?? 0,
+                        NgayCapNhat = t.NgayCapNhat ?? DateTime.Now
+                    })
+                .ToListAsync();
+
+            return Ok(result);
+        }
+        
     }
 }

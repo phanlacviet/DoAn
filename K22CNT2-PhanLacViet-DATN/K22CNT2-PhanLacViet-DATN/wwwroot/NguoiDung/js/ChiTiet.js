@@ -108,9 +108,7 @@ async function submitReview(maTruyen) {
     try {
         const response = await fetch('/api/Truyen/DanhGia', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 TaiKhoan: currentUser,
                 MaTruyen: maTruyen,
@@ -122,7 +120,13 @@ async function submitReview(maTruyen) {
         if (response.ok) {
             alert("Cảm ơn bạn đã đánh giá!");
             closeRatingModal();
-            location.reload(); // Tải lại trang để cập nhật điểm TB
+
+            // Cập nhật class ngay lập tức
+            const btn = document.getElementById("btnDanhGia");
+            if (btn) btn.classList.add("rated");
+
+            // Tải lại trang để Model đồng bộ với DB (cập nhật điểm trung bình)
+            location.reload();
         } else {
             alert("Lỗi khi gửi đánh giá.");
         }

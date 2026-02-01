@@ -101,17 +101,17 @@ body {
 .side-tabs-header {
     display: flex;
     border-bottom: 1px solid var(--accent);
-    background: #f9fafb;
+    background: var(--card);
 }
 
 .tab-btn {
     flex: 1;
     padding: 12px 5px;
     border: none;
-    background: none;
+    background: var(--card);
     font-weight: 600;
     font-size: 14px;
-    color: var(--text-muted);
+    color: var(--muted);
     cursor: pointer;
     transition: all 0.2s;
     border-bottom: 2px solid transparent;
@@ -146,7 +146,14 @@ body {
     flex-direction: column;
     gap: 12px;
 }
-
+    .mini-list a {
+        text-decoration: none;
+        color: var(--text-main);
+        transition: color 0.2s;
+    }
+        .mini-list a:hover {
+            color: var(--accent); 
+        }
 .mini-item {
     display: flex;
     gap: 10px;
@@ -159,8 +166,15 @@ body {
     background: var(--accent);
     border-radius: 4px;
     flex-shrink: 0;
+    overflow: hidden;
+    display: block;
 }
-
+    .mini-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
 .mini-info {
     flex: 1;
     overflow: hidden;
@@ -276,4 +290,110 @@ body {
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
         gap: 20px;
     }
+}
+.scrollable-list {
+    max-height: 350px; 
+    overflow-y: auto; 
+    padding-right: 5px; 
+}
+    .scrollable-list::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .scrollable-list::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .scrollable-list::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 4px;
+    }
+
+        .scrollable-list::-webkit-scrollbar-thumb:hover {
+            background: #bbb;
+        }
+
+.rank-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border-color, #efefef);
+    transition: all 0.2s ease;
+    background: var(--card);
+}
+    .rank-item:hover {
+        background-color: var(--hover-bg);
+    }
+[data-theme='dark'] .rank-item:hover,
+.dark-mode .rank-item:hover {
+    background-color: rgba(255, 255, 255, 0.05); 
+}
+.rank-thumb {
+    width: 40px;
+    height: 55px;
+    flex-shrink: 0;
+    margin-right: 12px;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+    .rank-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+/* SỐ THỨ TỰ */
+.rank-number {
+    font-size: 16px;
+    font-weight: 800;
+    width: 25px; 
+    text-align: center;
+    margin-right: 8px;
+    flex-shrink: 0;
+    font-style: italic;
+    color: #9ca3af;
+}
+
+/* Màu sắc cho Top 3 */
+.rank-1 {
+    color: #ef4444;
+    font-size: 20px;
+}
+
+.rank-2 {
+    color: #f59e0b;
+    font-size: 18px;
+}
+
+.rank-3 {
+    color: #3b82f6;
+    font-size: 18px;
+}
+.rank-info {
+    flex: 1;
+    overflow: hidden;
+}
+
+.rank-name {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-main);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rank-item:hover .rank-name {
+    color: var(--accent);
+}
+
+.rank-view {
+    font-size: 12px;
+    color: #888;
+    margin-top: 2px;
 }

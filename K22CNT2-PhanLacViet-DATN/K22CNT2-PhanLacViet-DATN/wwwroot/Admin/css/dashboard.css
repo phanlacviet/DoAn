@@ -1,0 +1,95 @@
+﻿:root {
+    --primary: #4e73df;
+    --success: #1cc88a;
+    --info: #36b9cc;
+    --warning: #f6c23e;
+    --danger: #e74a3b;
+    --dark-blue: #2c3e50;
+    --bg-light: #f8f9fc;
+}
+
+.dashboard-container {
+    padding: 1.5rem;
+    background-color: var(--bg-light);
+}
+
+/* Hiệu ứng Card thống kê */
+.stat-card {
+    border: none;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+}
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+
+    .stat-card .card-body {
+        padding: 1.5rem;
+        z-index: 1;
+    }
+
+.stat-icon {
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    font-size: 5rem;
+    opacity: 0.15;
+    transform: rotate(-15px);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover .stat-icon {
+    transform: scale(1.1) rotate(0deg);
+    opacity: 0.25;
+}
+
+/* Biểu đồ */
+.chart-card {
+    border-radius: 15px;
+    border: none;
+}
+
+/* Danh sách Top Truyện */
+.ranking-list {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.ranking-item {
+    border: none;
+    padding: 1rem 1.25rem;
+    transition: background 0.2s;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+    .ranking-item:hover {
+        background-color: #f8f9ff;
+    }
+
+.rank-number {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.badge-view {
+    background: linear-gradient(45deg, var(--primary), #7191ed);
+    padding: 0.5rem 0.8rem;
+    font-weight: 500;
+}
+
+/* Header Dashboard */
+.db-header h1 {
+    font-weight: 800;
+    color: var(--dark-blue);
+    letter-spacing: -1px;
+}

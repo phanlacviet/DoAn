@@ -13,6 +13,8 @@
     --dropdown-shadow: rgba(0,0,0,0.1);
     --input-bg: #fff;
     --input-border: #ccc;
+    --star-color: #f1c40f;
+    --primary-color: #ff9900;
 }
 
 [data-theme="dark"] {

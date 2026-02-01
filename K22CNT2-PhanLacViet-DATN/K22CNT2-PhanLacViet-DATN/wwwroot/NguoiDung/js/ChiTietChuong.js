@@ -15,8 +15,83 @@ document.addEventListener("DOMContentLoaded", function () {
             startReading();
         }, 1000);
     }
+    initReaderSettings();
 });
+const defaultSettings = {
+    fontSize: 19,
+    lineHeight: 1.8,
+    fontFamily: "'Segoe UI', Arial, sans-serif"
+};
+function initReaderSettings() {
+    const savedSettings = JSON.parse(localStorage.getItem('readerSettings')) || defaultSettings;
+    const inputSize = document.getElementById('setSize');
+    const inputLine = document.getElementById('setLineHeight');
+    const selectFont = document.getElementById('setFont');
+    if (inputSize) inputSize.value = savedSettings.fontSize;
+    if (inputLine) inputLine.value = savedSettings.lineHeight;
+    if (selectFont) selectFont.value = savedSettings.fontFamily;
+    applySettings(savedSettings);
+    if (inputSize) {
+        inputSize.addEventListener('input', function () {
+            updateSetting('fontSize', this.value);
+            document.getElementById('valFontSize').innerText = this.value + 'px';
+        });
+    }
 
+    if (inputLine) {
+        inputLine.addEventListener('input', function () {
+            updateSetting('lineHeight', this.value);
+            document.getElementById('valLineHeight').innerText = this.value;
+        });
+    }
+
+    if (selectFont) {
+        selectFont.addEventListener('change', function () {
+            updateSetting('fontFamily', this.value);
+        });
+    }
+}
+
+function updateSetting(key, value) {
+    const currentSettings = JSON.parse(localStorage.getItem('readerSettings')) || defaultSettings;
+    currentSettings[key] = value;
+    localStorage.setItem('readerSettings', JSON.stringify(currentSettings));
+    applySettings(currentSettings);
+}
+
+function applySettings(settings) {
+    const contentDiv = document.querySelector('.chapter-content');
+    if (!contentDiv) return;
+    contentDiv.style.fontSize = settings.fontSize + 'px';
+    contentDiv.style.lineHeight = settings.lineHeight;
+    contentDiv.style.fontFamily = settings.fontFamily;
+    const lblSize = document.getElementById('valFontSize');
+    const lblLine = document.getElementById('valLineHeight');
+    if (lblSize) lblSize.innerText = settings.fontSize + 'px';
+    if (lblLine) lblLine.innerText = settings.lineHeight;
+}
+
+function resetSettings() {
+    localStorage.removeItem('readerSettings');
+    initReaderSettings(); 
+}
+
+function toggleSettingsPanel() {
+    const panel = document.getElementById('displaySettingsPanel');
+    const ttsPanel = document.getElementById('ttsPanel');
+    if (ttsPanel) ttsPanel.style.display = 'none';
+    if (panel) {
+        panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
+    }
+}
+const originalToggleTTS = toggleTTSPanel;
+toggleTTSPanel = function () {
+    const panel = document.getElementById('ttsPanel');
+    const settingsPanel = document.getElementById('displaySettingsPanel');
+    if (settingsPanel) settingsPanel.style.display = 'none';
+
+    if (panel) panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
+}
 function initTTS() {
     loadVoices();
     if (speechSynthesis.onvoiceschanged !== undefined) {

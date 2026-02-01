@@ -1,0 +1,56 @@
+﻿@model K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Models.ReviewDetailViewModel
+@{
+    Layout = "~/Areas/NguoiDung/Views/Shared/_Layout.cshtml";
+}
+
+
+    <link href="~/NguoiDung/css/DanhGia.css" rel="stylesheet" />
+
+
+@* Bao bọc toàn bộ bằng ID duy nhất để tránh xung đột Layout *@
+<div id="review-page-container">
+    <div class="review-header-section">
+        <img src="@Model.Truyen.AnhBia" class="review-cover" alt="@Model.Truyen.TenTruyen">
+        <div class="review-title-info">
+            <div class="review-title-row">
+                <h1 class="review-novel-title">@Model.Truyen.TenTruyen</h1>
+                <a href="@Url.Action("ChiTiet", "Truyen", new { id = Model.Truyen.MaTruyen })" class="btn-back-novel">
+                    <i class="fa-solid fa-arrow-left"></i> Quay lại truyện
+                </a>
+            </div>
+
+            <div class="review-rating-avg">@Model.DiemTrungBinh / 5 ★</div>
+            <div class="review-stats">Tổng cộng: @Model.TongSoDanhGia đánh giá</div>
+        </div>
+    </div>
+
+    <div class="review-list-content">
+        @if (Model.DanhGias != null && Model.DanhGias.Any())
+        {
+            @foreach (var item in Model.DanhGias)
+            {
+                <div class="review-card">
+                    <div class="review-user-info">
+                        <img src="@(string.IsNullOrEmpty(item.TaiKhoanNavigation?.Avatar) ? "/images/default-avatar.png" : item.TaiKhoanNavigation.Avatar)" class="review-avatar">
+                        <div class="review-user-meta">
+                            <strong class="review-username">@item.TaiKhoan</strong>
+                            <span class="review-stars-display">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <span class="star-icon">@(i <= (item.Diem ?? 0) ? "★" : "☆")</span>
+                                }
+                                <small>(@(item.Diem ?? 0)/5)</small>
+                            </span>
+                        </div>
+                    </div>
+                    <p class="review-text">@item.NoiDung</p>
+                    <span class="review-publish-date">Đăng ngày: @item.NgayDanhGia?.ToString("dd/MM/yyyy")</span>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="no-reviews">Chưa có đánh giá nào cho truyện này.</div>
+        }
+    </div>
+</div>

@@ -85,15 +85,22 @@
 
     /* Nút Theo dõi khi active */
     .btn-action.active {
-        background: var(--primary-color);
+        background: var(--primary-color, #ff9900); /* #ff9900 là màu cam, bạn đổi thành màu web bạn */
         color: white;
-        border-color: var(--primary-color);
+        border-color: var(--primary-color, #ff9900);
     }
-
+    .btn-action:disabled {
+        cursor: not-allowed; /* Hiện biểu tượng cấm */
+        opacity: 0.8;
+        background: #f0f0f0; /* Màu nền nhạt đi */
+        color: var(--star-color) !important;
+        border-color: var(--star-color) !important;
+    }
     /* Nút Đánh giá khi đã rate */
     .btn-action.rated {
-        color: var(--star-color);
-        border-color: var(--star-color);
+        color: var(--star-color) !important;
+        border-color: var(--star-color) !important;
+        background: rgba(241, 196, 15, 0.1);
     }
 
 /* --- Mô tả --- */
@@ -174,7 +181,12 @@
     padding: 15px 0;
     border-bottom: 1px solid var(--header-border);
 }
-
+.comment-header {
+    display: flex;
+    align-items: center; 
+    gap: 12px; 
+    margin-bottom: 8px;
+}
     .comment:last-child {
         border-bottom: none;
     }
@@ -184,24 +196,33 @@
     color: var(--text-main);
     margin-bottom: 5px;
 }
-
+.user-avatar-img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0; 
+}
     .user-name small {
         font-weight: 400;
         color: #999;
         margin-left: 10px;
     }
-
+.user-meta {
+    display: flex;
+    flex-direction: column; 
+    line-height: 1.2;
+}
 .comment-content {
     margin: 5px 0;
-    color: #555;
-    line-height: 1.5;
+    color: var(--text-main);
 }
 
 .reply-comment {
     margin-left: 40px;
     border-left: 3px solid var(--primary);
     padding-left: 15px;
-    background: var(--hover-bg);
+    background: var(--card);
 }
 
 /* --- MODAL ĐÁNH GIÁ --- */
@@ -272,7 +293,7 @@
 }
 
 .btn-submit {
-    background: var(--primary-color);
+    background: var(--primary-color, #ff9900);
     color: white;
     border: none;
     padding: 10px 25px;

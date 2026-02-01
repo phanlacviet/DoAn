@@ -2,7 +2,8 @@
     Layout = "_Layout";
     ViewData["Title"] = "Đăng chương mới";
     int maTruyen = ViewBag.MaTruyen;
-    int nextOrder = ViewBag.NextOrder ?? 1; // Backend tính số thứ tự tiếp theo
+    int nextOrder = ViewBag.NextOrder ?? 1;
+    string tentruyen = ViewBag.TenTruyen;// Backend tính số thứ tự tiếp theo
 }
 
 
@@ -10,7 +11,7 @@
 
 
 <div class="form-box">
-    <h2>📄 Đăng chương mới</h2>
+    <h2>📄 Đăng chương mới cho truyện @ViewBag.TenTruyen</h2>
 
     <label>Thứ tự chương</label>
     <input type="number" id="txtThuTu" value="@nextOrder" style="width:100px; padding:10px; border:1px solid #ddd; border-radius:8px;">

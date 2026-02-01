@@ -7,6 +7,8 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Models
         public string? Keyword { get; set; }
         public string? TacGia { get; set; }
         public string? MoTa { get; set; }
+        public string? LoaiTruyen { get; set; } 
+        public string? LuotXemRange { get; set; }
         public string Sort { get; set; } = "NgayDang_Desc";
         public List<int> SelectedGenreIds { get; set; } = new List<int>();
         public List<TruyenDto> KetQua { get; set; } = new List<TruyenDto>();

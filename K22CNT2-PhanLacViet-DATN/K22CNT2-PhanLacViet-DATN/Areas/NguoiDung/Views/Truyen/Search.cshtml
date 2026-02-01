@@ -13,7 +13,13 @@
             <input type="text" asp-for="Keyword" placeholder="Tên truyện..." name="keyword">
             <input type="text" asp-for="TacGia" placeholder="Tác giả..." name="tacGia">
             <textarea asp-for="MoTa" placeholder="Mô tả..." name="moTa" rows="3"></textarea>
-
+            <div style="margin:8px 0;font-weight:700">Loại truyện</div>
+            <select asp-for="LoaiTruyen" name="loaiTruyen">
+                <option value="">-- Tất cả --</option>
+                <option value="Sáng tác">Sáng tác</option>
+                <option value="Dịch">Dịch</option>
+                <option value="AI dịch">AI dịch</option>
+            </select>
             <div style="margin:8px 0;font-weight:700">Thể loại</div>
             <div class="s2-genres">
                 @if (Model.AllTheLoais != null)
@@ -26,7 +32,14 @@
                     }
                 }
             </div>
-
+            <div style="margin:8px 0;font-weight:700">Tổng lượt xem</div>
+            <select asp-for="LuotXemRange" name="luotXemRange">
+                <option value="">-- Tất cả --</option>
+                <option value="1">0 - 1,000</option>
+                <option value="2">1,000 - 10,000</option>
+                <option value="3">10,000 - 100,000</option>
+                <option value="4">> 100,000</option>
+            </select>
             <div style="margin-top:10px">
                 <select asp-for="Sort" name="sort">
                     <option value="NgayDang_Desc">Mới cập nhật</option>

@@ -3,28 +3,40 @@
   "WorkspaceRootPath": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|d:\\do_an_tot_nghiep\\k22cnt2-phanlacviet-datn\\k22cnt2-phanlacviet-datn\\areas\\admin\\views\\thongbaos\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|solutionrelative:k22cnt2-phanlacviet-datn\\areas\\admin\\views\\thongbaos\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|d:\\do_an_tot_nghiep\\k22cnt2-phanlacviet-datn\\k22cnt2-phanlacviet-datn\\wwwroot\\nguoidung\\js\\header.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|solutionrelative:k22cnt2-phanlacviet-datn\\wwwroot\\nguoidung\\js\\header.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|d:\\do_an_tot_nghiep\\k22cnt2-phanlacviet-datn\\k22cnt2-phanlacviet-datn\\areas\\admin\\views\\thongbaos\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|solutionrelative:k22cnt2-phanlacviet-datn\\areas\\admin\\views\\thongbaos\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|d:\\do_an_tot_nghiep\\k22cnt2-phanlacviet-datn\\k22cnt2-phanlacviet-datn\\areas\\nguoidung\\views\\truyen\\chitietchuong.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|solutionrelative:k22cnt2-phanlacviet-datn\\areas\\nguoidung\\views\\truyen\\chitietchuong.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|d:\\do_an_tot_nghiep\\k22cnt2-phanlacviet-datn\\k22cnt2-phanlacviet-datn\\areas\\admin\\views\\thongbaos\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|solutionrelative:k22cnt2-phanlacviet-datn\\areas\\admin\\views\\thongbaos\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|d:\\do_an_tot_nghiep\\k22cnt2-phanlacviet-datn\\k22cnt2-phanlacviet-datn\\areas\\nguoidung\\views\\truyen\\chitiet.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|solutionrelative:k22cnt2-phanlacviet-datn\\areas\\nguoidung\\views\\truyen\\chitiet.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|d:\\do_an_tot_nghiep\\k22cnt2-phanlacviet-datn\\k22cnt2-phanlacviet-datn\\areas\\admin\\views\\thongbaos\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|solutionrelative:k22cnt2-phanlacviet-datn\\areas\\admin\\views\\thongbaos\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|d:\\do_an_tot_nghiep\\k22cnt2-phanlacviet-datn\\k22cnt2-phanlacviet-datn\\wwwroot\\nguoidung\\css\\chitietchuong.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|solutionrelative:k22cnt2-phanlacviet-datn\\wwwroot\\nguoidung\\css\\chitietchuong.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|d:\\do_an_tot_nghiep\\k22cnt2-phanlacviet-datn\\k22cnt2-phanlacviet-datn\\areas\\admin\\views\\thongbaos\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|solutionrelative:k22cnt2-phanlacviet-datn\\areas\\admin\\views\\thongbaos\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|d:\\do_an_tot_nghiep\\k22cnt2-phanlacviet-datn\\k22cnt2-phanlacviet-datn\\wwwroot\\nguoidung\\css\\chitiet.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|solutionrelative:k22cnt2-phanlacviet-datn\\wwwroot\\nguoidung\\css\\chitiet.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|d:\\do_an_tot_nghiep\\k22cnt2-phanlacviet-datn\\k22cnt2-phanlacviet-datn\\areas\\admin\\controllers\\thongbaoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|solutionrelative:k22cnt2-phanlacviet-datn\\areas\\admin\\controllers\\thongbaoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|d:\\do_an_tot_nghiep\\k22cnt2-phanlacviet-datn\\k22cnt2-phanlacviet-datn\\areas\\nguoidung\\controllers\\api\\truyenapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|solutionrelative:k22cnt2-phanlacviet-datn\\areas\\nguoidung\\controllers\\api\\truyenapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|d:\\do_an_tot_nghiep\\k22cnt2-phanlacviet-datn\\k22cnt2-phanlacviet-datn\\wwwroot\\nguoidung\\js\\chitiet.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|solutionrelative:k22cnt2-phanlacviet-datn\\wwwroot\\nguoidung\\js\\chitiet.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|d:\\do_an_tot_nghiep\\k22cnt2-phanlacviet-datn\\k22cnt2-phanlacviet-datn\\areas\\nguoidung\\views\\truyen\\_danhsachbinhluan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|solutionrelative:k22cnt2-phanlacviet-datn\\areas\\nguoidung\\views\\truyen\\_danhsachbinhluan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|d:\\do_an_tot_nghiep\\k22cnt2-phanlacviet-datn\\k22cnt2-phanlacviet-datn\\areas\\nguoidung\\controllers\\truyencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DEBE016-7918-5007-657F-587DDCCEF9E8}|K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN.csproj|solutionrelative:k22cnt2-phanlacviet-datn\\areas\\nguoidung\\controllers\\truyencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,84 +46,123 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Delete.cshtml",
-              "DocumentMoniker": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Delete.cshtml",
-              "RelativeDocumentMoniker": "K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Delete.cshtml",
-              "ToolTip": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Delete.cshtml",
-              "RelativeToolTip": "K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Delete.cshtml",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAswB4AAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-27T02:16:00.766Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ThongBaosController.cs",
-              "DocumentMoniker": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Controllers\\ThongBaosController.cs",
-              "RelativeDocumentMoniker": "K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Controllers\\ThongBaosController.cs",
-              "ToolTip": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Controllers\\ThongBaosController.cs",
-              "RelativeToolTip": "K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Controllers\\ThongBaosController.cs",
-              "ViewState": "AgIAAHUAAAAAAAAAAAAswIwAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T02:14:04.091Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Index.cshtml",
-              "RelativeDocumentMoniker": "K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Index.cshtml",
-              "ToolTip": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Index.cshtml",
-              "RelativeToolTip": "K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Index.cshtml",
-              "ViewState": "AgIAABwAAAAAAAAAAAAswDYAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-27T02:13:59.766Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Edit.cshtml",
-              "RelativeDocumentMoniker": "K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Edit.cshtml",
-              "ToolTip": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Edit.cshtml",
-              "RelativeToolTip": "K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Edit.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-27T02:13:45.625Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Details.cshtml",
-              "RelativeDocumentMoniker": "K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Details.cshtml",
-              "ToolTip": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Details.cshtml",
-              "RelativeToolTip": "K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Details.cshtml",
-              "ViewState": "AgIAABAAAAAAAAAAAAAswDAAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-27T02:13:44.738Z",
+              "Title": "header.js",
+              "DocumentMoniker": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\js\\header.js",
+              "RelativeDocumentMoniker": "K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\js\\header.js",
+              "ToolTip": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\js\\header.js",
+              "RelativeToolTip": "K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\js\\header.js",
+              "ViewState": "AgIAAL0AAAAAAAAAAAD4v8QAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-02-01T10:22:38.635Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Create.cshtml",
-              "RelativeDocumentMoniker": "K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Create.cshtml",
-              "ToolTip": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Create.cshtml",
-              "RelativeToolTip": "K22CNT2-PhanLacViet-DATN\\Areas\\Admin\\Views\\ThongBaos\\Create.cshtml",
-              "ViewState": "AgIAABIAAAAAAAAAAAAswCkAAAAGAAAAAAAAAA==",
+              "Title": "ChiTietChuong.css",
+              "DocumentMoniker": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\css\\ChiTietChuong.css",
+              "RelativeDocumentMoniker": "K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\css\\ChiTietChuong.css",
+              "ToolTip": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\css\\ChiTietChuong.css",
+              "RelativeToolTip": "K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\css\\ChiTietChuong.css",
+              "ViewState": "AgIAAKYBAAAAAAAAAADwv7MBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-02-01T10:11:53.652Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ChiTietChuong.cshtml",
+              "DocumentMoniker": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Views\\Truyen\\ChiTietChuong.cshtml",
+              "RelativeDocumentMoniker": "K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Views\\Truyen\\ChiTietChuong.cshtml",
+              "ToolTip": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Views\\Truyen\\ChiTietChuong.cshtml",
+              "RelativeToolTip": "K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Views\\Truyen\\ChiTietChuong.cshtml",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAAAEoAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-27T02:13:26.282Z",
+              "WhenOpened": "2026-02-01T09:31:38.055Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "_DanhSachBinhLuan.cshtml",
+              "DocumentMoniker": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Views\\Truyen\\_DanhSachBinhLuan.cshtml",
+              "RelativeDocumentMoniker": "K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Views\\Truyen\\_DanhSachBinhLuan.cshtml",
+              "ToolTip": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Views\\Truyen\\_DanhSachBinhLuan.cshtml",
+              "RelativeToolTip": "K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Views\\Truyen\\_DanhSachBinhLuan.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-01T09:25:16.978Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ChiTiet.js",
+              "DocumentMoniker": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\js\\ChiTiet.js",
+              "RelativeDocumentMoniker": "K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\js\\ChiTiet.js",
+              "ToolTip": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\js\\ChiTiet.js",
+              "RelativeToolTip": "K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\js\\ChiTiet.js",
+              "ViewState": "AgIAAIcAAAAAAAAAAAAAAI8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-02-01T09:09:23.292Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ChiTiet.css",
+              "DocumentMoniker": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\css\\ChiTiet.css",
+              "RelativeDocumentMoniker": "K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\css\\ChiTiet.css",
+              "ToolTip": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\css\\ChiTiet.css",
+              "RelativeToolTip": "K22CNT2-PhanLacViet-DATN\\wwwroot\\NguoiDung\\css\\ChiTiet.css",
+              "ViewState": "AgIAAL8AAAAAAAAAAAArwMYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-02-01T09:08:23.393Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ChiTiet.cshtml",
+              "DocumentMoniker": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Views\\Truyen\\ChiTiet.cshtml",
+              "RelativeDocumentMoniker": "K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Views\\Truyen\\ChiTiet.cshtml",
+              "ToolTip": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Views\\Truyen\\ChiTiet.cshtml",
+              "RelativeToolTip": "K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Views\\Truyen\\ChiTiet.cshtml",
+              "ViewState": "AgIAAIYAAAAAAAAAAAAAAIkAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-01T08:23:51.3Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TruyenApiController.cs",
+              "DocumentMoniker": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Controllers\\Api\\TruyenApiController.cs",
+              "RelativeDocumentMoniker": "K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Controllers\\Api\\TruyenApiController.cs",
+              "ToolTip": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Controllers\\Api\\TruyenApiController.cs",
+              "RelativeToolTip": "K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Controllers\\Api\\TruyenApiController.cs",
+              "ViewState": "AgIAAFoBAAAAAAAAAAAlwGYBAACdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T07:26:50.805Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "TruyenController.cs",
+              "DocumentMoniker": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Controllers\\TruyenController.cs",
+              "RelativeDocumentMoniker": "K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Controllers\\TruyenController.cs",
+              "ToolTip": "D:\\DO_AN_TOT_NGHIEP\\K22CNT2-PhanLacViet-DATN\\K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Controllers\\TruyenController.cs",
+              "RelativeToolTip": "K22CNT2-PhanLacViet-DATN\\Areas\\NguoiDung\\Controllers\\TruyenController.cs",
+              "ViewState": "AgIAAJkAAAAAAAAAAADgv58AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T07:26:30.459Z",
               "EditorCaption": ""
             }
           ]

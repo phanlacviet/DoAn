@@ -17,6 +17,10 @@ namespace K22CNT2_PhanLacViet_DATN.Models.Dtos
         public string? AnhBia { get; set; }
         public string? TrangThai { get; set; }
         public string? NguoiDang { get; set; }
+        public double DiemDanhGia { get; set; } = 0; 
+        public int LuotXem { get; set; } = 0;
+        public int LuotXemTuan { get; set; } = 0; 
+        public int LuotXemThang { get; set; } = 0;
     }
     public class DangTruyenDto
     {

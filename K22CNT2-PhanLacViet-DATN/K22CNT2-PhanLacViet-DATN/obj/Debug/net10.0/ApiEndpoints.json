@@ -465,6 +465,22 @@
   },
   {
     "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.TruyenApiController",
+    "Method": "GetBangXepHang",
+    "RelativePath": "api/Truyen/BangXepHang/{loai}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loai",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api.TruyenApiController",
     "Method": "ThemBinhLuan",
     "RelativePath": "api/Truyen/BinhLuan/Them",
     "HttpMethod": "POST",
@@ -647,6 +663,16 @@
       },
       {
         "Name": "moTa",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "loaiTruyen",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "luotXemRange",
         "Type": "System.String",
         "IsRequired": false
       },

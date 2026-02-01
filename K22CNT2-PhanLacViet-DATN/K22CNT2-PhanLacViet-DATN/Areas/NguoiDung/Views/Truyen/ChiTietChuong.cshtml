@@ -4,22 +4,27 @@
     Layout = "~/Areas/NguoiDung/Views/Shared/_Layout.cshtml";
     var currentUser = Context.Session.GetString("USER_LOGIN");
 }
+
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa&family=Courier+Prime&family=Dancing+Script&family=Lora&family=Merriweather&family=Montserrat&family=Oswald&family=Patrick+Hand&family=Roboto&family=Vollkorn&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 <link href="~/NguoiDung/css/ChiTietChuong.css" rel="stylesheet" />
 
 <div class="container">
     <div class="sticky-action-bar">
-        <button id="btnSaveStory"
-                class="action-btn"
-                title="Lưu vào tủ truyện"
-                data-truyen="@Model.MaTruyen"
-                onclick="saveStory(this)">
+        <button id="btnSaveStory" class="action-btn" title="Lưu vào tủ truyện" data-truyen="@Model.MaTruyen" onclick="saveStory(this)">
             <i class="fa-regular fa-bookmark"></i>
             <span class="btn-tooltip">Lưu truyện</span>
         </button>
+
+        <button id="btnSettings" class="action-btn" title="Cài đặt hiển thị" onclick="toggleSettingsPanel()">
+            <i class="fa-solid fa-gear"></i>
+            <span class="btn-tooltip">Cài đặt</span>
+        </button>
     </div>
+
     <div class="chapter-title">
-        Chương @Model.ChuongHienTai.ThuTuChuong: @Model.ChuongHienTai.TieuDe
+        @Model.ChuongHienTai.TieuDe
     </div>
     <div class="chapter-date">
         Ngày đăng: @(Model.ChuongHienTai.NgayDang?.ToString("dd/MM/yyyy HH:mm") ?? "N/A")
@@ -29,50 +34,45 @@
             🔊 Nghe truyện
         </button>
     </div>
-    <div class="chapter-content">
+
+    <div class="chapter-content" id="chapterContent">
         @Html.Raw(Model.ChuongHienTai.NoiDung)
     </div>
 
     <div class="nav">
         @if (Model.MaChuongTruoc != null)
         {
-            <a href="@Url.Action("ChiTietChuong", new { id = Model.MaChuongTruoc })" class="btn-nav">
-                ⬅ Chương trước
-            </a>
+            <a href="@Url.Action("ChiTietChuong", new { id = Model.MaChuongTruoc })" class="btn-nav">⬅ Chương trước</a>
         }
         else
         {
+
             <button class="btn-nav disabled" disabled>⬅ Chương trước</button>
         }
-
-        <a href="@Url.Action("ChiTiet", new { id = Model.MaTruyen })" class="btn-nav">
-            📖 Mục lục
-        </a>
-
+        <a href="@Url.Action("ChiTiet", new { id = Model.MaTruyen })" class="btn-nav">📖 Mục lục</a>
         @if (Model.MaChuongSau != null)
         {
-            <a id="btnNextChapter" href="@Url.Action("ChiTietChuong", new { id = Model.MaChuongSau })" class="btn-nav">
-                Chương sau ➡
-            </a>
+            <a id="btnNextChapter" href="@Url.Action("ChiTietChuong", new { id = Model.MaChuongSau })" class="btn-nav">Chương sau ➡</a>
         }
         else
         {
+
             <button class="btn-nav disabled" disabled>Chương sau ➡</button>
         }
     </div>
 
     <h3>Bình luận (@Model.DanhSachBinhLuan.Count)</h3>
-
     <div class="comment-box">
         <textarea id="txtMainComment" placeholder="Nhập bình luận của bạn..."></textarea><br>
         <button onclick="postComment(@Model.ChuongHienTai.MaChuongTruyen)">Đăng bình luận</button>
     </div>
-
     <div id="commentList">
         @foreach (var bl in Model.DanhSachBinhLuan)
         {
             <div class="comment">
                 <div class="comment-header">
+                    <img src="@(string.IsNullOrEmpty(bl.Avatar) ? "/images/default-avatar.png" : bl.Avatar)"
+                         alt="avatar" class="user-avatar-img"> 
                     <b>@bl.TaiKhoan</b>
                     <span class="comment-date">- @(bl.NgayGui?.ToString("dd/MM/yyyy"))</span>
                 </div>
@@ -82,7 +82,7 @@
 
                 <div class="reply-form" id="replyForm-@bl.MaBinhLuan">
                     <textarea id="txtReply-@bl.MaBinhLuan" placeholder="Nhập câu trả lời..."></textarea><br>
-                    <button onclick="postReply(@bl.MaBinhLuan)" class="btn-rep">Gửi</button>
+                    <button class="btn-reply-toggle" onclick="postReply(@bl.MaBinhLuan)" class="btn-rep">Gửi</button>
                 </div>
 
                 @if (bl.RepBinhLuans != null && bl.RepBinhLuans.Any())
@@ -91,7 +91,8 @@
                         @foreach (var rep in bl.RepBinhLuans)
                         {
                             <div class="reply">
-                                <b>@rep.TaiKhoan</b>: @rep.NoiDung
+                                <img src="@(string.IsNullOrEmpty(rep.Avatar) ? "/images/default-avatar.png" : rep.Avatar)"
+                                     alt="avatar" class="user-avatar-img" style="width: 28px; height: 28px;"> <b>@rep.TaiKhoan</b>: @rep.NoiDung
                                 <br />
                                 <small style="color:#999">@rep.NgayGui?.ToString("dd/MM/yyyy")</small>
                             </div>
@@ -101,25 +102,53 @@
             </div>
         }
     </div>
-    <div id="ttsPanel" class="tts-panel" style="display:none;">
-        <div class="tts-header">
-            <h4>Cài đặt giọng đọc</h4>
-            <span class="close-tts" onclick="toggleTTSPanel()">&times;</span>
-        </div>
-        <div class="tts-body">
-            <label>Chọn giọng đọc:</label>
-            <select id="voiceSelect" class="form-control"></select>
-            
-            <label>Tốc độ:</label>
-            <input type="range" id="rateRange" min="0.5" max="2" value="1" step="0.1">
-            <span id="rateValue">1x</span>
 
-            <div class="tts-buttons">
-                <button id="btnSpeak" class="btn-green">▶ Đọc</button>
-                <button id="btnPause" class="btn-yellow">⏸ Tạm dừng</button>
-                <button id="btnStop" class="btn-red">⏹ Dừng</button>
+    <div id="ttsPanel" class="tts-panel" style="display:none;">
+        <div class="tts-header"><h4>Cài đặt giọng đọc</h4><span class="close-tts" onclick="toggleTTSPanel()">&times;</span></div>
+    </div>
+
+    <div id="displaySettingsPanel" class="settings-panel" style="display:none;">
+        <div class="settings-header">
+            <h4>Tùy chỉnh đọc</h4>
+            <span class="close-settings" onclick="toggleSettingsPanel()">&times;</span>
+        </div>
+        <div class="settings-body">
+            <div class="setting-group">
+                <label>Cỡ chữ: <span id="valFontSize">19px</span></label>
+                <div class="range-control">
+                    <span>A-</span>
+                    <input type="range" id="setSize" min="14" max="30" step="1" value="19">
+                    <span>A+</span>
+                </div>
             </div>
-            <p class="tts-note"><small>Tip: Bấm vào đoạn văn bất kỳ để đọc từ đó.</small></p>
+
+            <div class="setting-group">
+                <label>Dãn dòng: <span id="valLineHeight">1.8</span></label>
+                <div class="range-control">
+                    <i class="fa-solid fa-align-justify"></i>
+                    <input type="range" id="setLineHeight" min="1.2" max="2.5" step="0.1" value="1.8">
+                    <i class="fa-solid fa-align-justify" style="transform: scaleY(1.5)"></i>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label>Kiểu chữ:</label>
+                <select id="setFont" class="form-control">
+                    <option value="'Segoe UI', Arial, sans-serif">Mặc định (Segoe UI)</option>
+                    <option value="'Roboto', sans-serif">Roboto (Hiện đại)</option>
+                    <option value="'Merriweather', serif">Merriweather (Báo chí)</option>
+                    <option value="'Lora', serif">Lora (Thanh lịch)</option>
+                    <option value="'Courier Prime', monospace">Courier Prime (Máy đánh chữ)</option>
+                    <option value="'Patrick Hand', cursive">Patrick Hand (Viết tay)</option>
+                    <option value="'Comfortaa', cursive">Comfortaa (Bo tròn)</option>
+                    <option value="'Oswald', sans-serif">Oswald (Mạnh mẽ)</option>
+                    <option value="'Vollkorn', serif">Vollkorn (Cổ điển)</option>
+                    <option value="'Dancing Script', cursive">Dancing Script (Nghệ thuật)</option>
+                    <option value="'Montserrat', sans-serif">Montserrat (Tròn trịa)</option>
+                </select>
+            </div>
+
+            <button onclick="resetSettings()" class="btn-reset">Khôi phục mặc định</button>
         </div>
     </div>
 </div>

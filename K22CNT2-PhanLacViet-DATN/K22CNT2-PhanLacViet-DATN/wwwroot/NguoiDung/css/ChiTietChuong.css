@@ -328,3 +328,109 @@ h3 {
         right: 10px;
     }
 }
+/* Panel Cài Đặt - Tương tự TTS Panel nhưng vị trí khác */
+.settings-panel {
+    position: fixed;
+    top: 50%; /* Canh giữa màn hình */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Kỹ thuật canh giữa chuẩn */
+    width: 350px;
+    background: var(--card);
+    color: var(--text-main);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    border-radius: 12px;
+    z-index: 10002;
+    padding: 20px;
+    border: 1px solid var(--header-border);
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--header-border);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+    .settings-header h4 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+.close-settings {
+    cursor: pointer;
+    font-size: 24px;
+    color: var(--text-muted);
+}
+
+.setting-group {
+    margin-bottom: 20px;
+}
+
+    .setting-group label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+.range-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-muted);
+}
+
+    .range-control input[type="range"] {
+        flex: 1;
+        accent-color: var(--primary);
+        cursor: pointer;
+    }
+
+#setFont {
+    width: 100%;
+    padding: 10px;
+    background: var(--input-bg);
+    color: var(--text-main);
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-reset {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1px dashed var(--muted);
+    color: var(--text-muted);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .btn-reset:hover {
+        background: var(--hover-bg);
+        color: var(--danger, #dc3545);
+        border-color: var(--danger, #dc3545);
+    }
+
+@media (max-width: 768px) {
+    .settings-panel {
+        width: 90%;
+        top: auto;
+        bottom: 20px;
+        left: 5%;
+        transform: none;
+    }
+}
+.user-avatar-img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
