@@ -24,7 +24,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
         {
             var dsTruyen = await _context.Truyens
                                 .Where(t => t.IsDeleted == false)
-                                .OrderByDescending(t => t.NgayDang)
+                                .OrderByDescending(t => t.NgayCapNhat)
                                 .ToListAsync();
             return Ok(dsTruyen);
         }

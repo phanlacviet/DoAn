@@ -354,7 +354,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
             truyen.TacGia = input.TacGia;
             truyen.LoaiTruyen = input.LoaiTruyen;
             truyen.NgayCapNhat = DateTime.Now;
-            string fileNameToSave = "default.jpg"; // Giá trị mặc định hoặc giữ ảnh cũ nếu là Sửa
+            string fileNameToSave = "default.jpg";
 
             if (input.FileAnhBia != null && input.FileAnhBia.Length > 0)
             {
@@ -375,6 +375,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers.Api
                     await input.FileAnhBia.CopyToAsync(stream);
                 }
                 fileNameToSave = "/images/AnhBia/" + finalFileName;
+                truyen.AnhBia = "/images/AnhBia/" + finalFileName;
             }
 
             truyen.MaTheLoais.Clear();

@@ -674,7 +674,6 @@ D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\bin\Debug\
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\paau98wefo-{0}-otkcqmqfsf-otkcqmqfsf.gz
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\wp3i4cixpt-{0}-64hcs2qeeg-64hcs2qeeg.gz
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\bav53x4ezf-{0}-k58xfqe49v-k58xfqe49v.gz
-D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\cvvjn8xi9i-{0}-wg2j4hoxiy-wg2j4hoxiy.gz
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\bin\Debug\net10.0\Microsoft.VisualStudio.SolutionPersistence.dll
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\s4s8bqi0u8-{0}-e38gs1q2i5-e38gs1q2i5.gz
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\tpmkj6pp0x-{0}-dfx5g9480s-dfx5g9480s.gz
@@ -690,9 +689,10 @@ D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\lgx0jf3olu-{0}-md15a7bng2-md15a7bng2.gz
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\qns8ohpfzk-{0}-f9ulzxuu0h-f9ulzxuu0h.gz
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\prbh4ikl62-{0}-x4ut76ngsv-x4ut76ngsv.gz
-D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\o8oe4t2h41-{0}-224p5ocubt-224p5ocubt.gz
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\zjazmv602x-{0}-l6pl0m44px-l6pl0m44px.gz
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\ghf9znm44i-{0}-75efvx1g21-75efvx1g21.gz
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\4y450tap5a-{0}-7yund2nxah-7yund2nxah.gz
 D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\alprw6st9r-{0}-q3va6jmxu2-q3va6jmxu2.gz
-D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\qhm0s5v511-{0}-y3a0ud8rbs-y3a0ud8rbs.gz
+D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\o8oe4t2h41-{0}-yki2dis0he-yki2dis0he.gz
+D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\cvvjn8xi9i-{0}-zxlbd4vvrp-zxlbd4vvrp.gz
+D:\DO_AN_TOT_NGHIEP\K22CNT2-PhanLacViet-DATN\K22CNT2-PhanLacViet-DATN\obj\Debug\net10.0\compressed\qhm0s5v511-{0}-0f2f6mvv4s-0f2f6mvv4s.gz

@@ -1,6 +1,6 @@
 ﻿@using K22CNT2_PhanLacViet_DATN.Models
 @{
-    Layout = "_Layout"; // Hoặc null tùy vào project của bạn
+    Layout = "_Layout";
     var theLoais = ViewBag.TheLoais as List<TheLoai>;
 }
 
@@ -54,7 +54,7 @@
     <input type="file" id="fileAnhBia" accept="image/*" onchange="preview(this)">
     <div class="cover-preview" id="previewBox">Ảnh bìa</div>
 
-    <button class="submit" onclick="submitData()">Đăng truyện ngay</button>
+    <button class="submit" onclick="submitStory()">Đăng truyện ngay</button>
 </div>
 
 @section Scripts {

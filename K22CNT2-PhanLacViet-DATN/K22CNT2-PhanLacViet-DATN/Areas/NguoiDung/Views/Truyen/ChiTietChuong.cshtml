@@ -104,7 +104,25 @@
     </div>
 
     <div id="ttsPanel" class="tts-panel" style="display:none;">
-        <div class="tts-header"><h4>Cài đặt giọng đọc</h4><span class="close-tts" onclick="toggleTTSPanel()">&times;</span></div>
+        <div class="tts-header">
+            <h4>Cài đặt giọng đọc</h4>
+            <span class="close-tts" onclick="toggleTTSPanel()">&times;</span>
+        </div>
+        <div class="tts-body">
+            <div class="setting-group">
+                <label>Chọn giọng đọc:</label>
+                <select id="voiceSelect" class="form-control"></select>
+            </div>
+            <div class="setting-group">
+                <label>Tốc độ: <span id="rateValue">1x</span></label>
+                <input type="range" id="rateRange" min="0.5" max="2" step="0.1" value="1">
+            </div>
+            <div class="tts-buttons" style="display: flex; gap: 10px;">
+                <button id="btnSpeak" class="btn-nav">▶ Đọc</button>
+                <button id="btnPause" class="btn-nav">⏸ Tạm dừng</button>
+                <button id="btnStop" class="btn-nav">⏹ Dừng</button>
+            </div>
+        </div>
     </div>
 
     <div id="displaySettingsPanel" class="settings-panel" style="display:none;">

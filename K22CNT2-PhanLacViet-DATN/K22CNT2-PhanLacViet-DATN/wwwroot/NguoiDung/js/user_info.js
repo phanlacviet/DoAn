@@ -105,7 +105,7 @@ window.onclick = function (event) {
         closeModals();
     }
 }
-function prviewFile() {
+function previewFile() {
     const file = document.getElementById('inputAvatar').files[0];
     const preview = document.getElementById('imgPreview');
     const btnSave = document.getElementById('btnSaveAvatar');

@@ -131,7 +131,7 @@ namespace K22CNT2_PhanLacViet_DATN.Areas.NguoiDung.Controllers
             await _context.SaveChangesAsync();
 
             HttpContext.Session.SetString("USER_LOGIN", taiKhoan);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Truyen");
         }
         public IActionResult Logout()
         {

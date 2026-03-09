@@ -84,14 +84,6 @@ function toggleSettingsPanel() {
         panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
     }
 }
-const originalToggleTTS = toggleTTSPanel;
-toggleTTSPanel = function () {
-    const panel = document.getElementById('ttsPanel');
-    const settingsPanel = document.getElementById('displaySettingsPanel');
-    if (settingsPanel) settingsPanel.style.display = 'none';
-
-    if (panel) panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
-}
 function initTTS() {
     loadVoices();
     if (speechSynthesis.onvoiceschanged !== undefined) {
@@ -167,8 +159,17 @@ function loadVoices() {
 
 
 function toggleTTSPanel() {
-    const panel = document.getElementById('ttsPanel');
-    if (panel) panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
+    const ttsPanel = document.getElementById('ttsPanel');
+    const settingsPanel = document.getElementById('displaySettingsPanel');
+
+    // Đóng panel cài đặt hiển thị nếu đang mở
+    if (settingsPanel) settingsPanel.style.display = 'none';
+
+    if (ttsPanel) {
+        ttsPanel.style.display = (ttsPanel.style.display === 'none') ? 'block' : 'none';
+        // Nếu mở lên thì load lại giọng nói cho chắc chắn
+        if (ttsPanel.style.display === 'block') loadVoices();
+    }
 }
 
 function startReading() {

@@ -181,7 +181,7 @@
                                     <img src="@item.AnhBia" alt="@item.TenTruyen" />
                                 </a>
                                 <div class="mini-info">
-                                    <div class="mini-title"><a href="#">@item.TenTruyen</a></div>
+                                    <div class="mini-title"><a href="@Url.Action("ChiTiet", "Truyen", new { id = item.MaTruyen })">@item.TenTruyen</a></div>
                                     <div class="mini-chapter">@item.TacGia</div>
                                 </div>
                             </div>
